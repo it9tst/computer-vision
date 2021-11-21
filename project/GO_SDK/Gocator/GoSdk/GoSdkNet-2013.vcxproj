@@ -1,0 +1,280 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>GoSdkNet-2013</ProjectName>
+    <ProjectGuid>{4AA93EBE-34E5-5C6C-868C-4F7E9CB8FF41}</ProjectGuid>
+    <RootNamespace>GoSdkNet</RootNamespace>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>true</CLRSupport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>true</CLRSupport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>true</CLRSupport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>true</CLRSupport>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\bin\win32d\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\build\$(ProjectName)-$(Configuration)-$(PlatformName)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">GoSdkNet</TargetName>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\bin\win32\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\build\$(ProjectName)-$(Configuration)-$(PlatformName)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">GoSdkNet</TargetName>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\bin\win64d\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\build\$(ProjectName)-$(Configuration)-$(PlatformName)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkIncremental>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">GoSdkNet</TargetName>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\bin\win64\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\build\$(ProjectName)-$(Configuration)-$(PlatformName)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">GoSdkNet</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\Platform\kApi;..\..\Gocator\GoSdk;.;$(VCInstallDir)UnitTest\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;K_DEBUG;EXPERIMENTAL_FEATURES_ENABLED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4100;4127;4189;4706</DisableSpecificWarnings>
+      <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>kApi.lib;GoSdk.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>..\..\bin\win32d\GoSdkNet.dll</OutputFile>
+      <AdditionalLibraryDirectories>..\..\lib\win32d;$(VCInstallDir)UnitTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ImportLibrary>..\..\lib\win32d\GoSdkNet.lib</ImportLibrary>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <TargetMachine>MachineX86</TargetMachine>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkKeyFile>GoSdkNet\GoSdkNet.snk</LinkKeyFile>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\Platform\kApi;..\..\Gocator\GoSdk;.;$(VCInstallDir)UnitTest\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;EXPERIMENTAL_FEATURES_ENABLED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4100;4127;4189;4706</DisableSpecificWarnings>
+      <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>kApi.lib;GoSdk.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>..\..\bin\win32\GoSdkNet.dll</OutputFile>
+      <AdditionalLibraryDirectories>..\..\lib\win32;$(VCInstallDir)UnitTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ImportLibrary>..\..\lib\win32\GoSdkNet.lib</ImportLibrary>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkKeyFile>GoSdkNet\GoSdkNet.snk</LinkKeyFile>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\Platform\kApi;.;$(VCInstallDir)UnitTest\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN64;_DEBUG;K_DEBUG;EXPERIMENTAL_FEATURES_ENABLED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4100;4127;4189;4706</DisableSpecificWarnings>
+      <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>kApi.lib;GoSdk.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>..\..\bin\win64d\GoSdkNet.dll</OutputFile>
+      <AdditionalLibraryDirectories>..\..\lib\win64d;$(VCInstallDir)UnitTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ImportLibrary>..\..\lib\win64d\GoSdkNet.lib</ImportLibrary>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <TargetMachine>MachineX64</TargetMachine>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkKeyFile>GoSdkNet\GoSdkNet.snk</LinkKeyFile>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\Platform\kApi;.;$(VCInstallDir)UnitTest\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN64;NDEBUG;EXPERIMENTAL_FEATURES_ENABLED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4100;4127;4189;4706</DisableSpecificWarnings>
+      <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>kApi.lib;GoSdk.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>..\..\bin\win64\GoSdkNet.dll</OutputFile>
+      <AdditionalLibraryDirectories>..\..\lib\win64;$(VCInstallDir)UnitTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ImportLibrary>..\..\lib\win64\GoSdkNet.lib</ImportLibrary>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX64</TargetMachine>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkKeyFile>GoSdkNet\GoSdkNet.snk</LinkKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <Private>false</Private>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+    </Reference>
+    <Reference Include="System.Core">
+      <Private>false</Private>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+    </Reference>
+    <Reference Include="System.Data">
+      <Private>false</Private>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Private>false</Private>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GoSdkNet\GoSdkLib.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GoSdkNet\GoAccelerator.h" />
+    <ClInclude Include="GoSdkNet\GoAcceleratorMgr.h" />
+    <ClInclude Include="GoSdkNet\GoAlgorithm.h" />
+    <ClInclude Include="GoSdkNet\GoLayout.h" />
+    <ClInclude Include="GoSdkNet\GoAdvanced.h" />
+    <ClInclude Include="GoSdkNet\GoMaterial.h" />
+    <ClInclude Include="GoSdkNet\GoMultiplexBank.h" />
+    <ClInclude Include="GoSdkNet\GoPartDetection.h" />
+    <ClInclude Include="GoSdkNet\GoPartMatching.h" />
+    <ClInclude Include="GoSdkNet\GoPartModel.h" />
+    <ClInclude Include="GoSdkNet\GoProfileGeneration.h" />
+    <ClInclude Include="GoSdkNet\GoRecordingFilter.h" />
+    <ClInclude Include="GoSdkNet\GoReplay.h" />
+    <ClInclude Include="GoSdkNet\GoReplayCondition.h" />
+    <ClInclude Include="GoSdkNet\GoSdkDef.h" />
+    <ClInclude Include="GoSdkNet\GoSdkLib.h" />
+    <ClInclude Include="GoSdkNet\GoSection.h" />
+    <ClInclude Include="GoSdkNet\GoSections.h" />
+    <ClInclude Include="GoSdkNet\GoSensor.h" />
+    <ClInclude Include="GoSdkNet\GoSensorInfo.h" />
+    <ClInclude Include="GoSdkNet\GoSetup.h" />
+    <ClInclude Include="GoSdkNet\GoSurfaceGeneration.h" />
+    <ClInclude Include="GoSdkNet\GoSystem.h" />
+    <ClInclude Include="GoSdkNet\GoTracheid.h" />
+    <ClInclude Include="GoSdkNet\GoTransform.h" />
+    <ClInclude Include="GoSdkNet\GoUtils.h" />
+    <ClInclude Include="GoSdkNet\GoGeoCal.h" />
+    <ClInclude Include="GoSdkNet\Messages\GoDataSet.h" />
+    <ClInclude Include="GoSdkNet\Messages\GoDataTypes.h" />
+    <ClInclude Include="GoSdkNet\Messages\GoDiscoveryExtInfo.h" />
+    <ClInclude Include="GoSdkNet\Messages\GoHealth.h" />
+    <ClInclude Include="GoSdkNet\Outputs\GoAnalog.h" />
+    <ClInclude Include="GoSdkNet\Outputs\GoDigital.h" />
+    <ClInclude Include="GoSdkNet\Outputs\GoEthernet.h" />
+    <ClInclude Include="GoSdkNet\Outputs\GoOutput.h" />
+    <ClInclude Include="GoSdkNet\Outputs\GoSerial.h" />
+    <ClInclude Include="GoSdkNet\Tools\GoExtParam.h" />
+    <ClInclude Include="GoSdkNet\Tools\GoExtParams.h" />
+    <ClInclude Include="GoSdkNet\Tools\GoFeature.h" />
+    <ClInclude Include="GoSdkNet\Tools\GoFeatures.h" />
+    <ClInclude Include="GoSdkNet\Tools\GoExtTool.h" />
+    <ClInclude Include="GoSdkNet\Tools\GoExtToolDataOutput.h" />
+    <ClInclude Include="GoSdkNet\Tools\GoMeasurement.h" />
+    <ClInclude Include="GoSdkNet\Tools\GoMeasurements.h" />
+    <ClInclude Include="GoSdkNet\Tools\GoProfileTools.h" />
+    <ClInclude Include="GoSdkNet\Tools\GoProfileToolUtils.h" />
+    <ClInclude Include="GoSdkNet\Tools\GoRangeTools.h" />
+    <ClInclude Include="GoSdkNet\Tools\GoSurfaceTools.h" />
+    <ClInclude Include="GoSdkNet\Tools\GoSurfaceToolUtils.h" />
+    <ClInclude Include="GoSdkNet\Tools\GoTool.h" />
+    <ClInclude Include="GoSdkNet\Tools\GoTools.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GoSdkNet\Res\GoSdkNet.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

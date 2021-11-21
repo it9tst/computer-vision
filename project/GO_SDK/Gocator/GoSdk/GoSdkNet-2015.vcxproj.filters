@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="GoSdkNet">
+      <UniqueIdentifier>{f9de4a42-d185-51cc-8028-e399e51d4a70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GoSdkNet.Messages">
+      <UniqueIdentifier>{9de756cb-3cdb-565b-9838-74e289510fce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GoSdkNet.Outputs">
+      <UniqueIdentifier>{5e8a290e-69a9-52fa-8c1c-aeefb85ce688}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GoSdkNet.Tools">
+      <UniqueIdentifier>{25fcefbe-3261-513f-a447-e0ee45dcca00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GoSdkNet.Res">
+      <UniqueIdentifier>{7a1e2aba-9719-56bf-bddf-2a9aaa7ce215}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup />
+  <ItemGroup>
+    <ResourceCompile Include="GoSdkNet\Res\GoSdkNet.rc">
+      <Filter>GoSdkNet.Res</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GoSdkNet\GoAccelerator.h">
+      <Filter>GoSdkNet</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\GoAcceleratorMgr.h">
+      <Filter>GoSdkNet</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\GoAlgorithm.h">
+      <Filter>GoSdkNet</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\GoLayout.h">
+      <Filter>GoSdkNet</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\GoAdvanced.h">
+      <Filter>GoSdkNet</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\GoMaterial.h">
+      <Filter>GoSdkNet</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\GoMultiplexBank.h">
+      <Filter>GoSdkNet</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\GoPartDetection.h">
+      <Filter>GoSdkNet</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\GoPartMatching.h">
+      <Filter>GoSdkNet</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\GoPartModel.h">
+      <Filter>GoSdkNet</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\GoProfileGeneration.h">
+      <Filter>GoSdkNet</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\GoRecordingFilter.h">
+      <Filter>GoSdkNet</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\GoReplay.h">
+      <Filter>GoSdkNet</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\GoReplayCondition.h">
+      <Filter>GoSdkNet</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\GoSdkDef.h">
+      <Filter>GoSdkNet</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\GoSdkLib.h">
+      <Filter>GoSdkNet</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\GoSection.h">
+      <Filter>GoSdkNet</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\GoSections.h">
+      <Filter>GoSdkNet</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\GoSensor.h">
+      <Filter>GoSdkNet</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\GoSensorInfo.h">
+      <Filter>GoSdkNet</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\GoSetup.h">
+      <Filter>GoSdkNet</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\GoSurfaceGeneration.h">
+      <Filter>GoSdkNet</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\GoSystem.h">
+      <Filter>GoSdkNet</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\GoTracheid.h">
+      <Filter>GoSdkNet</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\GoTransform.h">
+      <Filter>GoSdkNet</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\GoUtils.h">
+      <Filter>GoSdkNet</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\GoGeoCal.h">
+      <Filter>GoSdkNet</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\Messages\GoDataSet.h">
+      <Filter>GoSdkNet.Messages</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\Messages\GoDataTypes.h">
+      <Filter>GoSdkNet.Messages</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\Messages\GoDiscoveryExtInfo.h">
+      <Filter>GoSdkNet.Messages</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\Messages\GoHealth.h">
+      <Filter>GoSdkNet.Messages</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\Outputs\GoAnalog.h">
+      <Filter>GoSdkNet.Outputs</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\Outputs\GoDigital.h">
+      <Filter>GoSdkNet.Outputs</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\Outputs\GoEthernet.h">
+      <Filter>GoSdkNet.Outputs</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\Outputs\GoOutput.h">
+      <Filter>GoSdkNet.Outputs</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\Outputs\GoSerial.h">
+      <Filter>GoSdkNet.Outputs</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\Tools\GoExtParam.h">
+      <Filter>GoSdkNet.Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\Tools\GoExtParams.h">
+      <Filter>GoSdkNet.Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\Tools\GoFeature.h">
+      <Filter>GoSdkNet.Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\Tools\GoFeatures.h">
+      <Filter>GoSdkNet.Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\Tools\GoExtTool.h">
+      <Filter>GoSdkNet.Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\Tools\GoExtToolDataOutput.h">
+      <Filter>GoSdkNet.Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\Tools\GoMeasurement.h">
+      <Filter>GoSdkNet.Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\Tools\GoMeasurements.h">
+      <Filter>GoSdkNet.Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\Tools\GoProfileTools.h">
+      <Filter>GoSdkNet.Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\Tools\GoProfileToolUtils.h">
+      <Filter>GoSdkNet.Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\Tools\GoRangeTools.h">
+      <Filter>GoSdkNet.Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\Tools\GoSurfaceTools.h">
+      <Filter>GoSdkNet.Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\Tools\GoSurfaceToolUtils.h">
+      <Filter>GoSdkNet.Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\Tools\GoTool.h">
+      <Filter>GoSdkNet.Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="GoSdkNet\Tools\GoTools.h">
+      <Filter>GoSdkNet.Tools</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GoSdkNet\GoSdkLib.cpp">
+      <Filter>GoSdkNet</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup />
+</Project>

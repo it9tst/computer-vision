@@ -1,0 +1,263 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="kApiNet">
+      <UniqueIdentifier>{adf87791-1f5a-580a-8e9d-8a8eca9ce12a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="kApiNet.Crypto">
+      <UniqueIdentifier>{9bd0bed3-8587-5e6f-9a99-ac7720c8a337}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="kApiNet.Data">
+      <UniqueIdentifier>{b85b7158-9510-587b-a9a6-2f99bb2ceb8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="kApiNet.Io">
+      <UniqueIdentifier>{15ca2259-002e-5d04-92e3-9b4c79f7440c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="kApiNet.Threads">
+      <UniqueIdentifier>{1e066bac-58c6-563a-9454-bd4a69741c0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="kApiNet.Utils">
+      <UniqueIdentifier>{6bc05764-d7fb-581e-bc68-451fe3e48c13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="kApiNet.Utils.Internal">
+      <UniqueIdentifier>{b1d803bd-1409-50ec-9ebb-6e7276df10bd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup />
+  <ItemGroup>
+    <ResourceCompile Include="kApiNet\KApiLib.rc">
+      <Filter>kApiNet</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="kApiNet\KAlloc.h">
+      <Filter>kApiNet</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\KApiDef.h">
+      <Filter>kApiNet</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\KApiLib.h">
+      <Filter>kApiNet</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\KApiNet.h">
+      <Filter>kApiNet</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\KAssembly.h">
+      <Filter>kApiNet</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\KAssemblyManager.h">
+      <Filter>kApiNet</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\KException.h">
+      <Filter>kApiNet</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\KObject.h">
+      <Filter>kApiNet</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\KType.h">
+      <Filter>kApiNet</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\KValue.h">
+      <Filter>kApiNet</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Crypto\KBlowfishCipher.h">
+      <Filter>kApiNet.Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Crypto\KCipher.h">
+      <Filter>kApiNet.Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Crypto\KCipherStream.h">
+      <Filter>kApiNet.Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Crypto\KHash.h">
+      <Filter>kApiNet.Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Crypto\KSha1Hash.h">
+      <Filter>kApiNet.Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Data\KArray1.h">
+      <Filter>kApiNet.Data</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Data\KArray2.h">
+      <Filter>kApiNet.Data</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Data\KArray3.h">
+      <Filter>kApiNet.Data</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Data\KArrayList.h">
+      <Filter>kApiNet.Data</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Data\KBox.h">
+      <Filter>kApiNet.Data</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Data\KCollection.h">
+      <Filter>kApiNet.Data</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Data\KImage.h">
+      <Filter>kApiNet.Data</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Data\KList.h">
+      <Filter>kApiNet.Data</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Data\KMap.h">
+      <Filter>kApiNet.Data</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Data\KMath.h">
+      <Filter>kApiNet.Data</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Data\KQueue.h">
+      <Filter>kApiNet.Data</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Data\KString.h">
+      <Filter>kApiNet.Data</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Data\KXml.h">
+      <Filter>kApiNet.Data</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Io\KDat5Serializer.h">
+      <Filter>kApiNet.Io</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Io\KDat6Serializer.h">
+      <Filter>kApiNet.Io</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Io\KDirectory.h">
+      <Filter>kApiNet.Io</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Io\KFile.h">
+      <Filter>kApiNet.Io</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Io\KHttpServer.h">
+      <Filter>kApiNet.Io</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Io\KHttpServerChannel.h">
+      <Filter>kApiNet.Io</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Io\KHttpServerRequest.h">
+      <Filter>kApiNet.Io</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Io\KHttpServerResponse.h">
+      <Filter>kApiNet.Io</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Io\KMemory.h">
+      <Filter>kApiNet.Io</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Io\KNetwork.h">
+      <Filter>kApiNet.Io</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Io\KPath.h">
+      <Filter>kApiNet.Io</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Io\KPipeStream.h">
+      <Filter>kApiNet.Io</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Io\KSerializer.h">
+      <Filter>kApiNet.Io</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Io\KSocket.h">
+      <Filter>kApiNet.Io</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Io\KStream.h">
+      <Filter>kApiNet.Io</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Io\KTcpClient.h">
+      <Filter>kApiNet.Io</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Io\KTcpServer.h">
+      <Filter>kApiNet.Io</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Io\KUdpClient.h">
+      <Filter>kApiNet.Io</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Io\KWebSocket.h">
+      <Filter>kApiNet.Io</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Threads\KAtomic.h">
+      <Filter>kApiNet.Threads</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Threads\KLock.h">
+      <Filter>kApiNet.Threads</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Threads\KMsgQueue.h">
+      <Filter>kApiNet.Threads</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Threads\KParallel.h">
+      <Filter>kApiNet.Threads</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Threads\KPeriodic.h">
+      <Filter>kApiNet.Threads</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Threads\KSemaphore.h">
+      <Filter>kApiNet.Threads</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Threads\KThread.h">
+      <Filter>kApiNet.Threads</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Threads\KThreadPool.h">
+      <Filter>kApiNet.Threads</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Threads\KTimer.h">
+      <Filter>kApiNet.Threads</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Utils\KBackTrace.h">
+      <Filter>kApiNet.Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Utils\KDebugAlloc.h">
+      <Filter>kApiNet.Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Utils\KDynamicLib.h">
+      <Filter>kApiNet.Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Utils\KEvent.h">
+      <Filter>kApiNet.Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Utils\KObjectPool.h">
+      <Filter>kApiNet.Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Utils\KPlugin.h">
+      <Filter>kApiNet.Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Utils\KPoolAlloc.h">
+      <Filter>kApiNet.Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Utils\KProcess.h">
+      <Filter>kApiNet.Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Utils\KRoot.h">
+      <Filter>kApiNet.Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Utils\KSymbolInfo.h">
+      <Filter>kApiNet.Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Utils\KUserAlloc.h">
+      <Filter>kApiNet.Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Utils\KUtils.h">
+      <Filter>kApiNet.Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Utils\Internal\KCallbackState.h">
+      <Filter>kApiNet.Utils.Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Utils\Internal\KGenericArgs.h">
+      <Filter>kApiNet.Utils.Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="kApiNet\Utils\Internal\KInternalUtils.h">
+      <Filter>kApiNet.Utils.Internal</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="kApiNet\KApiLib.cpp">
+      <Filter>kApiNet</Filter>
+    </ClCompile>
+    <ClCompile Include="kApiNet\KObject.cpp">
+      <Filter>kApiNet</Filter>
+    </ClCompile>
+    <ClCompile Include="kApiNet\KType.cpp">
+      <Filter>kApiNet</Filter>
+    </ClCompile>
+    <ClCompile Include="kApiNet\Utils\Internal\KInternalUtils.cpp">
+      <Filter>kApiNet.Utils.Internal</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup />
+</Project>

@@ -1,0 +1,46 @@
+﻿<Window x:Class="GoAccelerator.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:engine="clr-namespace:GoAcceleratorEngine;assembly=GoAcceleratorEngine"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        Title="Settings"
+        Background="{DynamicResource WindowBG}"
+        Closing="Window_Closing"
+        FontFamily="{DynamicResource DefaultFontFamily}"
+        Foreground="{DynamicResource DefaultFontColor}"
+        Icon="Resources/AppIcon.ico"
+        ResizeMode="NoResize"
+        ShowInTaskbar="{Binding ShowTaskbarIcon,
+                                Mode=OneWay,
+                                Source={StaticResource GlobalSettings}}"
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d">
+
+
+    <Grid Margin="{DynamicResource WindowContentPadding}">
+
+        <GroupBox Header="General" Style="{DynamicResource GroupBoxStyle}">
+
+            <StackPanel>
+                <CheckBox Content="Launch application with Windows login"
+                          IsChecked="{Binding StartWithWindows,
+                                              Source={StaticResource GlobalSettings}}"
+                          Style="{DynamicResource CheckBoxStyle}" />
+                <CheckBox Content="Resume acceleration when application launches"
+                          IsChecked="{Binding AccelerateOnStartup,
+                                              Source={StaticResource GlobalSettings}}"
+                          Style="{DynamicResource CheckBoxStyle}" />
+                <CheckBox Content="Show main window when application launches"
+                          IsChecked="{Binding ShowMainWindowOnStartup,
+                                              Source={StaticResource GlobalSettings}}"
+                          Style="{DynamicResource CheckBoxStyle}" />
+                <CheckBox Content="Show taskbar icon"
+                          IsChecked="{Binding ShowTaskbarIcon,
+                                              Source={StaticResource GlobalSettings}}"
+                          Style="{DynamicResource CheckBoxStyle}" />
+            </StackPanel>
+        </GroupBox>
+    </Grid>
+</Window>
