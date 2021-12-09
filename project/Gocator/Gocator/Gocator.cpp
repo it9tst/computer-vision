@@ -11,7 +11,7 @@
 #include <GoSdk/GoSdk.h>
 
 //constants
-#define SENSOR_IP "192.168.1.10"
+#define SENSOR_IP "192.168.1.151"
 
 //main
 int main(int argc, char** argv) {
@@ -22,7 +22,7 @@ int main(int argc, char** argv) {
 	kIpAddress ipAddress;
 
 	//Hello message
-	std::cout << "Gocator example_2 running" << std::endl;
+	std::cout << "Gocator example running" << std::endl;
 
 	// construct Gocator API Library
 	if ((status = GoSdk_Construct(&api)) != kOK) {
