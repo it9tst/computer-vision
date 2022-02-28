@@ -2,40 +2,58 @@
 
 //std c/c++
 #include <iostream>
-#include <thread>
 
 #include "Gocator.h"
 #include "Process.h"
 
-//#define SENSOR_IP "192.168.1.151"
-
 //main
 int main(int argc, char** argv) {
 
-	const char* sensor_ip = "192.168.1.151";
+	const char* sensorIp = "192.168.1.151";
 
 	GocatorCV::Gocator gocator;
 	GocatorCV::Process process;
+	GocatorCV::Error error;
 
 	//Hello message
-	std::cout << "Gocator example running" << std::endl;
+	std::cout << "Gocator example running!" << std::endl;
 
-	gocator.SetParameter(sensor_ip);
-	gocator.Init();
-	gocator.Start();
+	gocator.SetParameter(sensorIp);
 
+	if ((error = gocator.Init()).GetCode() != GocatorCV::Error_Type::OK) {
+		error.DisplayMessage();
+	}
+	
+	if ((error = gocator.Start()).GetCode() != GocatorCV::Error_Type::OK) {
+		error.DisplayMessage();
+	}
+	
 	process.StartAcquisition();
+	Sleep(10);
+	process.StopAcquisition();
 
-	//sleep for a while
-	Sleep(5);
-
-	gocator.Stop();
+	if ((error = gocator.Stop()).GetCode() != GocatorCV::Error_Type::OK) {
+		error.DisplayMessage();
+	}
 
 	//bye bye message
-	std::cout << "Program finished !" << std::endl;
+	std::cout << "Gocator example finished!" << std::endl;
 
 	return 1;
 }
+
+
+/*
+	StartAcquisition ---> partire thread per l'acquisizione (grab +  aggiunge nella coda di elaborazione)
+	ThreadSaving ---> si occupa del salvataggio di immagini
+	StartProcess ---> thread per l'elaborazione, preleva dalla coda di elaborazione ed elabora
+*/
+
+/*
+	todo: da vedere i vari parametri come vengono passati
+	creare una funzione generale per il setting setParameter(name,value)
+*/
+
 
 
 /*
