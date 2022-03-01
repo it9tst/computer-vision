@@ -4,9 +4,9 @@
 GocatorCV::Error::Error() {}
 
 GocatorCV::Error::Error(Error_Type type, kStatus status) {
-    type = type;
-    status = status;
-    GocatorCV::Error::SetMessage(type, status);
+    this->type = type;
+    this->status = status;
+    GocatorCV::Error::SetMessage(this->type, this->status);
 }
 
 GocatorCV::Error_Type GocatorCV::Error::GetCode() {

@@ -28,8 +28,8 @@ int main(int argc, char** argv) {
 		error.DisplayMessage();
 	}
 	
-	process.StartAcquisition();
-	Sleep(10);
+	process.StartAcquisition(gocator);
+	Sleep(30000);
 	process.StopAcquisition();
 
 	if ((error = gocator.Stop()).GetCode() != GocatorCV::Error_Type::OK) {
@@ -47,6 +47,9 @@ int main(int argc, char** argv) {
 	StartAcquisition ---> partire thread per l'acquisizione (grab +  aggiunge nella coda di elaborazione)
 	ThreadSaving ---> si occupa del salvataggio di immagini
 	StartProcess ---> thread per l'elaborazione, preleva dalla coda di elaborazione ed elabora
+
+	NOTE SULLA PARTE DI ANALYSIS....
+	vector<pntcloud> che viene riempito a seguito della grab, thread di elaborazione che consuma (PointCloudAnalysis(pntcloud))
 */
 
 /*

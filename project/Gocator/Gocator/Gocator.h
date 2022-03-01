@@ -4,9 +4,6 @@
 
 //std c/c++
 #include <iostream>
-#include <thread>
-#include <mutex>
-#include <deque>
 
 //GoSdk
 #include <GoSdk/GoSdk.h>
@@ -42,9 +39,6 @@ namespace GocatorCV {
         GoDataSet dataset = kNULL;
         GoDataMsg dataObj;
         unsigned int i, j, k, ii, jj;
-        bool threadSavingActive;
-        std::mutex m_mutex;
-        std::deque< pcl::PointCloud<pcl::PointXYZ> > bufferSaveData;
 
     public:
         Gocator();
@@ -52,7 +46,6 @@ namespace GocatorCV {
         Error Start();
         Error Stop();
         void SetParameter(const char* sensor_ip);
-        void Grab();
-        std::thread StartThread();
+        pcl::PointCloud<pcl::PointXYZ>::Ptr Grab();
     };
 }

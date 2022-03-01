@@ -4,6 +4,7 @@
 #include <thread>
 #include <mutex>
 #include <deque>
+#include <ctime>
 
 #include "Gocator.h"
 
@@ -12,20 +13,20 @@ namespace GocatorCV {
 	class Process {
 
 	private:
-		GocatorCV::Gocator gocator;
 		std::thread acquisitionThread;
 		std::thread savingThread;
-		std::thread processThread;
 		std::mutex m_mutex;
 		std::deque< pcl::PointCloud<pcl::PointXYZ> > bufferSaveData;
+		pcl::PointCloud<pcl::PointXYZ>::Ptr _p_cloud;
 		bool threadSavingActive;
 		int count;
 
 	public:
 		Process();
-		void StartAcquisition();
+		void StartAcquisition(GocatorCV::Gocator gocator);
 		void StopAcquisition();
 		void SaveAcquisition();
-		std::thread StartThread();
+		void StartGrab(GocatorCV::Gocator gocator);
+		std::string datetime();
 	};
 }

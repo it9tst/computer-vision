@@ -4,29 +4,18 @@ GocatorCV::Process::Process() {
 	// constructor
 }
 
-void GocatorCV::Process::StartAcquisition() {
+void GocatorCV::Process::StartAcquisition(GocatorCV::Gocator gocator) {
 
-	//PNTCLOUD = GOCATOR.GRAB()
-
-	/*
-	Variabile classe: vector<Pointcloud> saveData;
-	if (n_saved_image < 30)
-	{
-		lock (  saveData.push_back(pntcloud) )
-		n_save_image++;
-	}
-
-	NOTE SULLA PARTE DI ANALYSIS....
-	vector<pntcloud> che viene riempito a seguito della grab, thread di elaborazione che consuma (PointCloudAnalysis(pntcloud))
-	*/
+	threadSavingActive = true;
 	
-	std::thread acquisitionThread(gocator.StartThread());
-	std::thread savingThread(GocatorCV::Process::StartThread());
+	acquisitionThread = std::thread(&Process::StartGrab, this, gocator);
+	savingThread = std::thread(&Process::SaveAcquisition, this);
 }
 
 void GocatorCV::Process::StopAcquisition() {
 	
 	threadSavingActive = false;
+
 	acquisitionThread.join();
 	savingThread.join();
 }
@@ -36,7 +25,7 @@ void GocatorCV::Process::SaveAcquisition(){
 	std::unique_lock<std::mutex> locker(m_mutex, std::defer_lock);
 	count = 0;
 
-	while (true) {
+	while (threadSavingActive) {
 		if (bufferSaveData.empty()) {
 			std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 		} else {
@@ -44,30 +33,45 @@ void GocatorCV::Process::SaveAcquisition(){
 			locker.lock();
 			auto _p_cloud_save = bufferSaveData.front();
 			bufferSaveData.pop_front();
+			std::cout << "SAVE - size: " << bufferSaveData.size() << std::endl;
 			locker.unlock();
 
-			pcl::io::savePCDFileASCII("PointCloudGocator" + std::to_string(count) + ".pcd", _p_cloud_save);
+			std::cout << "SAVE - save value: " << count << std::endl;
+
+			pcl::io::savePCDFileASCII("Scan/Point_Cloud_Gocator_" + datetime() + "_" + std::to_string(count) + ".pcd", _p_cloud_save);
+			//pcl::io::savePLYFileASCII("Point_Cloud_Gocator_" + datetime() + "_" + std::to_string(count) + ".ply", _p_cloud_save);
 			count++;
 		}
 	}
-
-	/*
-	while (true) {
-		if buffer vuoto -> std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-		else
-		{   
-		vector<pntcloud> toSave;
-		lock { toSave = saveData; saveData.clear()}
-		for i=0:len(toSave)
-			save file
-		}
-	}
-	pcl::io::savePCDFileASCII("PointCloudGocator" + std::to_string(count) + ".pcd", _p_cloud);
-	pcl::io::savePLYFileASCII("PointCloudGocator" + std::to_string(count) + ".ply", _p_cloud);
-	*/
 }
 
-std::thread GocatorCV::Process::StartThread() {
-	GocatorCV::Process::SaveAcquisition();
-	return std::thread();
+void GocatorCV::Process::StartGrab(GocatorCV::Gocator gocator) {
+
+	std::unique_lock<std::mutex> locker(m_mutex, std::defer_lock);
+	int n_saved_image = 0;
+
+	while (threadSavingActive) {
+		if (n_saved_image < 10) {
+			_p_cloud = gocator.Grab();
+
+			locker.lock();
+			bufferSaveData.push_back(*_p_cloud);
+			int s = bufferSaveData.size();
+			locker.unlock();
+			std::cout << "GRAB - size: " << s << std::endl;
+			n_saved_image++;
+		}
+	}
+}
+
+std::string GocatorCV::Process::datetime() {
+	time_t rawtime;
+	struct tm* timeinfo;
+	char buffer[80];
+
+	time(&rawtime);
+	timeinfo = localtime(&rawtime);
+
+	strftime(buffer, 80, "%Y_%m_%d_%H_%M_%S", timeinfo);
+	return std::string(buffer);
 }
