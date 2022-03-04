@@ -29,29 +29,28 @@ GocatorCV::Error GocatorCV::Gocator::Init() {
 		return Error(GOSENSOR_CONNECT, status);
 	}
 
+	//gets the sensor model
+	if ((status = GoSensor_Model(sensor, model_name, 50)) != kOK) {
+		return Error(GOSENSOR_MODEL, status);
+	}
+
+	//prints sensor info
+	std::cout << "\tConnected to Sensor: " << std::endl;
+	std::cout << "\tModel: \t" << model_name << std::endl;
+	std::cout << "\tIP: \t" << sensorIp << std::endl;
+	std::cout << "\tSN: \t" << GoSensor_Id(sensor) << std::endl;
+	std::cout << "\tState: \t" << GoSensor_State(sensor) << std::endl << std::endl;
+
 	// retrieve setup handle
 	if ((setup = GoSensor_Setup(sensor)) == kNULL) {
 		return Error(GOSENSOR_SETUP, status);
 	}
 
 	// read current parameters
-	currentExposure = GoSetup_Exposure(setup, GO_ROLE_MAIN);
+	exposure = GoSetup_Exposure(setup, GO_ROLE_MAIN);
 	std::cout << "\tCurrent Parameters:" << std::endl;
 	std::cout << "\t-------------------" << std::endl;
-	std::cout << "\tExposure: " << currentExposure << std::endl << std::endl;
-
-	// modify parameter in main sensor
-	if ((status = GoSetup_SetExposure(setup, GO_ROLE_MAIN, 1000)) != kOK) {
-		return Error(GOSETUP_SETEXPOSURE, status);
-	}
-	// GoSensorFlush() - immediately synchronizes configuration changes to the sensor
-	GoSensor_Flush(sensor);
-
-	// read current parameters
-	newExposure = GoSetup_Exposure(setup, GO_ROLE_MAIN);
-	std::cout << "\tNew Parameters:" << std::endl;
-	std::cout << "\t---------------" << std::endl;
-	std::cout << "\tExposure: " << newExposure << std::endl << std::endl;
+	std::cout << "\tExposure: " << exposure << std::endl << std::endl;
 
 	return Error(OK, 1);
 }
@@ -85,9 +84,35 @@ GocatorCV::Error GocatorCV::Gocator::Stop() {
 	return Error(OK, 1);
 }
 
-void GocatorCV::Gocator::SetParameter(const char* sensorIp) {
-	// Impostare parametri gocator (setParameter(name,value))
-	this->sensorIp = sensorIp;
+GocatorCV::Error GocatorCV::Gocator::SetParameter(ParameterType name, void* value) {
+	
+	switch (name) {
+		case SENSOR_IP:
+			this->sensorIp = (const char*)value;
+			break;
+		case EXPOSURE:
+		{
+			k64f* _value = (k64f*)value;
+
+			// modify parameter in main sensor
+			if ((status = GoSetup_SetExposure(setup, GO_ROLE_MAIN, *_value)) != kOK) {
+				return Error(GOSETUP_SETEXPOSURE, status);
+			}
+			// GoSensorFlush() - immediately synchronizes configuration changes to the sensor
+			GoSensor_Flush(sensor);
+
+			// read current parameters
+			exposure = GoSetup_Exposure(setup, GO_ROLE_MAIN);
+			std::cout << "\tNew Parameters:" << std::endl;
+			std::cout << "\t---------------" << std::endl;
+			std::cout << "\tExposure: " << exposure << std::endl << std::endl;
+		}
+			break;
+		default:
+			return Error(GENERIC, 0);
+	}
+
+	return Error(OK, 1);
 }
 
 pcl::PointCloud<pcl::PointXYZ>::Ptr GocatorCV::Gocator::Grab() {
@@ -134,7 +159,7 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr GocatorCV::Gocator::Grab() {
 				std::cout << "\tSurface Message" << std::endl;
 				std::cout << "\tLength: " << row_count << std::endl;
 				std::cout << "\tWidth: " << width << std::endl;
-				std::cout << "\tExposure: " << exposure << std::endl;
+				std::cout << "\tExposure: " << Gocator::exposure << std::endl;
 				std::cout << "\txResolution: " << xResolution << std::endl;
 				std::cout << "\tyResolution: " << yResolution << std::endl;
 				std::cout << "\tzResolution: " << zResolution << std::endl;

@@ -3,13 +3,13 @@
 // constructors
 GocatorCV::Error::Error() {}
 
-GocatorCV::Error::Error(Error_Type type, kStatus status) {
+GocatorCV::Error::Error(ErrorType type, kStatus status) {
     this->type = type;
     this->status = status;
-    GocatorCV::Error::SetMessage(this->type, this->status);
+    SetMessage(this->type, this->status);
 }
 
-GocatorCV::Error_Type GocatorCV::Error::GetCode() {
+GocatorCV::ErrorType GocatorCV::Error::GetCode() {
     return this->type;
 }
 
@@ -18,6 +18,7 @@ void GocatorCV::Error::DisplayMessage() {
 }
 
 std::string GocatorCV::Error::GocatorCode(kStatus status) {
+
     switch (status) {
         case 1:
             return std::string("kOK");
@@ -71,42 +72,54 @@ std::string GocatorCV::Error::GocatorCode(kStatus status) {
             return std::string("kERROR_NOT_FOUND");
         case -1000:
             return std::string("kERROR_STATE");
+        default:
+            return std::string("kERROR");
     }
 }
 
-void GocatorCV::Error::SetMessage(Error_Type type, kStatus status) {
+void GocatorCV::Error::SetMessage(ErrorType type, kStatus status) {
+
     switch (type) {
         case OK:
-            message = "Ok: " + GocatorCV::Error::GocatorCode(status);
+            message = "Ok - Code: ";
+            break;
         case GENERIC:
-            message = "Error: Generic: " + GocatorCV::Error::GocatorCode(status);
+            message = "Error: Generic - Code: ";
             break;
         case GOSDK_API_CONSTRUCT:
-            message = "Error: GoSdk_Construct: " + GocatorCV::Error::GocatorCode(status);
+            message = "Error: GoSdk_Construct - Code: ";
             break;
         case GOSYSTEM_CONSTRUCT:
-            message = "Error: GoSystem_Construct: " + GocatorCV::Error::GocatorCode(status);
+            message = "Error: GoSystem_Construct - Code: ";
             break;
         case GOSYSTEM_FIND_SENSOR_BY_IP_ADDRESS:
-            message = "Error: GoSystem_FindSensorByIpAddress: " + GocatorCV::Error::GocatorCode(status);
+            message = "Error: GoSystem_FindSensorByIpAddress - Code: ";
             break;
         case GOSENSOR_CONNECT:
-            message = "Error: GoSensor_Connect: " + GocatorCV::Error::GocatorCode(status);
+            message = "Error: GoSensor_Connect - Code: ";
+            break;
+        case GOSENSOR_MODEL:
+            message = "Error: GoSensor_Model - Code: ";
             break;
         case GOSENSOR_SETUP:
-            message = "Error: GoSensor_Setup: " + GocatorCV::Error::GocatorCode(status);
+            message = "Error: GoSensor_Setup - Code: ";
             break;
         case GOSETUP_SETEXPOSURE:
-            message = "Error: GoSetup_SetExposure: " + GocatorCV::Error::GocatorCode(status);
+            message = "Error: GoSetup_SetExposure - Code: ";
             break;
         case GOSENSOR_ENABLE_DATA: 
-            message = "Error: GoSensor_EnableData: " + GocatorCV::Error::GocatorCode(status);
+            message = "Error: GoSensor_EnableData - Code: ";
             break;
         case GOSYSTEM_START:
-            message = "Error: GoSystem_Start: " + GocatorCV::Error::GocatorCode(status);
+            message = "Error: GoSystem_Start - Code: ";
             break;
         case GOSYSTEM_STOP:
-            message = "Error: GoSystem_Stop: " + GocatorCV::Error::GocatorCode(status);
+            message = "Error: GoSystem_Stop - Code: ";
+            break;
+        default:
+            message = "Error: Generic - Code: ";
             break;
     }
+
+    message += GocatorCode(status);
 }

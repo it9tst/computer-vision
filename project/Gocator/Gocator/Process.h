@@ -4,29 +4,32 @@
 #include <thread>
 #include <mutex>
 #include <deque>
-#include <ctime>
 
 #include "Gocator.h"
+#include "Analysis.h"
 
 namespace GocatorCV {
 
 	class Process {
 
 	private:
+		GocatorCV::Gocator *gocator;
 		std::thread acquisitionThread;
 		std::thread savingThread;
+		std::thread visualizationThread;
+		std::thread analysisThread;
 		std::mutex m_mutex;
-		std::deque< pcl::PointCloud<pcl::PointXYZ> > bufferSaveData;
-		pcl::PointCloud<pcl::PointXYZ>::Ptr _p_cloud;
+		std::deque< pcl::PointCloud<pcl::PointXYZ>::Ptr > bufferSaveData;
 		bool threadSavingActive;
 		int count;
 
 	public:
 		Process();
-		void StartAcquisition(GocatorCV::Gocator gocator);
+		void StartAcquisition(GocatorCV::Gocator *gocator);
 		void StopAcquisition();
 		void SaveAcquisition();
-		void StartGrab(GocatorCV::Gocator gocator);
+		void StartGrab();
+		void Visualization(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
 		std::string datetime();
 	};
 }

@@ -3,44 +3,68 @@
 //std c/c++
 #include <iostream>
 
-#include "Gocator.h"
 #include "Process.h"
 
 //main
 int main(int argc, char** argv) {
 
+	bool isOnline = false;
+
 	const char* sensorIp = "192.168.1.151";
+	k64f exposure = 2000;
 
 	GocatorCV::Gocator gocator;
 	GocatorCV::Process process;
+	GocatorCV::Analysis analysis;
 	GocatorCV::Error error;
 
-	//Hello message
+	// Hello message
 	std::cout << "Gocator example running!" << std::endl;
 
-	gocator.SetParameter(sensorIp);
+	if (isOnline) {
+		if ((error = gocator.SetParameter(GocatorCV::ParameterType::SENSOR_IP, (void*)sensorIp)).GetCode() != GocatorCV::ErrorType::OK) {
+			error.DisplayMessage();
+		}
 
-	if ((error = gocator.Init()).GetCode() != GocatorCV::Error_Type::OK) {
-		error.DisplayMessage();
-	}
-	
-	if ((error = gocator.Start()).GetCode() != GocatorCV::Error_Type::OK) {
-		error.DisplayMessage();
-	}
-	
-	process.StartAcquisition(gocator);
-	Sleep(30000);
-	process.StopAcquisition();
+		if ((error = gocator.Init()).GetCode() != GocatorCV::ErrorType::OK) {
+			error.DisplayMessage();
+		}
 
-	if ((error = gocator.Stop()).GetCode() != GocatorCV::Error_Type::OK) {
-		error.DisplayMessage();
+		if ((error = gocator.SetParameter(GocatorCV::ParameterType::EXPOSURE, (void*)&exposure)).GetCode() != GocatorCV::ErrorType::OK) {
+			error.DisplayMessage();
+		}
+
+		if ((error = gocator.Start()).GetCode() != GocatorCV::ErrorType::OK) {
+			error.DisplayMessage();
+		}
+
+		process.StartAcquisition(&gocator);
+		Sleep(30000);
+		process.StopAcquisition();
+
+		if ((error = gocator.Stop()).GetCode() != GocatorCV::ErrorType::OK) {
+			error.DisplayMessage();
+		}
+	} else {
+		pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
+		
+		if (pcl::io::loadPCDFile<pcl::PointXYZ>("Scan/scan8/Point_Cloud_Gocator_2022_03_03_18_54_56_0.pcd", *cloud) == -1) {
+			PCL_ERROR("Couldn't read file *.pcd \n");
+			return (-1);
+		}
+		
+		std::cout << "Loaded " << cloud->width * cloud->height << " data points from *.pcd" << std::endl;
+
+		analysis.LoadPointCloud(cloud);
+		analysis.Algorithm();
 	}
 
-	//bye bye message
+	// Bye bye message
 	std::cout << "Gocator example finished!" << std::endl;
 
 	return 1;
 }
+
 
 
 /*
@@ -50,31 +74,4 @@ int main(int argc, char** argv) {
 
 	NOTE SULLA PARTE DI ANALYSIS....
 	vector<pntcloud> che viene riempito a seguito della grab, thread di elaborazione che consuma (PointCloudAnalysis(pntcloud))
-*/
-
-/*
-	todo: da vedere i vari parametri come vengono passati
-	creare una funzione generale per il setting setParameter(name,value)
-*/
-
-
-
-/*
-	kChar model_name[50];
-	GoStamp* stamp = kNULL;
-	GoProfilePositionX positionX = kNULL;
-	GoMeasurementData* measurementData = kNULL;
-
-	//gets the sensor model
-	if ((status = GoSensor_Model(sensor, model_name, 50)) != kOK) {
-		std::cout << "Error: GoSensor_Model: " << status << std::endl;
-		return -1;
-	}
-
-	//prints sensor info
-	std::cout << "Connected to Sensor: " << std::endl;
-	std::cout << "\tModel: \t" << model_name << std::endl;
-	std::cout << "\tIP: \t" << SENSOR_IP << std::endl;
-	std::cout << "\tSN: \t" << GoSensor_Id(sensor) << std::endl;
-	std::cout << "\tState: \t" << GoSensor_State(sensor) << std::endl;
 */

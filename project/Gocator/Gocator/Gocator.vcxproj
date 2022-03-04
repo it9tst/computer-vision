@@ -149,13 +149,13 @@
     <ClCompile Include="Error.cpp" />
     <ClCompile Include="Gocator.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="PointCloud_Analysis.cpp" />
+    <ClCompile Include="Analysis.cpp" />
     <ClCompile Include="Process.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Error.h" />
     <ClInclude Include="Gocator.h" />
-    <ClInclude Include="PointCloud_Analysis.h" />
+    <ClInclude Include="Analysis.h" />
     <ClInclude Include="Process.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

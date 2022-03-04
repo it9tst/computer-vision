@@ -9,13 +9,14 @@
 
 namespace GocatorCV {
 
-    enum Error_Type {
-        GENERIC = 0,
+    enum ErrorType {
+        GENERIC,
         OK,
         GOSDK_API_CONSTRUCT,
         GOSYSTEM_CONSTRUCT,
         GOSYSTEM_FIND_SENSOR_BY_IP_ADDRESS,
         GOSENSOR_CONNECT,
+        GOSENSOR_MODEL,
         GOSENSOR_SETUP,
         GOSETUP_SETEXPOSURE,
         GOSENSOR_ENABLE_DATA,
@@ -26,15 +27,15 @@ namespace GocatorCV {
     class Error {
 
     private:
-        Error_Type type;
+        ErrorType type;
         kStatus status;
         std::string message;
-        void SetMessage(Error_Type type, kStatus status);
+        void SetMessage(ErrorType type, kStatus status);
 
     public:
         Error();
-        Error(Error_Type type, kStatus status);
-        Error_Type GetCode();
+        Error(ErrorType type, kStatus status);
+        ErrorType GetCode();
         std::string GocatorCode(kStatus status);
         void DisplayMessage();
     };
