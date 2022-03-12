@@ -131,12 +131,62 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr GocatorCV::Gocator::Grab() {
 
 		// each result can have multiple data items
 		// loop through all items in result message
+		float x(0), y(0), z(0), n(0);
 		for (i = 0; i < GoDataSet_Count(dataset); ++i) {
 			std::cout << "Dataset index count: " << i << std::endl;
 			dataObj = GoDataSet_At(dataset, i);
 
 			switch (GoDataMsg_Type(dataObj)) {
+			
+			case GO_DATA_MESSAGE_TYPE_STAMP:
+			{
+				GoStampMsg stampMsg = dataObj;
+				std::cout << "\tStamp Message batch count: " << (k32u)GoStampMsg_Count(stampMsg) << std::endl;
 
+				for (j = 0; j < GoStampMsg_Count(stampMsg); j++) {
+					GoStamp* stamp = GoStampMsg_At(stampMsg, j);
+					std::cout << "\tTimestamp: " << stamp->timestamp << std::endl;
+					std::cout << "\tEncoder position at leading edge: " << stamp->encoder << std::endl;
+					std::cout << "\tFrame index: " << stamp->frameIndex << std::endl;
+				}
+			}
+			break;
+			
+			case GO_DATA_MESSAGE_TYPE_UNIFORM_SURFACE:
+			{
+				GoSurfaceMsg surfaceMsg = dataObj;
+				unsigned int rowIdx, colIdx;
+
+				double XResolution = NM_TO_MM(GoSurfaceMsg_XResolution(surfaceMsg));
+				double YResolution = NM_TO_MM(GoSurfaceMsg_YResolution(surfaceMsg));
+				double ZResolution = NM_TO_MM(GoSurfaceMsg_ZResolution(surfaceMsg));
+				double XOffset = UM_TO_MM(GoSurfaceMsg_XOffset(surfaceMsg));
+				double YOffset = UM_TO_MM(GoSurfaceMsg_YOffset(surfaceMsg));
+				double ZOffset = UM_TO_MM(GoSurfaceMsg_ZOffset(surfaceMsg));
+
+				printf("  Surface data width: %lu\n", (k32u)GoSurfaceMsg_Width(surfaceMsg));
+				printf("  Surface data length: %lu\n", (k32u)GoSurfaceMsg_Length(surfaceMsg));
+
+				for (rowIdx = 0; rowIdx < GoSurfaceMsg_Length(surfaceMsg); rowIdx++) {
+					k16s* data = GoSurfaceMsg_RowAt(surfaceMsg, rowIdx);
+
+					for (colIdx = 0; colIdx < GoSurfaceMsg_Width(surfaceMsg); colIdx++) {
+						x = XOffset + XResolution * colIdx;
+						y = YOffset + YResolution * rowIdx;
+
+						if (data[colIdx] != INVALID_RANGE_16BIT) {
+							z = ZOffset + ZResolution * data[colIdx];
+
+							_p_cloud->points.emplace_back(pcl::PointXYZ(x, y, z));
+
+						} else {
+							continue;
+						}
+					}
+				}
+			}
+			break;
+			/*
 			case GO_DATA_MESSAGE_TYPE_SURFACE:
 			{
 				//cast to GoSurfaceMsg
@@ -193,9 +243,44 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr GocatorCV::Gocator::Grab() {
 				}
 			}
 			break;
+			*/
+			/*
+			case GO_DATA_MESSAGE_TYPE_SURFACE_INTENSITY:
+			{
+				GoSurfaceIntensityMsg surfaceIntMsg = dataObj;
+				unsigned int rowIdx, colIdx;
+				double XResolution = NM_TO_MM(GoSurfaceIntensityMsg_XResolution(surfaceIntMsg));
+				double YResolution = NM_TO_MM(GoSurfaceIntensityMsg_YResolution(surfaceIntMsg));
+				double XOffset = UM_TO_MM(GoSurfaceIntensityMsg_XOffset(surfaceIntMsg));
+				double YOffset = UM_TO_MM(GoSurfaceIntensityMsg_YOffset(surfaceIntMsg));
+
+				std::cout << "\tSurface intensity width: " << (k32u)GoSurfaceIntensityMsg_Width(surfaceIntMsg) << std::endl;
+				std::cout << "\tSurface intensity height: " << (k32u)GoSurfaceIntensityMsg_Length(surfaceIntMsg) << std::endl;
+
+				img = cv::Mat::zeros((int)(GoSurfaceIntensityMsg_Width(surfaceIntMsg)) + 1, (int)(GoSurfaceIntensityMsg_Length(surfaceIntMsg)) + 1, CV_8UC1);
+
+				for (rowIdx = 0; rowIdx < GoSurfaceIntensityMsg_Length(surfaceIntMsg); rowIdx++) {
+					k8u* data = GoSurfaceIntensityMsg_RowAt(surfaceIntMsg, rowIdx);
+
+					// gocator transmits intensity data as an 8-bit grayscale image of identical width and height as the corresponding height map
+					for (colIdx = 0; colIdx < GoSurfaceIntensityMsg_Width(surfaceIntMsg); colIdx++) {
+						x = XOffset + XResolution * colIdx;
+						y = YOffset + YResolution * rowIdx;
+						n = data[colIdx];
+						std::cout << "x: " << x << " y: " << y << " n: " << n << std::endl;
+					}
+				}
+			}
+			break;
+			*/
 			}
 		}
 		GoDestroy(dataset);
+		
+		_p_cloud->height = 1;
+		_p_cloud->width = _p_cloud->size();
+		_p_cloud->resize(_p_cloud->size());
+		
 		std::cout << "******** End of GoSystem_ReceiveData ********" << std::endl << std::endl;
 		return _p_cloud;
 	} else {

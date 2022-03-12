@@ -48,12 +48,12 @@ int main(int argc, char** argv) {
 	} else {
 		pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
 		
-		if (pcl::io::loadPCDFile<pcl::PointXYZ>("Scan/scan8/Point_Cloud_Gocator_2022_03_03_18_54_56_0.pcd", *cloud) == -1) {
-			PCL_ERROR("Couldn't read file *.pcd \n");
+		if (pcl::io::loadPCDFile<pcl::PointXYZ>("Scan/scan6/Point_Cloud_Gocator_2022_03_03_18_54_56_0.pcd", *cloud) == -1) {
+			PCL_ERROR("Couldn't read file *.pcd\n\n");
 			return (-1);
 		}
 		
-		std::cout << "Loaded " << cloud->width * cloud->height << " data points from *.pcd" << std::endl;
+		std::cout << "Loaded " << cloud->width * cloud->height << " data points from *.pcd" << std::endl << std::endl;
 
 		analysis.LoadPointCloud(cloud);
 		analysis.Algorithm();
