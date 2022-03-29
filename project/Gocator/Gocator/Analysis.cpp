@@ -66,6 +66,7 @@ void GocatorCV::Analysis::Algorithm() {
     }
 
     cv::rotate(img, img, cv::ROTATE_90_CLOCKWISE);
+    cv::flip(img, img, 1);
 
     cv::imwrite("Scan/image.jpg", img);
     
@@ -94,7 +95,7 @@ void GocatorCV::Analysis::Algorithm() {
     }
 
     // Visualising a point cloud
-    //Visualization(transformedCloud);
+    Visualization(cloud);
 }
 
 void GocatorCV::Analysis::CheckValidPoints(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr cloudCorrect) {
@@ -294,16 +295,17 @@ void GocatorCV::Analysis::measurements(std::vector<std::vector<cv::Point>> conto
             std::cout << "Blob " << i << "\t- Area: " << setprecision(2) << std::fixed << area / 100 << " cm^2\tPerimetro: " << setprecision(2) << std::fixed << perimeter / 100 << " cm\tWidth: " << setprecision(2) << std::fixed << rotatedRect.size.height / 100 << " cm\tHeight: " << setprecision(2) << std::fixed << rotatedRect.size.width / 100 << " cm" << std::endl;
             statsWidth.push_back(rotatedRect.size.height);
             statsHeight.push_back(rotatedRect.size.width);
-            statsArea.push_back(area);
-            statsPerimeter.push_back(perimeter);
         }
+
+        statsArea.push_back(area);
+        statsPerimeter.push_back(perimeter);
     }
-    /*
+    
     std::cout << std::endl << "Area Minima: " << *std::min_element(statsArea.begin(), statsArea.end()) / 100 << " cm\t\tArea Massima: " << setprecision(2) << std::fixed << *std::max_element(statsArea.begin(), statsArea.end()) / 100 << " cm\t\tArea Media: " << setprecision(2) << std::fixed << (std::accumulate(statsArea.begin(), statsArea.end(), 0.0) / statsArea.size()) / 100 << " cm" << std::endl;
     std::cout << "Perimetro Minimo: " << *std::min_element(statsPerimeter.begin(), statsPerimeter.end()) / 100 << " cm\t\tPerimetro Massimo: " << setprecision(2) << std::fixed << *std::max_element(statsPerimeter.begin(), statsPerimeter.end()) / 100 << " cm\t\tPerimetro Medio: " << setprecision(2) << std::fixed << (std::accumulate(statsPerimeter.begin(), statsPerimeter.end(), 0.0) / statsPerimeter.size()) / 100 << " cm" << std::endl;
     std::cout << "Width Minima: " << *std::min_element(statsWidth.begin(), statsWidth.end()) / 100 << " cm\t\tWidth Massima: " << setprecision(2) << std::fixed << *std::max_element(statsWidth.begin(), statsWidth.end()) / 100 << " cm\t\tArea Width: " << setprecision(2) << std::fixed << (std::accumulate(statsWidth.begin(), statsWidth.end(), 0.0) / statsWidth.size()) / 100 << " cm" << std::endl;
     std::cout << "Height Minima: " << *std::min_element(statsHeight.begin(), statsHeight.end()) / 100 << " cm\t\tHeight Massima: " << setprecision(2) << std::fixed << *std::max_element(statsHeight.begin(), statsHeight.end()) / 100 << " cm\t\tHeight Media: " << setprecision(2) << std::fixed << (std::accumulate(statsHeight.begin(), statsHeight.end(), 0.0) / statsHeight.size()) / 100 << " cm" << std::endl;
-    */
+    
     std::cout << std::endl;
 }
 
