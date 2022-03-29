@@ -48,7 +48,7 @@ int main(int argc, char** argv) {
 	} else {
 		pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
 		
-		if (pcl::io::loadPCDFile<pcl::PointXYZ>("Scan/scan6/Point_Cloud_Gocator_2022_03_03_18_55_07_3.pcd", *cloud) == -1) {
+		if (pcl::io::loadPCDFile<pcl::PointXYZ>("Scan/2022_03_19_01_04_58_Matrix_Transformation.pcd", *cloud) == -1) {
 			PCL_ERROR("Couldn't read file *.pcd\n\n");
 			return (-1);
 		}
