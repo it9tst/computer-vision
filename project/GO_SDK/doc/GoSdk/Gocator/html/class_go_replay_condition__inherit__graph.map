@@ -1,6 +1,0 @@
-<map id="GoReplayCondition" name="GoReplayCondition">
-<area shape="rect" id="node5" href="$class_go_replay_any_data.html" title="Represents the Any Data condition. " alt="" coords="5,155,133,181"/>
-<area shape="rect" id="node7" href="$class_go_replay_any_measurement.html" title="Represents the Any Measurement condition. " alt="" coords="159,155,340,181"/>
-<area shape="rect" id="node9" href="$class_go_replay_measurement.html" title="Represents the Measurement condition. " alt="" coords="365,155,523,181"/>
-<area shape="rect" id="node2" href="D:/xml-data/build-dir/GOC-GOC6V1-JOB1/build/kApiDoc/tags.xml$classk_object.html" title="kObject" alt="" coords="216,5,283,32"/>
-</map>
