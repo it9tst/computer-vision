@@ -1,7 +1,7 @@
 %ptCloud = pcread('Point_Cloud_Gocator_2022_03_01_18_44_12_3.pcd');
 %pcshow(ptCloud);
 
-folder = 'scan_battistrada3\scan2\';
+folder = 'scan10\';
 current_folder = strcat('C:\Users\Gabriele\Documents\GitHub\computer-vision\project\Gocator\Gocator\Scan\', folder);
 
 files = dir(strcat(folder, '*.pcd'));
