@@ -17,7 +17,7 @@ GocatorCV::Error GocatorCV::Gocator::Init() {
 	}
 
 	// Parse IP address into address data structure
-	kIpAddress_Parse(&ipAddress, sensorIp);
+	kIpAddress_Parse(&ipAddress, sensor_ip);
 
 	// obtain GoSensor object by sensor IP address
 	if ((status = GoSystem_FindSensorByIpAddress(system, &ipAddress, &sensor)) != kOK) {
@@ -37,7 +37,7 @@ GocatorCV::Error GocatorCV::Gocator::Init() {
 	//prints sensor info
 	std::cout << "\tConnected to Sensor: " << std::endl;
 	std::cout << "\tModel: \t" << model_name << std::endl;
-	std::cout << "\tIP: \t" << sensorIp << std::endl;
+	std::cout << "\tIP: \t" << sensor_ip << std::endl;
 	std::cout << "\tSN: \t" << GoSensor_Id(sensor) << std::endl;
 	std::cout << "\tState: \t" << GoSensor_State(sensor) << std::endl << std::endl;
 
@@ -88,7 +88,7 @@ GocatorCV::Error GocatorCV::Gocator::SetParameter(ParameterType name, void* valu
 	
 	switch (name) {
 		case SENSOR_IP:
-			this->sensorIp = (const char*)value;
+			this->sensor_ip = (const char*)value;
 			break;
 		case EXPOSURE:
 		{
@@ -118,7 +118,7 @@ GocatorCV::Error GocatorCV::Gocator::SetParameter(ParameterType name, void* valu
 pcl::PointCloud<pcl::PointXYZ>::Ptr GocatorCV::Gocator::Grab() {
 	
 	//point cloud
-	pcl::PointCloud<pcl::PointXYZ>::Ptr _p_cloud(new pcl::PointCloud<pcl::PointXYZ>());
+	pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>());
 
 	cv::Mat img;
 
@@ -184,13 +184,13 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr GocatorCV::Gocator::Grab() {
 					k16s* data = GoSurfaceMsg_RowAt(surfaceMsg, rowIdx);
 
 					for (colIdx = 0; colIdx < GoSurfaceMsg_Width(surfaceMsg); colIdx++) {
-						x = xOffset + xResolution * colIdx;
-						y = yOffset + yResolution * rowIdx;
+						x = (xOffset + xResolution * colIdx) * -1; // x component inverted to fulfill right-handed frame (Gocator is left-handed!)
+						y = (yOffset + yResolution * rowIdx) * 1;
 
 						if (data[colIdx] != INVALID_RANGE_16BIT) {
-							z = zOffset + zResolution * data[colIdx];
+							z = (zOffset + zResolution * data[colIdx]) * 1;
 
-							_p_cloud->points.emplace_back(pcl::PointXYZ(x, y, z));
+							cloud->points.emplace_back(pcl::PointXYZ(x, y, z));
 
 						} else {
 							continue;
@@ -231,9 +231,9 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr GocatorCV::Gocator::Grab() {
 				std::cout << "\tzOffset: " << zOffset << std::endl;
 
 				//resize the point cloud
-				_p_cloud->height = row_count;
-				_p_cloud->width = width;
-				_p_cloud->resize(row_count * width);
+				cloud->height = row_count;
+				cloud->width = width;
+				cloud->resize(row_count * width);
 
 				//run over all rows
 				for (ii = 0; ii < row_count; ii++) {
@@ -244,14 +244,14 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr GocatorCV::Gocator::Grab() {
 					for (jj = 0; jj < width; jj++) {
 
 						//set xy in meters. x component inverted to fulfill right-handed frame (Gocator is left-handed!)
-						_p_cloud->points.at(ii * width + jj).x = -0.001 * (xOffset + xResolution * jj);
-						_p_cloud->points.at(ii * width + jj).y = 0.001 * (yOffset + yResolution * ii);
+						cloud->points.at(ii * width + jj).x = -0.001 * (xOffset + xResolution * jj);
+						cloud->points.at(ii * width + jj).y = 0.001 * (yOffset + yResolution * ii);
 
 						//set z  in meters.
 						if (data[jj] != INVALID_RANGE_16BIT)
-							_p_cloud->points.at(ii * width + jj).z = 0.001 * (zOffset + zResolution * data[jj]);
+							cloud->points.at(ii * width + jj).z = 0.001 * (zOffset + zResolution * data[jj]);
 						else
-							_p_cloud->points.at(ii * width + jj).z = 0.001 * (INVALID_RANGE_DOUBLE);
+							cloud->points.at(ii * width + jj).z = 0.001 * (INVALID_RANGE_DOUBLE);
 					}
 				}
 			}
@@ -302,16 +302,16 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr GocatorCV::Gocator::Grab() {
 		}
 		GoDestroy(dataset);
 		
-		_p_cloud->height = 1;
-		_p_cloud->width = _p_cloud->size();
-		_p_cloud->resize(_p_cloud->size());
+		//cloud->height = 1;
+		//cloud->width = cloud->size();
+		//cloud->resize(cloud->size());
 
 		//cv::imwrite("Scan/image_prova_" + datetime() + ".jpg", img);
 		
 		std::cout << "******** End of GoSystem_ReceiveData ********" << std::endl << std::endl;
-		return _p_cloud;
+		return cloud;
 	} else {
 		std::cout << "Error: No data received during the waiting period" << std::endl;
-		return _p_cloud;
+		return cloud;
 	}
 }

@@ -15,14 +15,14 @@ namespace GocatorCV {
 	private:
 		GocatorCV::Gocator *gocator;
 		GocatorCV::Analysis analysis;
-		//std::vector<std::thread> ThreadVector;
-		std::thread acquisitionThread;
-		std::thread savingThread;
-		std::thread analysisThread;
+		//std::vector<std::thread> thread_vector;
+		std::thread acquisition_thread;
+		std::thread saving_thread;
+		std::thread analysis_thread;
 		std::mutex m_mutex;
-		std::deque< pcl::PointCloud<pcl::PointXYZ>::Ptr > bufferSaveData;
-		bool threadSavingActive;
-		int count;
+		std::deque< pcl::PointCloud<pcl::PointXYZ>::Ptr > buffer_save_data;
+		bool thread_saving_active;
+		std::string datetime();
 
 	public:
 		Process();
@@ -31,6 +31,5 @@ namespace GocatorCV {
 		void SaveAcquisition();
 		void StartGrab();
 		void Visualization(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
-		std::string datetime();
 	};
 }

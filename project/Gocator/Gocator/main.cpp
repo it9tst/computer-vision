@@ -10,7 +10,7 @@ int main(int argc, char** argv) {
 
 	bool isOnline = false;
 
-	const char* sensorIp = "192.168.1.151";
+	const char* sensor_ip = "192.168.1.151";
 	k64f exposure = 2000;
 
 	GocatorCV::Gocator gocator;
@@ -22,7 +22,7 @@ int main(int argc, char** argv) {
 	std::cout << "Gocator example running!" << std::endl;
 
 	if (isOnline) {
-		if ((error = gocator.SetParameter(GocatorCV::ParameterType::SENSOR_IP, (void*)sensorIp)).GetCode() != GocatorCV::ErrorType::OK) {
+		if ((error = gocator.SetParameter(GocatorCV::ParameterType::SENSOR_IP, (void*)sensor_ip)).GetCode() != GocatorCV::ErrorType::OK) {
 			error.DisplayMessage();
 		}
 
@@ -48,7 +48,7 @@ int main(int argc, char** argv) {
 	} else {
 		pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
 		
-		if (pcl::io::loadPCDFile<pcl::PointXYZ>("Scan/2022_03_19_01_04_58_Matrix_Transformation.pcd", *cloud) == -1) {
+		if (pcl::io::loadPCDFile<pcl::PointXYZ>("Scan/scan1/Point_Cloud_Gocator_2022_03_31_16_04_15_0.pcd", *cloud) == -1) {
 			PCL_ERROR("Couldn't read file *.pcd\n\n");
 			return (-1);
 		}

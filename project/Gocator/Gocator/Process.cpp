@@ -7,20 +7,20 @@ GocatorCV::Process::Process() {
 void GocatorCV::Process::StartAcquisition(GocatorCV::Gocator *gocator) {
 
 	this->gocator = gocator;
-	threadSavingActive = true;
+	thread_saving_active = true;
 	
-	acquisitionThread = std::thread(&Process::StartGrab, this);
-	savingThread = std::thread(&Process::SaveAcquisition, this);
+	acquisition_thread = std::thread(&Process::StartGrab, this);
+	saving_thread = std::thread(&Process::SaveAcquisition, this);
 }
 
 void GocatorCV::Process::StopAcquisition() {
 	
-	threadSavingActive = false;
+	thread_saving_active = false;
 
-	acquisitionThread.join();
-	savingThread.join();
+	acquisition_thread.join();
+	saving_thread.join();
 /*
-	for (auto& t : ThreadVector) {
+	for (auto& t : thread_vector) {
 		t.join();
 	}*/
 }
@@ -28,17 +28,17 @@ void GocatorCV::Process::StopAcquisition() {
 void GocatorCV::Process::SaveAcquisition(){
 
 	std::unique_lock<std::mutex> locker(m_mutex, std::defer_lock);
-	count = 0;
+	int count = 0;
 
-	while (threadSavingActive) {
-		if (bufferSaveData.empty()) {
+	while (thread_saving_active) {
+		if (buffer_save_data.empty()) {
 			std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 		} else {
 
 			locker.lock();
-			auto _p_cloud_save = bufferSaveData.front();
-			bufferSaveData.pop_front();
-			std::cout << "SAVE - size: " << bufferSaveData.size() << std::endl;
+			auto _p_cloud_save = buffer_save_data.front();
+			buffer_save_data.pop_front();
+			std::cout << "SAVE - size: " << buffer_save_data.size() << std::endl;
 			locker.unlock();
 
 			std::cout << "SAVE - save value: " << count << std::endl;
@@ -56,19 +56,19 @@ void GocatorCV::Process::StartGrab() {
 	pcl::PointCloud<pcl::PointXYZ>::Ptr _p_cloud;
 	int n_saved_image = 0;
 
-	while (threadSavingActive) {
+	while (thread_saving_active) {
 		if (n_saved_image < 10) {
 			_p_cloud = gocator->Grab();
 
 			locker.lock();
-			bufferSaveData.push_back(_p_cloud);
-			int s = bufferSaveData.size();
+			buffer_save_data.push_back(_p_cloud);
+			int s = buffer_save_data.size();
 			locker.unlock();
 
 			std::cout << "GRAB - size: " << s << std::endl;
 			n_saved_image++;
 
-			//ThreadVector.emplace_back([&]() { Process::Visualization(_p_cloud); });
+			//thread_vector.emplace_back([&]() { Process::Visualization(_p_cloud); });
 		}
 	}
 }

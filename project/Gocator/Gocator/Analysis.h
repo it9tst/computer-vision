@@ -1,8 +1,7 @@
 #pragma once
 
-#include <unordered_map>
-#include <unordered_set>
 #include <list>
+#include <tuple>
 
 //OpenCV
 #include <opencv2/opencv.hpp>
@@ -30,9 +29,19 @@
 #include <pcl/surface/gp3.h>
 #include <pcl/io/vtk_io.h>
 
+//GNU Scientific Library
+#include <gsl/gsl_math.h>
+#include <gsl/gsl_filter.h>
+#include <gsl/gsl_vector.h>
+
+//Matplotlib
+#include "matplotlibcpp.h"
+namespace plt = matplotlibcpp;
+
+
 namespace GocatorCV {
 
-	struct contourSorter {
+	struct ContourSorter {
 		bool operator ()(const std::vector<cv::Point>& a, const std::vector<cv::Point>& b) {
 			cv::Rect ra(cv::boundingRect(a));
 			cv::Rect rb(cv::boundingRect(b));
@@ -41,35 +50,51 @@ namespace GocatorCV {
 		}
 	};
 
+	struct PolynomialFunction {
+		std::vector<double> x;
+		std::vector<double> y;
+		std::vector<int> i;
+	};
+
 	class Analysis {
 
 	private:
 		pcl::PointCloud<pcl::PointXYZ>::Ptr cloud;
-		pcl::PointXYZ minPt, maxPt;
+		pcl::PointXYZ min_pt, max_pt;
 		pcl::PCDWriter writer;
-		void StatisticalOutlierRemovalFilter(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr cloudFiltered);
-		void PlaneSegmentation(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr cloudSegmented);
-		void ProjectPoints(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr cloudProjected, double a, double b, double c, double d);
-		void MatrixTransform(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr cloudTransformed, double x, double y, double z);
+		std::string datetime();
 		void GetMinMaxCoordinates(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
 		void SavePCD(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, std::string name);
 		void Visualization(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
-		std::string datetime();
 
-		void measurements(std::vector<std::vector<cv::Point>> contours);
-		double distanceCalculate(int x1, int y1, int x2, int y2);
-		double cntDistanceCompare(std::vector<cv::Point> contoursA, std::vector<cv::Point> contoursB);
-		std::vector<std::vector<cv::Point>> contourDetection(cv::Mat image);
-		cv::Point getCenter(std::vector<cv::Point> contours);
-		cv::Mat morphClosingBlob(cv::Mat blobIn);
-		cv::Mat morphClosingMacroBlob(cv::Mat blobIn);
-		void distanceMacroBlob(std::vector<std::vector<cv::Point>> contoursMacroBlob);
-		void distanceBlob(std::vector<std::vector<cv::Point>> contoursMacroBlob, std::vector<std::vector<cv::Point>> contoursBlob);
+		// analisi pointcloud battistrada1 e battistrada2
+		void StatisticalOutlierRemovalFilter(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered);
+		void PlaneSegmentation(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_segmented, double value_threshold);
+		void ProjectPoints(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_projected, double a, double b, double c, double d);
+		void MatrixTransform(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_transformed, double x, double y, double z);
+
+		// analisi immagini opencv battistrada1 e battistrada2
+		cv::Mat MorphClosingBlob(cv::Mat image);
+		cv::Mat MorphClosingMacroBlob(cv::Mat image);
+		cv::Point ContourCenter(std::vector<cv::Point> contour);
+		std::vector<std::vector<cv::Point>> ContoursDetection(cv::Mat image);
+		double MinDistanceContours(std::vector<cv::Point> contourA, std::vector<cv::Point> contourB);
+		double DistanceBetweenTwoPoints(int x1, int y1, int x2, int y2);
+		void ContoursMeasurements(std::vector<std::vector<cv::Point>> contours);
+		void DistanceBetweenMacroBlob(std::vector<std::vector<cv::Point>> contours_MacroBlob);
+		void DistanceBetweenBlob(std::vector<std::vector<cv::Point>> contours_MacroBlob, std::vector<std::vector<cv::Point>> contours_Blob);
+
+		// analisi profilo battistrada3
+		GocatorCV::PolynomialFunction GaussianFilter(GocatorCV::PolynomialFunction line);
+		GocatorCV::PolynomialFunction DifferenceQuotient(GocatorCV::PolynomialFunction line);
+		void GetLine(double x1, double y1, double x2, double y2, double& a, double& b, double& c);
+		double DistancePointLine(double pct1X, double pct1Y, double pct2X, double pct2Y, double pct3X, double pct3Y);
+		cv::Point2d RotatePoint(double cx, double cy, double angle, cv::Point2d p);
 
 	public:
 		Analysis();
 		void LoadPointCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
 		void Algorithm();
-		void CheckValidPoints(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr cloudCorrect);
+		void CheckValidPoints(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_correct);
 	};
 }

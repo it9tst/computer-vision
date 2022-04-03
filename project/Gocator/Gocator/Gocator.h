@@ -12,9 +12,9 @@
 #include <pcl/point_types.h>
 #include <pcl/io/pcd_io.h>
 #include <pcl/io/ply_io.h>
-#include <pcl/visualization/pcl_visualizer.h>
 #include <pcl/filters/extract_indices.h>
 
+//OpenCV
 #include <opencv2/opencv.hpp>
 
 namespace GocatorCV {
@@ -35,7 +35,7 @@ namespace GocatorCV {
         #define UM_TO_MM(VALUE)			(((k64f)(VALUE))/1000.0)
 
     private:
-        const char* sensorIp;
+        const char* sensor_ip;
         kStatus status;
         kAssembly api = kNULL;
         GoSystem system = kNULL;
