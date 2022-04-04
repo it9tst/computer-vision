@@ -100,7 +100,7 @@ void GocatorCV::Analysis::Algorithm() {
 
     
     // *****PER TUTTE LE LINEE (BATTISTRADA 3)*****
-    /**/
+    /*
     std::set<float> y_line;
     for (int i = 0; i < cloud->size(); i++) {
         y_line.insert(cloud->points[i].y);
@@ -199,7 +199,7 @@ void GocatorCV::Analysis::Algorithm() {
         for (int i = 1; i < max_point_line_original_right.i.size(); i++) {
             double d = DistancePointLine(min_point_line_original.x[i - 1], min_point_line_original.y[i - 1], max_point_line_original_right.x[i - 1], max_point_line_original_right.y[i - 1], max_point_line_original_left.x[i - 1], max_point_line_original_left.y[i - 1]);
 
-            if (d > 0.1) {
+            if (d > 0.3) {
                 min_max_point_line_original.x.push_back(max_point_line_original_right.x[i - 1]);
                 min_max_point_line_original.y.push_back(max_point_line_original_right.y[i - 1]);
                 min_max_point_line_original.i.push_back(max_point_line_original_right.i[i - 1]);
@@ -272,10 +272,10 @@ void GocatorCV::Analysis::Algorithm() {
     // Projecting points using a parametric model
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_projected(new pcl::PointCloud<pcl::PointXYZ>);
     ProjectPoints(cloud_final, cloud_projected, 0, 0, 1, 0);
-
+    
     GetMinMaxCoordinates(cloud_projected);
     Sleep(1000);
-    /*
+    
     // Using a matrix to transform a point cloud
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_transformed(new pcl::PointCloud<pcl::PointXYZ>());
 
@@ -310,11 +310,11 @@ void GocatorCV::Analysis::Algorithm() {
 
 
     // *****PER UNA LINEA*****
-    /*
+    /**/
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_line(new pcl::PointCloud<pcl::PointXYZ>());
 
     for (int i = 0; i < cloud->size(); i++) {
-        if (cloud->points[i].y == (float)-102.99759) {
+        if (cloud->points[i].y == (float)-20.599583) {
             cloud_line->points.emplace_back(pcl::PointXYZ(cloud->points[i].x * 1, cloud->points[i].y * 0, cloud->points[i].z * 1));
         }
     }
@@ -412,13 +412,13 @@ void GocatorCV::Analysis::Algorithm() {
         max_point_line_original_left.y.push_back(line_original.y[line_rotated.i[argmaxVal]]);
         max_point_line_original_left.i.push_back(line_rotated.i[argmaxVal]);
         
-        //plt::named_plot("line_smooth", line_smooth.x, line_smooth.y);
-        //plt::plot({ line_smooth.x[line_rotated.i[argmaxVal]] }, { line_smooth.y[line_rotated.i[argmaxVal]] }, "x");
-        //plt::named_plot("line_rotated", line_rotated.x, line_rotated.y);
-        //plt::plot({ line_rotated.x[argmaxVal] }, { line_rotated.y[argmaxVal] }, "o");
-        //plt::title("Calcolo dei massimi (da sinistra) della funzione originale");
-        //plt::legend();
-        //plt::show();
+        plt::named_plot("line_smooth", line_smooth.x, line_smooth.y);
+        plt::plot({ line_smooth.x[line_rotated.i[argmaxVal]] }, { line_smooth.y[line_rotated.i[argmaxVal]] }, "x");
+        plt::named_plot("line_rotated", line_rotated.x, line_rotated.y);
+        plt::plot({ line_rotated.x[argmaxVal] }, { line_rotated.y[argmaxVal] }, "o");
+        plt::title("Calcolo dei massimi (da sinistra) della funzione originale");
+        plt::legend();
+        plt::show();
     }
 
     plt::plot(line_original.x, line_original.y);
@@ -453,7 +453,7 @@ void GocatorCV::Analysis::Algorithm() {
     plt::title("Calcolo delle distanze tra la retta che congiunge due massimi adiacenti e il minimo corrispondente");
     plt::legend();
     plt::show();
-    */
+    
 
 
     // Visualising a point cloud
