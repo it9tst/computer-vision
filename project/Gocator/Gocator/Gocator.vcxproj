@@ -24,6 +24,7 @@
     <ProjectGuid>{80b9c4ad-d2ee-4f2d-915a-88f7cd5c3d1c}</ProjectGuid>
     <RootNamespace>Gocator</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Gocator</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -44,6 +45,8 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -121,6 +124,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\..\library\GO_SDK\Gocator\GoSdk;..\..\library\GO_SDK\Platform\kApi;..\..\library\PCL 1.12.1-rc1\3rdParty\Boost\include\boost-1_78;..\..\library\PCL 1.12.1-rc1\3rdParty\VTK\include\vtk-9.1;..\..\library\PCL 1.12.1-rc1\3rdParty\VTK\include\vtk-9.1\vtkfreetype\include;..\..\library\PCL 1.12.1-rc1\3rdParty\FLANN\include;..\..\library\PCL 1.12.1-rc1\3rdParty\Qhull\include;..\..\library\PCL 1.12.1-rc1\3rdParty\Eigen\eigen3;..\..\library\PCL 1.12.1-rc1\include\pcl-1.12;..\..\library\OpenNI2\Include;..\..\library\opencv-4.5.4\build\include;..\..\library\Python38\include;..\..\library\Python38\Lib\site-packages\numpy\core\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalOptions>/Zc:twoPhase- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

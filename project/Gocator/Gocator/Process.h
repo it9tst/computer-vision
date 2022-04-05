@@ -8,6 +8,7 @@
 #include "Gocator.h"
 #include "Analysis.h"
 
+
 namespace GocatorCV {
 
 	class Process {

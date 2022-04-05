@@ -78,17 +78,17 @@ void GocatorCV::Process::Visualization(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud
 	pcl::PointCloud<pcl::PointXYZ>::Ptr cloudCopy(new pcl::PointCloud<pcl::PointXYZ>());
 	pcl::copyPointCloud(*cloud, *cloudCopy);
 
-	pcl::PointCloud<pcl::PointXYZ>::Ptr cloudCorrect(new pcl::PointCloud<pcl::PointXYZ>);
-	analysis.CheckValidPoints(cloudCopy, cloudCorrect);
+	//pcl::PointCloud<pcl::PointXYZ>::Ptr cloudCorrect(new pcl::PointCloud<pcl::PointXYZ>);
+	//analysis.CheckValidPoints(cloudCopy, cloudCorrect);
 
 	vtkObject::GlobalWarningDisplayOff();
 
 	// Visualization
 	pcl::visualization::PCLVisualizer::Ptr viewer(new pcl::visualization::PCLVisualizer("cloud", true));
 
-	pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> red(cloudCorrect, 255, 0, 0);
+	pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> red(cloudCopy, 255, 0, 0);
 	viewer->setBackgroundColor(0, 0, 0);
-	viewer->addPointCloud<pcl::PointXYZ>(cloudCorrect, red, "cloud");
+	viewer->addPointCloud<pcl::PointXYZ>(cloudCopy, red, "cloud");
 	viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "cloud");
 	viewer->addCoordinateSystem(1);
 	viewer->initCameraParameters();

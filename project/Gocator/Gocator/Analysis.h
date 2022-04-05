@@ -94,7 +94,9 @@ namespace GocatorCV {
 	public:
 		Analysis();
 		void LoadPointCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
-		void Algorithm();
+		void Algorithm(int type);
 		void CheckValidPoints(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_correct);
+		void DebugAlgorithm2();
+		void Prova();
 	};
 }

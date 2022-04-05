@@ -56,11 +56,13 @@ int main(int argc, char** argv) {
 		std::cout << "Loaded " << cloud->width * cloud->height << " data points from *.pcd" << std::endl << std::endl;
 
 		analysis.LoadPointCloud(cloud);
-		analysis.Algorithm();
+		analysis.Prova();
+		//analysis.Algorithm(2);
+		//analysis.DebugAlgorithm2();
 	}
 
 	// Bye bye message
-	std::cout << "Gocator example finished!" << std::endl;
+ 	std::cout << "Gocator example finished!" << std::endl;
 
 	return 1;
 }

@@ -1,4 +1,5 @@
 #include "Analysis.h"
+#include <thread>
 
 GocatorCV::Analysis::Analysis() {
 	// constructor
@@ -8,311 +9,340 @@ void GocatorCV::Analysis::LoadPointCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr clo
     this->cloud = cloud;
 }
 
-void GocatorCV::Analysis::Algorithm() {
+void GocatorCV::Analysis::Prova() {
     
-    // *****ANALISI IMMAGINI (BATTISTRADA 1-2)*****
-    /*
-    // Erase line with (-inf) value
-    //pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_correct(new pcl::PointCloud<pcl::PointXYZ>);
-    //CheckValidPoints(cloud, cloud_correct);
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_correct(new pcl::PointCloud<pcl::PointXYZ>);
+    CheckValidPoints(cloud, cloud_correct);
     
-    // Removing outliers using a StatisticalOutlierRemoval filter
-    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered(new pcl::PointCloud<pcl::PointXYZ>);
-    StatisticalOutlierRemovalFilter(cloud, cloud_filtered);
-
-    // Plane model segmentation
-    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_segmented(new pcl::PointCloud<pcl::PointXYZ>);
-    PlaneSegmentation(cloud_filtered, cloud_segmented, 5); // valore threshold (battistrada1: 1 - battistrada2: 5)
-
-    GetMinMaxCoordinates(cloud_segmented);
-
-    // Projecting points using a parametric model
-    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_projected(new pcl::PointCloud<pcl::PointXYZ>);
-    ProjectPoints(cloud_segmented, cloud_projected, 0, 0, 1, 0);
-
-    GetMinMaxCoordinates(cloud_projected);
+    //pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered(new pcl::PointCloud<pcl::PointXYZ>);
+    //StatisticalOutlierRemovalFilter(cloud, cloud_filtered);
     
-    // Using a matrix to transform a point cloud
-    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_transformed(new pcl::PointCloud<pcl::PointXYZ>());
+    //pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_projected(new pcl::PointCloud<pcl::PointXYZ>);
+    //ProjectPoints(cloud_segmented, cloud_projected, 0, 0, 1, 0);
 
-    // Center
-    //double x = -(max_pt.x + min_pt.x) / 2;
-    //double y = -(max_pt.y + min_pt.y) / 2;
 
-    double x = -min_pt.x;
-    double y = -min_pt.y;
-    MatrixTransform(cloud_projected, cloud_transformed, x, y, 0);
+
+    //pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_segmented(new pcl::PointCloud<pcl::PointXYZ>);
+    //PlaneSegmentation(cloud, cloud_segmented, 5);
+
+    //GetMinMaxCoordinates(cloud);
+    //pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_transformed(new pcl::PointCloud<pcl::PointXYZ>());
+    //double x = -min_pt.x;
+    //double y = -min_pt.y;
+    //MatrixTransform(cloud, cloud_transformed, x, y, 0);
+}
+
+void GocatorCV::Analysis::Algorithm(int type) {
     
-    GetMinMaxCoordinates(cloud_transformed);
+    
+    if (type == 1) {
+        // *****ANALISI IMMAGINI (BATTISTRADA 1-2)*****
+    
+        // Erase line with (-inf) value
+        //pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_correct(new pcl::PointCloud<pcl::PointXYZ>);
+        //CheckValidPoints(cloud, cloud_correct);
+
+        // Removing outliers using a StatisticalOutlierRemoval filter
+        pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered(new pcl::PointCloud<pcl::PointXYZ>);
+        StatisticalOutlierRemovalFilter(cloud, cloud_filtered);
+
+        // Plane model segmentation
+        pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_segmented(new pcl::PointCloud<pcl::PointXYZ>);
+        PlaneSegmentation(cloud_filtered, cloud_segmented, 5); // valore threshold (battistrada1: 1 - battistrada2: 5)
+
+        GetMinMaxCoordinates(cloud_segmented);
+
+        // Projecting points using a parametric model
+        pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_projected(new pcl::PointCloud<pcl::PointXYZ>);
+        ProjectPoints(cloud_segmented, cloud_projected, 0, 0, 1, 0);
+
+        GetMinMaxCoordinates(cloud_projected);
+
+        // Using a matrix to transform a point cloud
+        pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_transformed(new pcl::PointCloud<pcl::PointXYZ>());
+
+        // Center
+        //double x = -(max_pt.x + min_pt.x) / 2;
+        //double y = -(max_pt.y + min_pt.y) / 2;
+
+        double x = -min_pt.x;
+        double y = -min_pt.y;
+        MatrixTransform(cloud_projected, cloud_transformed, x, y, 0);
+
+        GetMinMaxCoordinates(cloud_transformed);
 
 
-    // INIT OPENCV
-    std::cout << "Image Width: " << (int)(max_pt.x * 10) << std::endl;
-    std::cout << "Image Height: " << (int)(max_pt.y * 10) << std::endl;
+        // INIT OPENCV
+        std::cout << "Image Width: " << (int)(max_pt.x * 10) << std::endl;
+        std::cout << "Image Height: " << (int)(max_pt.y * 10) << std::endl;
 
-    cv::Mat img = cv::Mat::zeros((int)(max_pt.y * 10) + 1, (int)(max_pt.x * 10) + 1, CV_8UC1);
+        cv::Mat img = cv::Mat::zeros((int)(max_pt.y * 10) + 1, (int)(max_pt.x * 10) + 1, CV_8UC1);
 
-    for (int x = 0; x < img.cols; x++) {
-        for (int y = 0; y < img.rows; y++) {
-            img.at<uchar>(y, x) = 0;
+        for (int x = 0; x < img.cols; x++) {
+            for (int y = 0; y < img.rows; y++) {
+                img.at<uchar>(y, x) = 0;
+            }
         }
-    }
 
-    std::cout << "Cloud size: " << (*cloud_transformed).size() << std::endl;
+        std::cout << "Cloud size: " << (*cloud_transformed).size() << std::endl;
 
-    for (int i = 0; i < (*cloud_transformed).size(); i++) {
-        //std::cout << (int)(transformed_cloud->points[i].x * 10) << std::endl;
-        //std::cout << (int)(transformed_cloud->points[i].y * 10) << std::endl;
-        //std::cout << i << std::endl;
-        img.at<uchar>((int)(cloud_transformed->points[i].y * 10), (int)(cloud_transformed->points[i].x * 10)) = 254; // from mm to µm
-    }
+        for (int i = 0; i < (*cloud_transformed).size(); i++) {
+            //std::cout << (int)(transformed_cloud->points[i].x * 10) << std::endl;
+            //std::cout << (int)(transformed_cloud->points[i].y * 10) << std::endl;
+            //std::cout << i << std::endl;
+            img.at<uchar>((int)(cloud_transformed->points[i].y * 10), (int)(cloud_transformed->points[i].x * 10)) = 254; // from mm to µm
+        }
 
-    cv::rotate(img, img, cv::ROTATE_90_CLOCKWISE);
-    cv::flip(img, img, 1);
+        cv::rotate(img, img, cv::ROTATE_90_CLOCKWISE);
+        cv::flip(img, img, 1);
 
-    cv::imwrite("Scan/" + datetime() + "_image.jpg", img);
+        cv::imwrite("Scan/" + datetime() + "_image.jpg", img);
 
-    // BLOB - Morphological Transformations - Closing
-    cv::Mat closing_Blob = MorphClosingBlob(img);
+        // BLOB - Morphological Transformations - Closing
+        cv::Mat closing_Blob = MorphClosingBlob(img);
 
-    // MACRO_BLOB - Morphological Transformations - Closing
-    cv::Mat closing_MacroBlob = MorphClosingMacroBlob(closing_Blob);
+        // MACRO_BLOB - Morphological Transformations - Closing
+        cv::Mat closing_MacroBlob = MorphClosingMacroBlob(closing_Blob);
 
-    // MACRO_BLOB - Contour Detection
-    std::vector<std::vector<cv::Point>> contours_MacroBlob = ContoursDetection(closing_MacroBlob);
+        // MACRO_BLOB - Contour Detection
+        std::vector<std::vector<cv::Point>> contours_MacroBlob = ContoursDetection(closing_MacroBlob);
 
-    // MACRO_BLOB - Distance, Area, Perimeter, Width and Height Measurements
-    DistanceBetweenMacroBlob(contours_MacroBlob);
-    ContoursMeasurements(contours_MacroBlob);
+        // MACRO_BLOB - Distance, Area, Perimeter, Width and Height Measurements
+        DistanceBetweenMacroBlob(contours_MacroBlob);
+        ContoursMeasurements(contours_MacroBlob);
 
-    // BLOB - Contour Detection
-    std::vector<std::vector<cv::Point>> contours_Blob = ContoursDetection(closing_Blob);
+        // BLOB - Contour Detection
+        std::vector<std::vector<cv::Point>> contours_Blob = ContoursDetection(closing_Blob);
 
-    if (contours_Blob.size() != contours_MacroBlob.size()) {
-        // BLOB - Distance, Area, Perimeter, Width and Height Measurements
-        ContoursMeasurements(contours_Blob);
+        if (contours_Blob.size() != contours_MacroBlob.size()) {
+            // BLOB - Distance, Area, Perimeter, Width and Height Measurements
+            ContoursMeasurements(contours_Blob);
 
-        // MACRO_BLOB - BLOB - Distance
-        DistanceBetweenBlob(contours_MacroBlob, contours_Blob);
-    }
-    */
+            // MACRO_BLOB - BLOB - Distance
+            DistanceBetweenBlob(contours_MacroBlob, contours_Blob);
+        }
+
+        // Visualising a point cloud
+        //Visualization(cloud);
+
+    } else {
+        // *****PER TUTTE LE LINEE (BATTISTRADA 3)*****
     
-
-    
-    // *****PER TUTTE LE LINEE (BATTISTRADA 3)*****
-    /**/
-    std::set<float> y_line;
-    for (int i = 0; i < cloud->size(); i++) {
-        y_line.insert(cloud->points[i].y);
-    }
-
-    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_final(new pcl::PointCloud<pcl::PointXYZ>());
-
-    std::vector<std::vector<double>> distance_for_line;
-    std::set<float>::iterator k;
-
-    for (k = y_line.begin(); k != y_line.end(); ++k) {
-        std::cout << "Linea y numero: " << *k << std::endl;
-
-        pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_line(new pcl::PointCloud<pcl::PointXYZ>());
-
+        std::set<float> y_line;
         for (int i = 0; i < cloud->size(); i++) {
-            if (cloud->points[i].y == *k) {
-                cloud_line->points.emplace_back(pcl::PointXYZ(cloud->points[i].x * 1, cloud->points[i].y * 0, cloud->points[i].z * 1));
-            }
+            y_line.insert(cloud->points[i].y);
         }
 
-        GocatorCV::PolynomialFunction line_original;
+        pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_final(new pcl::PointCloud<pcl::PointXYZ>());
 
-        for (int i = 0; i < cloud_line->size(); i++) {
-            line_original.x.push_back(cloud_line->points[i].x);
-            line_original.y.push_back(cloud_line->points[i].z);
-            line_original.i.push_back(i);
-        }
+        std::vector<std::vector<double>> distance_for_line;
+        std::set<float>::iterator k;
 
-        // Calcolo della funzione smussata
-        GocatorCV::PolynomialFunction line_smooth = GaussianFilter(line_original);
+        for (k = y_line.begin(); k != y_line.end(); ++k) {
+            std::cout << "Linea y numero: " << *k << std::endl;
 
-        // Calcolo tutti i minimi e i massimi della funziona smussata
-        GocatorCV::PolynomialFunction min_max_point_line_smooth = DifferenceQuotient(line_smooth);
+            pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_line(new pcl::PointCloud<pcl::PointXYZ>());
 
-        // Calcolo i massimi (da destra) della funzione originale
-        GocatorCV::PolynomialFunction max_point_line_original_right;
-
-        for (int i = 0; i < min_max_point_line_smooth.i.size(); i = i + 2) {
-            max_point_line_original_right.x.push_back(line_original.x[min_max_point_line_smooth.i[i]]);
-            max_point_line_original_right.y.push_back(line_original.y[min_max_point_line_smooth.i[i]]);
-            max_point_line_original_right.i.push_back(line_original.i[min_max_point_line_smooth.i[i]]);
-        }
-
-        // Calcolo i minimi della funzione originale
-        GocatorCV::PolynomialFunction min_point_line_original;
-
-        for (int i = 1; i < max_point_line_original_right.i.size(); i++) {
-            GocatorCV::PolynomialFunction line;
-
-            for (int j = 0; j < line_original.i.size(); j++) {
-                if (line_original.x[j] >= max_point_line_original_right.x[i] && line_original.x[j] <= max_point_line_original_right.x[i - 1]) {
-                    line.x.push_back(line_original.x[j]);
-                    line.y.push_back(line_original.y[j]);
-                    line.i.push_back(j);
+            for (int i = 0; i < cloud->size(); i++) {
+                if (cloud->points[i].y == *k) {
+                    cloud_line->points.emplace_back(pcl::PointXYZ(cloud->points[i].x * 1, cloud->points[i].y * 0, cloud->points[i].z * 1));
                 }
             }
 
-            std::vector<double>::iterator min = std::min_element(line.y.begin(), line.y.end());
-            int argminVal = std::distance(line.y.begin(), min);
+            GocatorCV::PolynomialFunction line_original;
 
-            min_point_line_original.x.push_back(line_original.x[line.i[argminVal]]);
-            min_point_line_original.y.push_back(line_original.y[line.i[argminVal]]);
-            min_point_line_original.i.push_back(line.i[argminVal]);
-        }
+            for (int i = 0; i < cloud_line->size(); i++) {
+                line_original.x.push_back(cloud_line->points[i].x);
+                line_original.y.push_back(cloud_line->points[i].z);
+                line_original.i.push_back(i);
+            }
 
-        // Calcolo i massimi (da sinistra) della funzione originale
-        GocatorCV::PolynomialFunction max_point_line_original_left;
+            // Calcolo della funzione smussata
+            GocatorCV::PolynomialFunction line_smooth = GaussianFilter(line_original);
 
-        for (int i = 1; i < max_point_line_original_right.i.size(); i++) {
-            GocatorCV::PolynomialFunction line_rotated;
-            double m = (max_point_line_original_right.y[i] - min_point_line_original.y[i - 1]) / (min_point_line_original.x[i - 1] - max_point_line_original_right.x[i]);
+            // Calcolo tutti i minimi e i massimi della funziona smussata
+            GocatorCV::PolynomialFunction min_max_point_line_smooth = DifferenceQuotient(line_smooth);
 
-            for (int j = 0; j < line_smooth.i.size(); j++) {
-                if (line_smooth.x[j] >= max_point_line_original_right.x[i] && line_smooth.x[j] <= min_point_line_original.x[i - 1]) {
-                    cv::Point2d p = RotatePoint(0, 0, m, cv::Point2d(line_smooth.x[j], line_smooth.y[j]));
-                    line_rotated.x.push_back(p.x);
-                    line_rotated.y.push_back(p.y);
-                    line_rotated.i.push_back(j);
+            // Calcolo i massimi (da destra) della funzione originale
+            GocatorCV::PolynomialFunction max_point_line_original_right;
+
+            for (int i = 0; i < min_max_point_line_smooth.i.size(); i = i + 2) {
+                max_point_line_original_right.x.push_back(line_original.x[min_max_point_line_smooth.i[i]]);
+                max_point_line_original_right.y.push_back(line_original.y[min_max_point_line_smooth.i[i]]);
+                max_point_line_original_right.i.push_back(line_original.i[min_max_point_line_smooth.i[i]]);
+            }
+
+            // Calcolo i minimi della funzione originale
+            GocatorCV::PolynomialFunction min_point_line_original;
+
+            for (int i = 1; i < max_point_line_original_right.i.size(); i++) {
+                GocatorCV::PolynomialFunction line;
+
+                for (int j = 0; j < line_original.i.size(); j++) {
+                    if (line_original.x[j] >= max_point_line_original_right.x[i] && line_original.x[j] <= max_point_line_original_right.x[i - 1]) {
+                        line.x.push_back(line_original.x[j]);
+                        line.y.push_back(line_original.y[j]);
+                        line.i.push_back(j);
+                    }
+                }
+
+                std::vector<double>::iterator min = std::min_element(line.y.begin(), line.y.end());
+                int argminVal = std::distance(line.y.begin(), min);
+
+                min_point_line_original.x.push_back(line_original.x[line.i[argminVal]]);
+                min_point_line_original.y.push_back(line_original.y[line.i[argminVal]]);
+                min_point_line_original.i.push_back(line.i[argminVal]);
+            }
+
+            // Calcolo i massimi (da sinistra) della funzione originale
+            GocatorCV::PolynomialFunction max_point_line_original_left;
+
+            for (int i = 1; i < max_point_line_original_right.i.size(); i++) {
+                GocatorCV::PolynomialFunction line_rotated;
+                double m = (max_point_line_original_right.y[i] - min_point_line_original.y[i - 1]) / (min_point_line_original.x[i - 1] - max_point_line_original_right.x[i]);
+
+                for (int j = 0; j < line_smooth.i.size(); j++) {
+                    if (line_smooth.x[j] >= max_point_line_original_right.x[i] && line_smooth.x[j] <= min_point_line_original.x[i - 1]) {
+                        cv::Point2d p = RotatePoint(0, 0, m, cv::Point2d(line_smooth.x[j], line_smooth.y[j]));
+                        line_rotated.x.push_back(p.x);
+                        line_rotated.y.push_back(p.y);
+                        line_rotated.i.push_back(j);
+                    }
+                }
+
+                std::vector<double>::iterator max = std::max_element(line_rotated.y.begin(), line_rotated.y.end());
+                int argmaxVal = std::distance(line_rotated.y.begin(), max);
+
+                max_point_line_original_left.x.push_back(line_original.x[line_rotated.i[argmaxVal]]);
+                max_point_line_original_left.y.push_back(line_original.y[line_rotated.i[argmaxVal]]);
+                max_point_line_original_left.i.push_back(line_rotated.i[argmaxVal]);
+            }
+
+            // Calcolo delle distanze tra la retta che congiunge due massimi adiacenti e il minimo corrispondente
+            GocatorCV::PolynomialFunction min_max_point_line_original;
+            GocatorCV::PolynomialFunction max_point_line_original;
+            std::vector<double> distance_line;
+
+            for (int i = 1; i < max_point_line_original_right.i.size(); i++) {
+                double d = DistancePointLine(min_point_line_original.x[i - 1], min_point_line_original.y[i - 1], max_point_line_original_right.x[i - 1], max_point_line_original_right.y[i - 1], max_point_line_original_left.x[i - 1], max_point_line_original_left.y[i - 1]);
+
+                if (d > 0.3) {
+                    min_max_point_line_original.x.push_back(max_point_line_original_right.x[i - 1]);
+                    min_max_point_line_original.y.push_back(max_point_line_original_right.y[i - 1]);
+                    min_max_point_line_original.i.push_back(max_point_line_original_right.i[i - 1]);
+                    min_max_point_line_original.x.push_back(min_point_line_original.x[i - 1]);
+                    min_max_point_line_original.y.push_back(min_point_line_original.y[i - 1]);
+                    min_max_point_line_original.i.push_back(min_point_line_original.i[i - 1]);
+                    min_max_point_line_original.x.push_back(max_point_line_original_left.x[i - 1]);
+                    min_max_point_line_original.y.push_back(max_point_line_original_left.y[i - 1]);
+                    min_max_point_line_original.i.push_back(max_point_line_original_left.i[i - 1]);
+                    distance_line.push_back(d);
+                    max_point_line_original.x.push_back(max_point_line_original_right.x[i - 1]);
+                    max_point_line_original.y.push_back(max_point_line_original_right.y[i - 1]);
+                    max_point_line_original.i.push_back(max_point_line_original_right.i[i - 1]);
+                    max_point_line_original.x.push_back(max_point_line_original_left.x[i - 1]);
+                    max_point_line_original.y.push_back(max_point_line_original_left.y[i - 1]);
+                    max_point_line_original.i.push_back(max_point_line_original_left.i[i - 1]);
+
+                    std::cout << "Distanza " << i << ": " << d << " mm" << std::endl;
                 }
             }
 
-            std::vector<double>::iterator max = std::max_element(line_rotated.y.begin(), line_rotated.y.end());
-            int argmaxVal = std::distance(line_rotated.y.begin(), max);
+            if (!distance_line.empty()) {
+                distance_for_line.push_back(distance_line);
+            }
 
-            max_point_line_original_left.x.push_back(line_original.x[line_rotated.i[argmaxVal]]);
-            max_point_line_original_left.y.push_back(line_original.y[line_rotated.i[argmaxVal]]);
-            max_point_line_original_left.i.push_back(line_rotated.i[argmaxVal]);
-        }
-
-        // Calcolo delle distanze tra la retta che congiunge due massimi adiacenti e il minimo corrispondente
-        GocatorCV::PolynomialFunction min_max_point_line_original;
-        GocatorCV::PolynomialFunction max_point_line_original;
-        std::vector<double> distance_line;
-
-        for (int i = 1; i < max_point_line_original_right.i.size(); i++) {
-            double d = DistancePointLine(min_point_line_original.x[i - 1], min_point_line_original.y[i - 1], max_point_line_original_right.x[i - 1], max_point_line_original_right.y[i - 1], max_point_line_original_left.x[i - 1], max_point_line_original_left.y[i - 1]);
-
-            if (d > 0.3) {
-                min_max_point_line_original.x.push_back(max_point_line_original_right.x[i - 1]);
-                min_max_point_line_original.y.push_back(max_point_line_original_right.y[i - 1]);
-                min_max_point_line_original.i.push_back(max_point_line_original_right.i[i - 1]);
-                min_max_point_line_original.x.push_back(min_point_line_original.x[i - 1]);
-                min_max_point_line_original.y.push_back(min_point_line_original.y[i - 1]);
-                min_max_point_line_original.i.push_back(min_point_line_original.i[i - 1]);
-                min_max_point_line_original.x.push_back(max_point_line_original_left.x[i - 1]);
-                min_max_point_line_original.y.push_back(max_point_line_original_left.y[i - 1]);
-                min_max_point_line_original.i.push_back(max_point_line_original_left.i[i - 1]);
-                distance_line.push_back(d);
-                max_point_line_original.x.push_back(max_point_line_original_right.x[i - 1]);
-                max_point_line_original.y.push_back(max_point_line_original_right.y[i - 1]);
-                max_point_line_original.i.push_back(max_point_line_original_right.i[i - 1]);
-                max_point_line_original.x.push_back(max_point_line_original_left.x[i - 1]);
-                max_point_line_original.y.push_back(max_point_line_original_left.y[i - 1]);
-                max_point_line_original.i.push_back(max_point_line_original_left.i[i - 1]);
-
-                std::cout << "Distanza " << i << ": " << d << " mm" << std::endl;
+            for (int i = 0; i < max_point_line_original.i.size(); i++) {
+                cloud_final->points.emplace_back(pcl::PointXYZ(max_point_line_original.x[i] * 1, *k * 1, max_point_line_original.y[i] * 1));
             }
         }
 
-        if (!distance_line.empty()) {
-            distance_for_line.push_back(distance_line);
+        // STATS
+        std::vector<double> distance_min, distance_max;
+
+        for (int i = 0; i < distance_for_line.size(); i++) {
+            double min = *std::min_element(distance_for_line[i].begin(), distance_for_line[i].end());
+            double max = *std::max_element(distance_for_line[i].begin(), distance_for_line[i].end());
+            double mean = std::accumulate(distance_for_line[i].begin(), distance_for_line[i].end(), 0.0) / distance_for_line[i].size();
+
+            std::cout << "Line: " << i << " - Distanza minima: " << min << " mm" << std::endl;
+            std::cout << "Line: " << i << " - Distanza massima: " << max << " mm" << std::endl;
+            std::cout << "Line: " << i << " - Distanza media: " << mean << " mm" << std::endl;
+
+            distance_min.push_back(min);
+            distance_max.push_back(max);
         }
 
-        for (int i = 0; i < max_point_line_original.i.size(); i++) {
-            cloud_final->points.emplace_back(pcl::PointXYZ(max_point_line_original.x[i] * 1, *k * 1, max_point_line_original.y[i] * 1));
-        }
-    }
+        double min_min = *std::min_element(distance_min.begin(), distance_min.end());
+        double max_min = *std::max_element(distance_min.begin(), distance_min.end());
+        double mean_min = std::accumulate(distance_min.begin(), distance_min.end(), 0.0) / distance_min.size();
+        std::cout << "Distanza minima totale tra le distanze minime per linea: " << min_min << " mm" << std::endl;
+        std::cout << "Distanza massima totale tra le distanze minime per linea: " << max_min << " mm" << std::endl;
+        std::cout << "Distanza media totale tra le distanze minime per linea: " << mean_min << " mm" << std::endl;
 
-    // STATS
-    std::vector<double> distance_min, distance_max;
+        double min_max = *std::min_element(distance_max.begin(), distance_max.end());
+        double max_max = *std::max_element(distance_max.begin(), distance_max.end());
+        double mean_max = std::accumulate(distance_max.begin(), distance_max.end(), 0.0) / distance_max.size();
+        std::cout << "Distanza minima totale tra le distanze massime per linea: " << min_max << " mm" << std::endl;
+        std::cout << "Distanza massima totale tra le distanze massime per linea: " << max_max << " mm" << std::endl;
+        std::cout << "Distanza media totale tra le distanze massime per linea: " << mean_max << " mm" << std::endl;
 
-    for (int i = 0; i < distance_for_line.size(); i++) {
-        double min = *std::min_element(distance_for_line[i].begin(), distance_for_line[i].end());
-        double max = *std::max_element(distance_for_line[i].begin(), distance_for_line[i].end());
-        double mean = std::accumulate(distance_for_line[i].begin(), distance_for_line[i].end(), 0.0) / distance_for_line[i].size();
+        // GET IMAGE FROM XY PLANE
+        cloud_final->height = 1;
+        cloud_final->width = cloud_final->size();
+        cloud_final->resize(cloud_final->size());
+        SavePCD(cloud_final, "Scan/" + datetime() + "_cloud_final.pcd");
 
-        std::cout << "Line: " << i << " - Distanza minima: " << min << " mm" << std::endl;
-        std::cout << "Line: " << i << " - Distanza massima: " << max << " mm" << std::endl;
-        std::cout << "Line: " << i << " - Distanza media: " << mean << " mm" << std::endl;
+        GetMinMaxCoordinates(cloud_final);
+        Sleep(1000);
         
-        distance_min.push_back(min);
-        distance_max.push_back(max);
-    }
+        // Projecting points using a parametric model
+        pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_projected(new pcl::PointCloud<pcl::PointXYZ>);
+        ProjectPoints(cloud_final, cloud_projected, 0, 0, 1, 0);
+        /*
+        GetMinMaxCoordinates(cloud_projected);
+        Sleep(1000);
 
-    double min_min = *std::min_element(distance_min.begin(), distance_min.end());
-    double max_min = *std::max_element(distance_min.begin(), distance_min.end());
-    double mean_min = std::accumulate(distance_min.begin(), distance_min.end(), 0.0) / distance_min.size();
-    std::cout << "Distanza minima totale tra le distanze minime per linea: " << min_min << " mm" << std::endl;
-    std::cout << "Distanza massima totale tra le distanze minime per linea: " << max_min << " mm" << std::endl;
-    std::cout << "Distanza media totale tra le distanze minime per linea: " << mean_min << " mm" << std::endl;
-    
-    double min_max = *std::min_element(distance_max.begin(), distance_max.end());
-    double max_max = *std::max_element(distance_max.begin(), distance_max.end());
-    double mean_max = std::accumulate(distance_max.begin(), distance_max.end(), 0.0) / distance_max.size();
-    std::cout << "Distanza minima totale tra le distanze massime per linea: " << min_max << " mm" << std::endl;
-    std::cout << "Distanza massima totale tra le distanze massime per linea: " << max_max << " mm" << std::endl;
-    std::cout << "Distanza media totale tra le distanze massime per linea: " << mean_max << " mm" << std::endl;
+        // Using a matrix to transform a point cloud
+        pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_transformed(new pcl::PointCloud<pcl::PointXYZ>());
 
-    // GET IMAGE FROM XY PLANE
-    cloud_final->height = 1;
-    cloud_final->width = cloud_final->size();
-    cloud_final->resize(cloud_final->size());
-    SavePCD(cloud_final, "Scan/" + datetime() + "_cloud_final.pcd");
-    
-    GetMinMaxCoordinates(cloud_final);
-    Sleep(1000);
-    
-    // Projecting points using a parametric model
-    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_projected(new pcl::PointCloud<pcl::PointXYZ>);
-    ProjectPoints(cloud_final, cloud_projected, 0, 0, 1, 0);
-    
-    GetMinMaxCoordinates(cloud_projected);
-    Sleep(1000);
-    
-    // Using a matrix to transform a point cloud
-    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_transformed(new pcl::PointCloud<pcl::PointXYZ>());
+        double x = -min_pt.x;
+        double y = -min_pt.y;
+        MatrixTransform(cloud_projected, cloud_transformed, x, y, 0);
 
-    double x = -min_pt.x;
-    double y = -min_pt.y;
-    MatrixTransform(cloud_projected, cloud_transformed, x, y, 0);
+        GetMinMaxCoordinates(cloud_transformed);
+        Sleep(1000);
 
-    GetMinMaxCoordinates(cloud_transformed);
-    Sleep(1000);
+        double multiplier = 10; // from mm to µm
 
-    double multiplier = 10; // from mm to µm
+        std::cout << "Image Width: " << (int)(max_pt.x * multiplier) << std::endl;
+        std::cout << "Image Height: " << (int)(max_pt.y * multiplier) << std::endl;
 
-    std::cout << "Image Width: " << (int)(max_pt.x * multiplier) << std::endl;
-    std::cout << "Image Height: " << (int)(max_pt.y * multiplier) << std::endl;
+        cv::Mat img = cv::Mat::zeros((int)(max_pt.y * multiplier) + 1, (int)(max_pt.x * multiplier) + 1, CV_8UC1);
 
-    cv::Mat img = cv::Mat::zeros((int)(max_pt.y * multiplier) + 1, (int)(max_pt.x * multiplier) + 1, CV_8UC1);
-
-    for (int x = 0; x < img.cols; x++) {
-        for (int y = 0; y < img.rows; y++) {
-            img.at<uchar>(y, x) = 0;
+        for (int x = 0; x < img.cols; x++) {
+            for (int y = 0; y < img.rows; y++) {
+                img.at<uchar>(y, x) = 0;
+            }
         }
+
+        std::cout << "Cloud size: " << (*cloud_transformed).size() << std::endl;
+
+        for (int i = 0; i < (*cloud_transformed).size(); i++) {
+            img.at<uchar>((int)(cloud_transformed->points[i].y * multiplier), (int)(cloud_transformed->points[i].x * multiplier)) = 254;
+        }
+
+        cv::flip(img, img, 0);
+        cv::imwrite("Scan/" + datetime() + "_image.jpg", img);
+        */
+        // Visualising a point cloud
+        //Visualization(cloud_final);
     }
+}
 
-    std::cout << "Cloud size: " << (*cloud_transformed).size() << std::endl;
-
-    for (int i = 0; i < (*cloud_transformed).size(); i++) {
-        img.at<uchar>((int)(cloud_transformed->points[i].y * multiplier), (int)(cloud_transformed->points[i].x * multiplier)) = 254;
-    }
-
-    cv::flip(img, img, 0);
-    cv::imwrite("Scan/" + datetime() + "_image.jpg", img);
+void GocatorCV::Analysis::DebugAlgorithm2() {
+    // *****PER UNA LINEA (BATTISTRADA 3)*****
     
-
-
-
-    // *****PER UNA LINEA*****
-    /*
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_line(new pcl::PointCloud<pcl::PointXYZ>());
 
     for (int i = 0; i < cloud->size(); i++) {
@@ -413,7 +443,7 @@ void GocatorCV::Analysis::Algorithm() {
         max_point_line_original_left.x.push_back(line_original.x[line_rotated.i[argmaxVal]]);
         max_point_line_original_left.y.push_back(line_original.y[line_rotated.i[argmaxVal]]);
         max_point_line_original_left.i.push_back(line_rotated.i[argmaxVal]);
-        
+
         plt::named_plot("line_smooth", line_smooth.x, line_smooth.y);
         plt::plot({ line_smooth.x[line_rotated.i[argmaxVal]] }, { line_smooth.y[line_rotated.i[argmaxVal]] }, "x");
         plt::named_plot("line_rotated", line_rotated.x, line_rotated.y);
@@ -455,11 +485,6 @@ void GocatorCV::Analysis::Algorithm() {
     plt::title("Calcolo delle distanze tra la retta che congiunge due massimi adiacenti e il minimo corrispondente");
     plt::legend();
     plt::show();
-    */
-
-
-    // Visualising a point cloud
-    //Visualization(cloud_final);
 }
 
 void GocatorCV::Analysis::CheckValidPoints(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_correct) {
@@ -622,7 +647,7 @@ void GocatorCV::Analysis::Visualization(pcl::PointCloud<pcl::PointXYZ>::Ptr clou
     while (!viewer->wasStopped()) {
         viewer->spinOnce(100);
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    }
+    } 
 }
 
 std::string GocatorCV::Analysis::datetime() {
