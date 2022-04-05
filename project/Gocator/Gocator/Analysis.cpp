@@ -100,7 +100,7 @@ void GocatorCV::Analysis::Algorithm() {
 
     
     // *****PER TUTTE LE LINEE (BATTISTRADA 3)*****
-    /*
+    /**/
     std::set<float> y_line;
     for (int i = 0; i < cloud->size(); i++) {
         y_line.insert(cloud->points[i].y);
@@ -286,10 +286,12 @@ void GocatorCV::Analysis::Algorithm() {
     GetMinMaxCoordinates(cloud_transformed);
     Sleep(1000);
 
-    std::cout << "Image Width: " << (int)(max_pt.x * 10) << std::endl;
-    std::cout << "Image Height: " << (int)(max_pt.y * 10) << std::endl;
+    double multiplier = 10; // from mm to µm
 
-    cv::Mat img = cv::Mat::zeros((int)(max_pt.y * 10) + 1, (int)(max_pt.x * 10) + 1, CV_8UC1);
+    std::cout << "Image Width: " << (int)(max_pt.x * multiplier) << std::endl;
+    std::cout << "Image Height: " << (int)(max_pt.y * multiplier) << std::endl;
+
+    cv::Mat img = cv::Mat::zeros((int)(max_pt.y * multiplier) + 1, (int)(max_pt.x * multiplier) + 1, CV_8UC1);
 
     for (int x = 0; x < img.cols; x++) {
         for (int y = 0; y < img.rows; y++) {
@@ -300,17 +302,17 @@ void GocatorCV::Analysis::Algorithm() {
     std::cout << "Cloud size: " << (*cloud_transformed).size() << std::endl;
 
     for (int i = 0; i < (*cloud_transformed).size(); i++) {
-        img.at<uchar>((int)(cloud_transformed->points[i].y * 10), (int)(cloud_transformed->points[i].x * 10)) = 254; // from mm to µm
+        img.at<uchar>((int)(cloud_transformed->points[i].y * multiplier), (int)(cloud_transformed->points[i].x * multiplier)) = 254;
     }
 
     cv::flip(img, img, 0);
     cv::imwrite("Scan/" + datetime() + "_image.jpg", img);
-    */
+    
 
 
 
     // *****PER UNA LINEA*****
-    /**/
+    /*
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_line(new pcl::PointCloud<pcl::PointXYZ>());
 
     for (int i = 0; i < cloud->size(); i++) {
@@ -453,7 +455,7 @@ void GocatorCV::Analysis::Algorithm() {
     plt::title("Calcolo delle distanze tra la retta che congiunge due massimi adiacenti e il minimo corrispondente");
     plt::legend();
     plt::show();
-    
+    */
 
 
     // Visualising a point cloud

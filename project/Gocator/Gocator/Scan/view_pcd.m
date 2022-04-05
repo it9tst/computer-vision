@@ -2,7 +2,8 @@
 %pcshow(ptCloud);
 
 folder = 'scan10\';
-current_folder = strcat('C:\Users\Gabriele\Documents\GitHub\computer-vision\project\Gocator\Gocator\Scan\', folder);
+%current_folder = strcat('C:\Users\Gabriele\Documents\GitHub\computer-vision\project\Gocator\Gocator\Scan\', folder);
+current_folder = strcat('D:\Projects\GitHub-Projects\computer-vision\project\Gocator\Gocator\Scan\', folder);
 
 files = dir(strcat(folder, '*.pcd'));
 
