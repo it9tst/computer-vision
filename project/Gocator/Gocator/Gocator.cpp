@@ -306,7 +306,7 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr GocatorCV::Gocator::Grab() {
 		//cloud->width = cloud->size();
 		//cloud->resize(cloud->size());
 
-		//cv::imwrite("Scan/image_prova_" + datetime() + ".jpg", img);
+		//cv::imwrite("../../Scan/image_prova_" + datetime() + ".jpg", img);
 		
 		std::cout << "******** End of GoSystem_ReceiveData ********" << std::endl << std::endl;
 		return cloud;

@@ -9,29 +9,6 @@ void GocatorCV::Analysis::LoadPointCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr clo
     this->cloud = cloud;
 }
 
-void GocatorCV::Analysis::Prova() {
-    
-    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_correct(new pcl::PointCloud<pcl::PointXYZ>);
-    CheckValidPoints(cloud, cloud_correct);
-    
-    //pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered(new pcl::PointCloud<pcl::PointXYZ>);
-    //StatisticalOutlierRemovalFilter(cloud, cloud_filtered);
-    
-    //pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_projected(new pcl::PointCloud<pcl::PointXYZ>);
-    //ProjectPoints(cloud_segmented, cloud_projected, 0, 0, 1, 0);
-
-
-
-    //pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_segmented(new pcl::PointCloud<pcl::PointXYZ>);
-    //PlaneSegmentation(cloud, cloud_segmented, 5);
-
-    //GetMinMaxCoordinates(cloud);
-    //pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_transformed(new pcl::PointCloud<pcl::PointXYZ>());
-    //double x = -min_pt.x;
-    //double y = -min_pt.y;
-    //MatrixTransform(cloud, cloud_transformed, x, y, 0);
-}
-
 void GocatorCV::Analysis::Algorithm(int type) {
     
     
@@ -96,7 +73,7 @@ void GocatorCV::Analysis::Algorithm(int type) {
         cv::rotate(img, img, cv::ROTATE_90_CLOCKWISE);
         cv::flip(img, img, 1);
 
-        cv::imwrite("Scan/" + datetime() + "_image.jpg", img);
+        cv::imwrite("../../Scan/" + datetime() + "_image.jpg", img);
 
         // BLOB - Morphological Transformations - Closing
         cv::Mat closing_Blob = MorphClosingBlob(img);
@@ -291,7 +268,7 @@ void GocatorCV::Analysis::Algorithm(int type) {
         cloud_final->height = 1;
         cloud_final->width = cloud_final->size();
         cloud_final->resize(cloud_final->size());
-        SavePCD(cloud_final, "Scan/" + datetime() + "_cloud_final.pcd");
+        SavePCD(cloud_final, "../../Scan/" + datetime() + "_cloud_final.pcd");
 
         GetMinMaxCoordinates(cloud_final);
         Sleep(1000);
@@ -299,7 +276,7 @@ void GocatorCV::Analysis::Algorithm(int type) {
         // Projecting points using a parametric model
         pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_projected(new pcl::PointCloud<pcl::PointXYZ>);
         ProjectPoints(cloud_final, cloud_projected, 0, 0, 1, 0);
-        /*
+        
         GetMinMaxCoordinates(cloud_projected);
         Sleep(1000);
 
@@ -333,8 +310,8 @@ void GocatorCV::Analysis::Algorithm(int type) {
         }
 
         cv::flip(img, img, 0);
-        cv::imwrite("Scan/" + datetime() + "_image.jpg", img);
-        */
+        cv::imwrite("../../Scan/" + datetime() + "_image.jpg", img);
+        
         // Visualising a point cloud
         //Visualization(cloud_final);
     }
@@ -524,11 +501,11 @@ void GocatorCV::Analysis::StatisticalOutlierRemovalFilter(pcl::PointCloud<pcl::P
     std::cerr << *cloud_filtered << std::endl;
 
     PCL_INFO("Saving statistical outlier removal filter in input cloud to *.pcd\n\n");
-    SavePCD(cloud_filtered, "Scan/" + datetime() + "_Statistical_Outlier_Removal_Filter.pcd");
+    SavePCD(cloud_filtered, "../../Scan/" + datetime() + "_Statistical_Outlier_Removal_Filter.pcd");
 /*
     sor.setNegative(true);
     sor.filter(*cloud_filtered);
-    SavePCD(cloud_filtered, "Scan/table_scene_lms400_outliers.pcd");
+    SavePCD(cloud_filtered, "../../Scan/table_scene_lms400_outliers.pcd");
 */
 }
 
@@ -559,7 +536,7 @@ void GocatorCV::Analysis::PlaneSegmentation(pcl::PointCloud<pcl::PointXYZ>::Ptr 
         PCL_ERROR("Could not estimate a planar model for the given dataset.\n\n");
     } else {
         PCL_INFO("Saving dominant plane in input cloud to *.pcd\n\n");
-        SavePCD(cloud_segmented, "Scan/" + datetime() + "_Plane_Segmentation.pcd");
+        SavePCD(cloud_segmented, "../../Scan/" + datetime() + "_Plane_Segmentation.pcd");
     }
 /*
     // Remove inliers from input and repeat for 2nd dominant plane
@@ -578,7 +555,7 @@ void GocatorCV::Analysis::PlaneSegmentation(pcl::PointCloud<pcl::PointXYZ>::Ptr 
         PCL_ERROR("Could not estimate a planar model for the given dataset.");
     } else {
         PCL_INFO("Saving dominant plane in outliers to: table_scene_lms400_second_plane.pcd\n\n");
-        SavePCD(outliersSegmented, "Scan/table_scene_lms400_second_plane.pcd");
+        SavePCD(outliersSegmented, "../../Scan/table_scene_lms400_second_plane.pcd");
     }
 */
 }
@@ -600,7 +577,7 @@ void GocatorCV::Analysis::ProjectPoints(pcl::PointCloud<pcl::PointXYZ>::Ptr clou
     proj.filter(*cloud_projected);
 
     PCL_INFO("Saving project points in input cloud to *.pcd\n\n");
-    SavePCD(cloud_projected, "Scan/" + datetime() + "_Project_Points.pcd");
+    SavePCD(cloud_projected, "../../Scan/" + datetime() + "_Project_Points.pcd");
 }
 
 void GocatorCV::Analysis::MatrixTransform(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_transformed, double x, double y, double z) {
@@ -612,7 +589,7 @@ void GocatorCV::Analysis::MatrixTransform(pcl::PointCloud<pcl::PointXYZ>::Ptr cl
     pcl::transformPointCloud(*cloud, *cloud_transformed, transform);
 
     PCL_INFO("Saving matrix transformation in input cloud to *.pcd\n\n");
-    SavePCD(cloud_transformed, "Scan/" + datetime() + "_Matrix_Transformation.pcd");
+    SavePCD(cloud_transformed, "../../Scan/" + datetime() + "_Matrix_Transformation.pcd");
 }
 
 void GocatorCV::Analysis::GetMinMaxCoordinates(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud) {
@@ -750,7 +727,7 @@ std::vector<std::vector<cv::Point>> GocatorCV::Analysis::ContoursDetection(cv::M
         cv::putText(drawing, std::to_string(i), cv::Point(boundRect[i].x + (boundRect[i].width / 2) , boundRect[i].y + (boundRect[i].height / 2)), cv::FONT_HERSHEY_SIMPLEX, 0.9, cv::Scalar(0, 255, 0), 2, false);
     }
 
-    cv::imwrite("Scan/" + datetime() + "_drawing.jpg", drawing);
+    cv::imwrite("../../Scan/" + datetime() + "_drawing.jpg", drawing);
     /*
     cv::resize(drawing, drawing, cv::Size(drawing.cols / 2, drawing.rows / 2));
     cv::imshow("Output image", drawing);

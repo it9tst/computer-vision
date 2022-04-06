@@ -1,3 +1,13 @@
 labs
-project/library
-project/Gocator/Gocator/Scan/images
+
+# Ignore library
+project/Library/GO_SDK/*
+!project/Library/GO_SDK/README.md
+project/Library/opencv-4.5.4/*
+!project/Library/opencv-4.5.4/README.md
+project/Library/OpenNI2/*
+!project/Library/OpenNI2/README.md
+project/Library/PCL 1.12.1/*
+!project/Library/PCL 1.12.1/README.md
+project/Library/Python38/*
+!project/Library/Python38/README.md

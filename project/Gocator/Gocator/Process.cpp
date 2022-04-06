@@ -43,7 +43,7 @@ void GocatorCV::Process::SaveAcquisition(){
 
 			std::cout << "SAVE - save value: " << count << std::endl;
 
-			pcl::io::savePCDFileASCII("Scan/Point_Cloud_Gocator_" + datetime() + "_" + std::to_string(count) + ".pcd", *_p_cloud_save);
+			pcl::io::savePCDFileASCII("../../Scan/Point_Cloud_Gocator_" + datetime() + "_" + std::to_string(count) + ".pcd", *_p_cloud_save);
 			//pcl::io::savePLYFileASCII("Point_Cloud_Gocator_" + datetime() + "_" + std::to_string(count) + ".ply", *_p_cloud_save);
 			count++;
 		}
