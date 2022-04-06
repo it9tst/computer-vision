@@ -1,5 +1,10 @@
 #pragma once
 
+#define DECLSPEC __declspec(dllexport)
+
+#ifndef ERROR_H
+#define ERROR_H
+
 //std c/c++
 #include <iostream>
 #include <string>
@@ -34,9 +39,12 @@ namespace GocatorCV {
 
     public:
         Error();
+        ~Error();
         Error(ErrorType type, kStatus status);
         ErrorType GetCode();
         std::string GocatorCode(kStatus status);
         void DisplayMessage();
     };
 }
+
+#endif

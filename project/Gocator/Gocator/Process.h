@@ -1,5 +1,10 @@
 #pragma once
 
+#define DECLSPEC __declspec(dllexport)
+
+#ifndef PROCESS_H
+#define PROCESS_H
+
 //std c/c++
 #include <thread>
 #include <mutex>
@@ -11,7 +16,7 @@
 
 namespace GocatorCV {
 
-	class Process {
+	class DECLSPEC Process {
 
 	private:
 		GocatorCV::Gocator *gocator;
@@ -27,6 +32,7 @@ namespace GocatorCV {
 
 	public:
 		Process();
+		~Process();
 		void StartAcquisition(GocatorCV::Gocator *gocator);
 		void StopAcquisition();
 		void SaveAcquisition();
@@ -34,3 +40,5 @@ namespace GocatorCV {
 		void Visualization(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
 	};
 }
+
+#endif

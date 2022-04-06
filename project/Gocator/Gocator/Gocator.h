@@ -1,6 +1,9 @@
 #pragma once
 
-#include "Error.h"
+#define DECLSPEC __declspec(dllexport)
+
+#ifndef GOCATOR_H
+#define GOCATOR_H
 
 //std c/c++
 #include <iostream>
@@ -17,6 +20,8 @@
 //OpenCV
 #include <opencv2/opencv.hpp>
 
+#include "Error.h"
+
 namespace GocatorCV {
 
     enum ParameterType {
@@ -24,7 +29,7 @@ namespace GocatorCV {
         EXPOSURE
     };
 
-    class Gocator {
+    class DECLSPEC Gocator {
 
         //constants
         #define RECEIVE_TIMEOUT			30000000
@@ -50,6 +55,7 @@ namespace GocatorCV {
 
     public:
         Gocator();
+        ~Gocator();
         Error Init();
         Error Start();
         Error Stop();
@@ -57,3 +63,5 @@ namespace GocatorCV {
         pcl::PointCloud<pcl::PointXYZ>::Ptr Grab();
     };
 }
+
+#endif

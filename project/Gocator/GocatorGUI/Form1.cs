@@ -29,7 +29,7 @@ namespace GocatorGUI
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -63,6 +63,16 @@ namespace GocatorGUI
         }
 
         private void button1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonStartSensor_Click_1(object sender, EventArgs e)
+        {
+            Console.WriteLine("Standard Numeric Format Specifiers");
+        }
+
+        private void buttonStopSensor_Click(object sender, EventArgs e)
         {
 
         }
