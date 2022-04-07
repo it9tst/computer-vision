@@ -40,6 +40,7 @@ namespace GocatorGUI
             this.buttonStopAcquisition = new System.Windows.Forms.Button();
             this.buttonStartAcquisition = new System.Windows.Forms.Button();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.textBoxOutput = new System.Windows.Forms.TextBox();
             this.Config = new System.Windows.Forms.TabPage();
             this.label5 = new System.Windows.Forms.Label();
             this.labelConnectExposure = new System.Windows.Forms.Label();
@@ -56,7 +57,10 @@ namespace GocatorGUI
             this.panel3 = new System.Windows.Forms.Panel();
             this.buttonStopSensor = new System.Windows.Forms.Button();
             this.buttonStartSensor = new System.Windows.Forms.Button();
-            this.textBoxOutput = new System.Windows.Forms.TextBox();
+            this.buttonLoadPCL = new System.Windows.Forms.Button();
+            this.buttonAnalysisOffline = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -202,9 +206,26 @@ namespace GocatorGUI
             this.panel4.Size = new System.Drawing.Size(486, 398);
             this.panel4.TabIndex = 0;
             // 
+            // textBoxOutput
+            // 
+            this.textBoxOutput.BackColor = System.Drawing.Color.Gainsboro;
+            this.textBoxOutput.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxOutput.ForeColor = System.Drawing.Color.Black;
+            this.textBoxOutput.Location = new System.Drawing.Point(0, 0);
+            this.textBoxOutput.Multiline = true;
+            this.textBoxOutput.Name = "textBoxOutput";
+            this.textBoxOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBoxOutput.Size = new System.Drawing.Size(486, 398);
+            this.textBoxOutput.TabIndex = 0;
+            this.textBoxOutput.Text = resources.GetString("textBoxOutput.Text");
+            this.textBoxOutput.TextChanged += new System.EventHandler(this.textBoxOutput_TextChanged);
+            // 
             // Config
             // 
             this.Config.BackColor = System.Drawing.Color.White;
+            this.Config.Controls.Add(this.label6);
+            this.Config.Controls.Add(this.buttonAnalysisOffline);
+            this.Config.Controls.Add(this.buttonLoadPCL);
             this.Config.Controls.Add(this.label5);
             this.Config.Controls.Add(this.labelConnectExposure);
             this.Config.Controls.Add(this.radioButtonType1);
@@ -405,21 +426,48 @@ namespace GocatorGUI
             this.buttonStartSensor.UseVisualStyleBackColor = true;
             this.buttonStartSensor.Click += new System.EventHandler(this.buttonStartSensor_Click);
             // 
-            // textBoxOutput
+            // buttonLoadPCL
             // 
-            this.textBoxOutput.BackColor = System.Drawing.Color.Gainsboro;
-            this.textBoxOutput.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxOutput.ForeColor = System.Drawing.Color.Black;
-            this.textBoxOutput.Location = new System.Drawing.Point(0, 0);
-            this.textBoxOutput.Multiline = true;
-            this.textBoxOutput.Name = "textBoxOutput";
-            this.textBoxOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxOutput.Size = new System.Drawing.Size(486, 398);
-            this.textBoxOutput.TabIndex = 0;
-            this.textBoxOutput.Text = resources.GetString("textBoxOutput.Text");
-            this.textBoxOutput.TextChanged += new System.EventHandler(this.textBoxOutput_TextChanged);
+            this.buttonLoadPCL.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonLoadPCL.Font = new System.Drawing.Font("Roboto", 9F);
+            this.buttonLoadPCL.Location = new System.Drawing.Point(10, 300);
+            this.buttonLoadPCL.Name = "buttonLoadPCL";
+            this.buttonLoadPCL.Size = new System.Drawing.Size(75, 19);
+            this.buttonLoadPCL.TabIndex = 12;
+            this.buttonLoadPCL.Text = "LOAD PCL";
+            this.buttonLoadPCL.UseVisualStyleBackColor = true;
+            this.buttonLoadPCL.Click += new System.EventHandler(this.button1_Click);
             // 
-            // Form1
+            // buttonAnalysisOffline
+            // 
+            this.buttonAnalysisOffline.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonAnalysisOffline.Font = new System.Drawing.Font("Roboto", 9F);
+            this.buttonAnalysisOffline.Location = new System.Drawing.Point(91, 300);
+            this.buttonAnalysisOffline.Name = "buttonAnalysisOffline";
+            this.buttonAnalysisOffline.Size = new System.Drawing.Size(75, 19);
+            this.buttonAnalysisOffline.TabIndex = 13;
+            this.buttonAnalysisOffline.Text = "ANALYSIS";
+            this.buttonAnalysisOffline.UseVisualStyleBackColor = true;
+            this.buttonAnalysisOffline.Click += new System.EventHandler(this.buttonAnalysisOffline_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Roboto", 9F);
+            this.label6.Location = new System.Drawing.Point(10, 280);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(93, 14);
+            this.label6.TabIndex = 14;
+            this.label6.Text = "Offline Analysis:";
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
+            // 
+            // GocatorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -428,7 +476,7 @@ namespace GocatorGUI
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.MinimumSize = new System.Drawing.Size(800, 630);
-            this.Name = "Form1";
+            this.Name = "GocatorForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
             this.panel1.ResumeLayout(false);
@@ -478,6 +526,10 @@ namespace GocatorGUI
         private System.Windows.Forms.TabPage Config;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TextBox textBoxOutput;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button buttonAnalysisOffline;
+        private System.Windows.Forms.Button buttonLoadPCL;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }
 

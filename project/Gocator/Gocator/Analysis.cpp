@@ -263,7 +263,7 @@ void GocatorCV::Analysis::Algorithm(int type) {
         std::cout << "Distanza minima totale tra le distanze massime per linea: " << min_max << " mm" << std::endl;
         std::cout << "Distanza massima totale tra le distanze massime per linea: " << max_max << " mm" << std::endl;
         std::cout << "Distanza media totale tra le distanze massime per linea: " << mean_max << " mm" << std::endl;
-
+        /*
         // GET IMAGE FROM XY PLANE
         cloud_final->height = 1;
         cloud_final->width = cloud_final->size();
@@ -311,7 +311,7 @@ void GocatorCV::Analysis::Algorithm(int type) {
 
         cv::flip(img, img, 0);
         cv::imwrite("../../Scan/" + datetime() + "_image.jpg", img);
-        
+        */
         // Visualising a point cloud
         //Visualization(cloud_final);
     }

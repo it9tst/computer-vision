@@ -134,7 +134,7 @@
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y /d "$(SolutionDir)$(Platform)\$(Configuration)\Gocator.dll" "../GocatorGUI/bin/Debug/$(Configuration)"</Command>
+      <Command>xcopy /y /d "$(SolutionDir)$(Platform)\$(Configuration)\Gocator.dll" "../GocatorGUI/bin/$(Configuration)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -156,9 +156,10 @@
   <ItemGroup>
     <ClCompile Include="Error.cpp" />
     <ClCompile Include="Gocator.cpp" />
+    <ClCompile Include="GocatorManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Analysis.cpp" />
-    <ClCompile Include="Wrapper.cpp" />
+    <ClCompile Include="GocatorWrapper.cpp" />
     <ClCompile Include="Process.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </CompileAsManaged>
@@ -168,6 +169,7 @@
     <ClInclude Include="Error.h" />
     <ClInclude Include="Gocator.h" />
     <ClInclude Include="Analysis.h" />
+    <ClInclude Include="GocatorManager.h" />
     <ClInclude Include="Process.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

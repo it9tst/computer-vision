@@ -1,10 +1,5 @@
 #pragma once
 
-#define DECLSPEC __declspec(dllexport)
-
-#ifndef GOCATOR_H
-#define GOCATOR_H
-
 //std c/c++
 #include <iostream>
 
@@ -29,7 +24,7 @@ namespace GocatorCV {
         EXPOSURE
     };
 
-    class DECLSPEC Gocator {
+    class Gocator {
 
         //constants
         #define RECEIVE_TIMEOUT			30000000
@@ -62,5 +57,3 @@ namespace GocatorCV {
         pcl::PointCloud<pcl::PointXYZ>::Ptr Grab();
     };
 }
-
-#endif

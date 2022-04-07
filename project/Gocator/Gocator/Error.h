@@ -1,10 +1,5 @@
 #pragma once
 
-#define DECLSPEC __declspec(dllexport)
-
-#ifndef ERROR_H
-#define ERROR_H
-
 //std c/c++
 #include <iostream>
 #include <string>
@@ -45,5 +40,3 @@ namespace GocatorCV {
         void DisplayMessage();
     };
 }
-
-#endif
