@@ -55,7 +55,6 @@ namespace GocatorCV {
 
     public:
         Gocator();
-        ~Gocator();
         Error Init();
         Error Start();
         Error Stop();

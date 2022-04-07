@@ -39,7 +39,6 @@ namespace GocatorCV {
 
     public:
         Error();
-        ~Error();
         Error(ErrorType type, kStatus status);
         ErrorType GetCode();
         std::string GocatorCode(kStatus status);

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GocatorGUI {
     public class CWrapper {
-
+        /*
         [DllImport("Gocator.dll")]
         private static extern IntPtr CreateGocator();
 
@@ -46,6 +46,6 @@ namespace GocatorGUI {
 
         public Error Gocator_SetParameter(ParameterType name, void* value) {
             return Gocator_SetParameter(_pointerclass, name, value);
-        }
+        }*/
     }
 }

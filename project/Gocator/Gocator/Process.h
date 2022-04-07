@@ -32,7 +32,6 @@ namespace GocatorCV {
 
 	public:
 		Process();
-		~Process();
 		void StartAcquisition(GocatorCV::Gocator *gocator);
 		void StopAcquisition();
 		void SaveAcquisition();
