@@ -36,6 +36,9 @@
     <ClCompile Include="GocatorManager.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
+    <ClCompile Include="Server.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Process.h">
@@ -51,6 +54,9 @@
       <Filter>File di intestazione</Filter>
     </ClInclude>
     <ClInclude Include="GocatorManager.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="Server.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
   </ItemGroup>

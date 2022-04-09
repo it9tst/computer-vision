@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Process.h"
+#include "Server.h"
 
 #define DECLSPEC __declspec(dllexport)
 
@@ -16,14 +17,17 @@ namespace GocatorCV {
 		GocatorCV::Process process;
 		GocatorCV::Analysis analysis;
 		GocatorCV::Error error;
-		const char* sensor_ip = "192.168.1.151";
+		GocatorCV::Server server;
 
 	public:
 		GocatorManager();
-		bool SetParameter();
+		bool ServerStart();
+		bool SetParameter(const char* param, int type);
 		bool Init();
 		bool LoadPointCloud(const char* strfilename);
-		bool OfflineAnalysis();
+		bool FileAnalysis(int type);
+		bool StartAcquisition(int type);
+		bool StopAcquisition();
 	};
 }
 

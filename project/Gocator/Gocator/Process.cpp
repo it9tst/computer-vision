@@ -4,9 +4,12 @@ GocatorCV::Process::Process() {
 	// constructor
 }
 
-void GocatorCV::Process::StartAcquisition(GocatorCV::Gocator *gocator) {
+void GocatorCV::Process::StartAcquisition(GocatorCV::Gocator *gocator, GocatorCV::Analysis *analysis, int type) {
 
 	this->gocator = gocator;
+	this->analysis = analysis;
+	this->type = type;
+
 	thread_saving_active = true;
 	
 	acquisition_thread = std::thread(&Process::StartGrab, this);
@@ -41,8 +44,10 @@ void GocatorCV::Process::SaveAcquisition(){
 			std::cout << "SAVE - size: " << buffer_save_data.size() << std::endl;
 			locker.unlock();
 
-			std::cout << "SAVE - save value: " << count << std::endl;
+			analysis->LoadPointCloud(_p_cloud_save);
+			analysis->Algorithm(type);
 
+			std::cout << "SAVE - save value: " << count << std::endl;
 			pcl::io::savePCDFileASCII("../../Scan/Point_Cloud_Gocator_" + datetime() + "_" + std::to_string(count) + ".pcd", *_p_cloud_save);
 			//pcl::io::savePLYFileASCII("Point_Cloud_Gocator_" + datetime() + "_" + std::to_string(count) + ".ply", *_p_cloud_save);
 			count++;
@@ -54,22 +59,18 @@ void GocatorCV::Process::StartGrab() {
 
 	std::unique_lock<std::mutex> locker(m_mutex, std::defer_lock);
 	pcl::PointCloud<pcl::PointXYZ>::Ptr _p_cloud;
-	int n_saved_image = 0;
 
 	while (thread_saving_active) {
-		if (n_saved_image < 10) {
-			_p_cloud = gocator->Grab();
+		_p_cloud = gocator->Grab();
 
-			locker.lock();
-			buffer_save_data.push_back(_p_cloud);
-			int s = buffer_save_data.size();
-			locker.unlock();
+		locker.lock();
+		buffer_save_data.push_back(_p_cloud);
+		int s = buffer_save_data.size();
+		locker.unlock();
 
-			std::cout << "GRAB - size: " << s << std::endl;
-			n_saved_image++;
+		std::cout << "GRAB - size: " << s << std::endl;
 
-			//thread_vector.emplace_back([&]() { Process::Visualization(_p_cloud); });
-		}
+		//thread_vector.emplace_back([&]() { Process::Visualization(_p_cloud); });
 	}
 }
 

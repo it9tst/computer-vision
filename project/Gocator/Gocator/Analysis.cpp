@@ -1,5 +1,4 @@
 #include "Analysis.h"
-#include <thread>
 
 GocatorCV::Analysis::Analysis() {
 	// constructor
@@ -10,7 +9,6 @@ void GocatorCV::Analysis::LoadPointCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr clo
 }
 
 void GocatorCV::Analysis::Algorithm(int type) {
-    
     
     if (type == 1) {
         // *****ANALISI IMMAGINI (BATTISTRADA 1-2)*****
@@ -263,6 +261,14 @@ void GocatorCV::Analysis::Algorithm(int type) {
         std::cout << "Distanza minima totale tra le distanze massime per linea: " << min_max << " mm" << std::endl;
         std::cout << "Distanza massima totale tra le distanze massime per linea: " << max_max << " mm" << std::endl;
         std::cout << "Distanza media totale tra le distanze massime per linea: " << mean_max << " mm" << std::endl;
+
+        std::vector<double> s;
+        s.push_back(min_min);
+        s.push_back(max_min);
+        s.push_back(mean_min);
+
+        GocatorCV::Server server;
+        server.Send(s);
         /*
         // GET IMAGE FROM XY PLANE
         cloud_final->height = 1;

@@ -7,8 +7,12 @@ extern "C" __declspec(dllexport) GocatorManager * CreateGocatorManager() {
 	return new GocatorManager();
 }
 
-extern "C" __declspec(dllexport) bool GocatorManager_SetParameter(GocatorManager * gocatormanager) {
-	return gocatormanager->SetParameter();
+extern "C" __declspec(dllexport) bool GocatorManager_ServerStart(GocatorManager * gocatormanager) {
+	return gocatormanager->ServerStart();
+}
+
+extern "C" __declspec(dllexport) bool GocatorManager_SetParameter(GocatorManager * gocatormanager, const char* param, int type) {
+	return gocatormanager->SetParameter(param, type);
 }
 
 extern "C" __declspec(dllexport) bool GocatorManager_Init(GocatorManager * gocatormanager) {
@@ -19,40 +23,14 @@ extern "C" __declspec(dllexport) bool GocatorManager_LoadPointCloud(GocatorManag
 	return gocatormanager->LoadPointCloud(strfilename);
 }
 
-extern "C" __declspec(dllexport) bool GocatorManager_OfflineAnalysis(GocatorManager * gocatormanager) {
-	return gocatormanager->OfflineAnalysis();
+extern "C" __declspec(dllexport) bool GocatorManager_FileAnalysis(GocatorManager * gocatormanager, int type) {
+	return gocatormanager->FileAnalysis(type);
 }
 
-
-
-
-
-
-
-/*
-extern "C" __declspec(dllexport) Error Gocator_Start(Gocator * gocator) {
-	return gocator->Start();
+extern "C" __declspec(dllexport) bool GocatorManager_StartAcquisition(GocatorManager * gocatormanager, int type) {
+	return gocatormanager->StartAcquisition(type);
 }
 
-extern "C" __declspec(dllexport) Error Gocator_Stop(Gocator * gocator) {
-	return gocator->Stop();
+extern "C" __declspec(dllexport) bool GocatorManager_StopAcquisition(GocatorManager * gocatormanager) {
+	return gocatormanager->StopAcquisition();
 }
-
-// Process
-extern "C" __declspec(dllexport) Process * CreateProcessC() {
-	return new Process();
-}
-
-extern "C" __declspec(dllexport) void Process_StartAcquisition(Process * process, Gocator *gocator) {
-	return process->StartAcquisition(gocator);
-}
-
-extern "C" __declspec(dllexport) void Process_StopAcquisition(Process * process) {
-	return process->StopAcquisition();
-}
-
-// Error
-extern "C" __declspec(dllexport) Error * CreateError() {
-	return new Error();
-}
-*/

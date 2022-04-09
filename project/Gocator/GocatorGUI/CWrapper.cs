@@ -7,12 +7,15 @@ using System.Threading.Tasks;
 
 namespace GocatorGUI {
     public class CWrapper {
-        
+
         [DllImport("Gocator.dll")]
         private static extern IntPtr CreateGocatorManager();
 
         [DllImport("Gocator.dll")]
-        private static extern bool GocatorManager_SetParameter(IntPtr class_pointer);
+        private static extern bool GocatorManager_ServerStart(IntPtr class_pointer);
+
+        [DllImport("Gocator.dll")]
+        private static extern bool GocatorManager_SetParameter(IntPtr class_pointer, string param, int type);
 
         [DllImport("Gocator.dll")]
         private static extern bool GocatorManager_Init(IntPtr class_pointer);
@@ -21,7 +24,13 @@ namespace GocatorGUI {
         private static extern bool GocatorManager_LoadPointCloud(IntPtr class_pointer, string strfilename);
 
         [DllImport("Gocator.dll")]
-        private static extern bool GocatorManager_OfflineAnalysis(IntPtr class_pointer);
+        private static extern bool GocatorManager_FileAnalysis(IntPtr class_pointer, int type);
+
+        [DllImport("Gocator.dll")]
+        private static extern bool GocatorManager_StartAcquisition(IntPtr class_pointer, int type);
+
+        [DllImport("Gocator.dll")]
+        private static extern bool GocatorManager_StopAcquisition(IntPtr class_pointer);
 
         private readonly IntPtr _pointerclass;
 
@@ -29,8 +38,12 @@ namespace GocatorGUI {
             _pointerclass = CreateGocatorManager();
         }
 
-        public bool GocatorManager_SetParameter() {
-            return GocatorManager_SetParameter(_pointerclass);
+        public bool GocatorManager_ServerStart() {
+            return GocatorManager_ServerStart(_pointerclass);
+        }
+
+        public bool GocatorManager_SetParameter(string param, int type) {
+            return GocatorManager_SetParameter(_pointerclass, param, type);
         }
 
         public bool GocatorManager_Init() {
@@ -41,30 +54,16 @@ namespace GocatorGUI {
             return GocatorManager_LoadPointCloud(_pointerclass, strfilename);
         }
 
-        public bool GocatorManager_OfflineAnalysis() {
-            return GocatorManager_OfflineAnalysis(_pointerclass);
+        public bool GocatorManager_FileAnalysis(int type) {
+            return GocatorManager_FileAnalysis(_pointerclass, type);
         }
 
-
-
-        /*
-        [DllImport("Gocator.dll")]
-        private static extern Error Gocator_Start(IntPtr class_pointer);
-
-        [DllImport("Gocator.dll")]
-        private static extern Error Gocator_Stop(IntPtr class_pointer);
-
-        
-
-        public Error Gocator_Start() {
-            return Gocator_Start(_pointerclass);
+        public bool GocatorManager_StartAcquisition(int type) {
+            return GocatorManager_StartAcquisition(_pointerclass, type);
         }
 
-        public Error Gocator_Stop() {
-            return Gocator_Stop(_pointerclass);
+        public bool GocatorManager_StopAcquisition() {
+            return GocatorManager_StopAcquisition(_pointerclass);
         }
-
-        
-        */
     }
 }

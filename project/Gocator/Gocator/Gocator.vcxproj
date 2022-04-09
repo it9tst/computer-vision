@@ -164,6 +164,7 @@
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </CompileAsManaged>
     </ClCompile>
+    <ClCompile Include="Server.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Error.h" />
@@ -171,6 +172,7 @@
     <ClInclude Include="Analysis.h" />
     <ClInclude Include="GocatorManager.h" />
     <ClInclude Include="Process.h" />
+    <ClInclude Include="Server.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

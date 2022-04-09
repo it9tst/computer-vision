@@ -39,6 +39,8 @@
 #include "matplotlibcpp.h"
 namespace plt = matplotlibcpp;
 
+#include "Server.h"
+
 
 namespace GocatorCV {
 

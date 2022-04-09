@@ -12,6 +12,7 @@ int main(int argc, char** argv) {
 
 	const char* sensor_ip = "192.168.1.151";
 	k64f exposure = 2000;
+	int type = 2;
 
 	GocatorCV::Gocator gocator;
 	GocatorCV::Process process;
@@ -38,7 +39,7 @@ int main(int argc, char** argv) {
 			error.DisplayMessage();
 		}
 
-		process.StartAcquisition(&gocator);
+		process.StartAcquisition(&gocator, &analysis, type);
 		Sleep(30000);
 		process.StopAcquisition();
 
@@ -56,7 +57,7 @@ int main(int argc, char** argv) {
 		std::cout << "Loaded " << cloud->width * cloud->height << " data points from *.pcd" << std::endl << std::endl;
 
 		analysis.LoadPointCloud(cloud);
-		analysis.Algorithm(2);
+		analysis.Algorithm(type);
 		//analysis.DebugAlgorithm2();
 	}
 

@@ -5,15 +5,34 @@ GocatorCV::GocatorManager::GocatorManager() {
 	GocatorCV::Process process;
 	GocatorCV::Analysis analysis;
 	GocatorCV::Error error;
+	GocatorCV::Server server;
 }
 
-bool GocatorCV::GocatorManager::SetParameter() {
+bool GocatorCV::GocatorManager::ServerStart() {
+	server.ServerStart();
+	return true;
+}
 
-	if ((error = gocator.SetParameter(GocatorCV::ParameterType::SENSOR_IP, (void*)sensor_ip)).GetCode() != GocatorCV::ErrorType::OK) {
-		error.DisplayMessage();
-		return false;
+bool GocatorCV::GocatorManager::SetParameter(const char* param, int type) {
+
+	if (type == 1) {
+
+		const char* sensor_ip = param;
+
+		if ((error = gocator.SetParameter(GocatorCV::ParameterType::SENSOR_IP, (void*)sensor_ip)).GetCode() != GocatorCV::ErrorType::OK) {
+			error.DisplayMessage();
+			return false;
+		}
+	} else if (type == 2) {
+
+		const char* exposure = param;
+
+		if ((error = gocator.SetParameter(GocatorCV::ParameterType::EXPOSURE, (void*)&exposure)).GetCode() != GocatorCV::ErrorType::OK) {
+			error.DisplayMessage();
+			return false;
+		}
 	}
-
+	
 	return true;
 }
 
@@ -41,9 +60,20 @@ bool GocatorCV::GocatorManager::LoadPointCloud(const char* strfilename) {
 	return true;
 }
 
-bool GocatorCV::GocatorManager::OfflineAnalysis() {
+bool GocatorCV::GocatorManager::FileAnalysis(int type) {
 
-	analysis.Algorithm(2);
+	analysis.Algorithm(type);
+	return true;
+}
 
+bool GocatorCV::GocatorManager::StartAcquisition(int type) {
+	
+	process.StartAcquisition(&gocator, &analysis, type);
+	return true;
+}
+
+bool GocatorCV::GocatorManager::StopAcquisition() {
+
+	process.StopAcquisition();
 	return true;
 }
