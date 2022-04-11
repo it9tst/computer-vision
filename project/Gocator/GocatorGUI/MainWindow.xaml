@@ -13,11 +13,10 @@
         WindowStartupLocation="CenterScreen"
         AllowsTransparency="True"
         Background="#FF333333">
-
-    <Window.DataContext>
-        <local:MainViewModel />
-    </Window.DataContext>
-
+    <Window.Resources>
+        <FontFamily x:Key="Medium" >/Assets/#Roboto Medium</FontFamily>
+        <FontFamily x:Key="Regular" >/Assets/#Roboto Regular</FontFamily>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
@@ -93,7 +92,7 @@
 
         <Grid Grid.Row="2"
               Grid.Column="0"
-              Background="#FF131313"
+              Background="#FF191919"
               Margin="10">
 
             <Grid.Resources>
@@ -178,33 +177,28 @@
                                         x:Name="PART_CoordinateView"
                                         Width="{TemplateBinding CoordinateSystemWidth}"
                                         Height="{TemplateBinding CoordinateSystemHeight}"
-                                        Margin="0"
+                                        Margin="10"
                                         HorizontalAlignment="{TemplateBinding CoordinateSystemHorizontalPosition}"
                                         VerticalAlignment="{TemplateBinding CoordinateSystemVerticalPosition}"
                                         ClipToBounds="False"
                                         IsHitTestVisible="False"
-                                        Visibility="{TemplateBinding ShowCoordinateSystem,
-                                                                     Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        Visibility="{TemplateBinding ShowCoordinateSystem, Converter={StaticResource NotNullToVisibilityConverter}}">
                                             <HelixToolkit:ArrowVisual3D Fill="#964B4B" Point2="8 0 0" />
                                             <HelixToolkit:ArrowVisual3D Fill="#4B964B" Point2="0 8 0" />
                                             <HelixToolkit:ArrowVisual3D Fill="#4B4B96" Point2="0 0 8" />
 
                                             <HelixToolkit:BillboardTextVisual3D
-                                            Foreground="{Binding CoordinateSystemLabelForeground, RelativeSource={RelativeSource TemplatedParent}}"
+                                            Foreground="WhiteSmoke"
                                             Position="10 0 0"
                                             Text="{Binding CoordinateSystemLabelX, RelativeSource={RelativeSource TemplatedParent}}" />
                                             <HelixToolkit:BillboardTextVisual3D
-                                            Foreground="{Binding CoordinateSystemLabelForeground, RelativeSource={RelativeSource TemplatedParent}}"
+                                            Foreground="WhiteSmoke"
                                             Position="0 10 0"
                                             Text="{Binding CoordinateSystemLabelY, RelativeSource={RelativeSource TemplatedParent}}" />
                                             <HelixToolkit:BillboardTextVisual3D
-                                            Foreground="{Binding CoordinateSystemLabelForeground, RelativeSource={RelativeSource TemplatedParent}}"
+                                            Foreground="WhiteSmoke"
                                             Position="0 0 10"
                                             Text="{Binding CoordinateSystemLabelZ, RelativeSource={RelativeSource TemplatedParent}}" />
-
-                                            <!--<local:PieSliceVisual3D Normal="1,0,0" UpVector="0,0,1" InnerRadius="3" OuterRadius="6"  Fill="#80ff0000"/>
-                                            <local:PieSliceVisual3D Normal="0,1,0" UpVector="1,0,0" InnerRadius="3" OuterRadius="6"  Fill="#8000ff00"/>
-                                            <local:PieSliceVisual3D Normal="0,0,1" UpVector="0,1,0" InnerRadius="3" OuterRadius="6"  Fill="#800000ff"/>-->
                                         </Viewport3D>
 
 
@@ -221,42 +215,37 @@
                                                 FontWeight="Bold"
                                                 Foreground="{TemplateBinding TextBrush}"
                                                 Text="{TemplateBinding Title}"
-                                                Visibility="{TemplateBinding Title,
-                                                                             Converter={StaticResource NotNullToVisibilityConverter}}" />
+                                                Visibility="{TemplateBinding Title, Converter={StaticResource NotNullToVisibilityConverter}}" />
                                                 <TextBlock
                                                 FontFamily="{TemplateBinding TitleFontFamily}"
                                                 FontSize="{TemplateBinding SubTitleSize}"
                                                 Foreground="{TemplateBinding TextBrush}"
                                                 Text="{TemplateBinding SubTitle}"
-                                                Visibility="{TemplateBinding SubTitle,
-                                                                             Converter={StaticResource NotNullToVisibilityConverter}}" />
+                                                Visibility="{TemplateBinding SubTitle, Converter={StaticResource NotNullToVisibilityConverter}}" />
                                             </StackPanel>
 
                                             <StackPanel
                                             Margin="6"
-                                            HorizontalAlignment="Left"
-                                            VerticalAlignment="Bottom"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Top"
                                             Background="{TemplateBinding InfoBackground}">
                                                 <TextBlock
                                                 Padding="4"
                                                 HorizontalAlignment="Left"
                                                 Foreground="{TemplateBinding InfoForeground}"
                                                 Text="{TemplateBinding FrameRateText}"
-                                                Visibility="{TemplateBinding ShowFrameRate,
-                                                                             Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                Visibility="{TemplateBinding ShowFrameRate, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                                 <TextBlock
                                                 Padding="4"
                                                 HorizontalAlignment="Right"
                                                 Foreground="{TemplateBinding InfoForeground}"
                                                 Text="{TemplateBinding FieldOfViewText}"
-                                                Visibility="{TemplateBinding ShowFieldOfView,
-                                                                             Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                Visibility="{TemplateBinding ShowFieldOfView, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                                 <TextBlock
                                                 HorizontalAlignment="Right"
                                                 Foreground="{TemplateBinding InfoForeground}"
                                                 Text="{TemplateBinding Status}"
-                                                Visibility="{TemplateBinding Status,
-                                                                             Converter={StaticResource NotNullToVisibilityConverter}}" />
+                                                Visibility="{TemplateBinding Status, Converter={StaticResource NotNullToVisibilityConverter}}" />
                                             </StackPanel>
 
                                             <StackPanel
@@ -268,19 +257,16 @@
                                                 Padding="4"
                                                 Foreground="{TemplateBinding InfoForeground}"
                                                 Text="{TemplateBinding CameraInfo}"
-                                                Visibility="{TemplateBinding ShowCameraInfo,
-                                                                             Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                Visibility="{TemplateBinding ShowCameraInfo, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                                 <TextBlock
                                                 Padding="4"
                                                 Foreground="{TemplateBinding InfoForeground}"
                                                 Text="{TemplateBinding TriangleCountInfo}"
-                                                Visibility="{TemplateBinding ShowTriangleCountInfo,
-                                                                             Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                Visibility="{TemplateBinding ShowTriangleCountInfo, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                                 <TextBlock
                                                 Foreground="{TemplateBinding InfoForeground}"
                                                 Text="{TemplateBinding DebugInfo}"
-                                                Visibility="{TemplateBinding DebugInfo,
-                                                                             Converter={StaticResource NotNullToVisibilityConverter}}" />
+                                                Visibility="{TemplateBinding DebugInfo, Converter={StaticResource NotNullToVisibilityConverter}}" />
                                             </StackPanel>
                                         </Grid>
 
@@ -292,8 +278,7 @@
                                         HorizontalAlignment="{TemplateBinding ViewCubeHorizontalPosition}"
                                         VerticalAlignment="{TemplateBinding ViewCubeVerticalPosition}"
                                         Opacity="0.5"
-                                        Visibility="{TemplateBinding ShowViewCube,
-                                                                     Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        Visibility="{TemplateBinding ShowViewCube, Converter={StaticResource BooleanToVisibilityConverter}}">
                                             <HelixToolkit:ViewCubeVisual3D
                                             x:Name="PART_ViewCube"
                                             BackText="{Binding ViewCubeBackText, RelativeSource={RelativeSource TemplatedParent}}"
@@ -319,9 +304,6 @@
 
                 <!--  Remember to add light to the scene  -->
                 <HelixToolkit:SunLight />
-
-                <!--  The content of this visual is defined in MainViewModel.cs  -->
-                <ModelVisual3D Content="{Binding Model}" />
 
                 <!--  You can also add elements here in the xaml  -->
                 <HelixToolkit:GridLinesVisual3D

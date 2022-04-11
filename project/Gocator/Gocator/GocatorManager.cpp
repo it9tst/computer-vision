@@ -56,7 +56,7 @@ void GocatorCV::GocatorManager::Init(char* str, int strlen) {
 
 void GocatorCV::GocatorManager::LoadPointCloud(char* str, int strlen, const char* strfilename) {
 
-	std::string message = "Ok";
+	std::string message = "OK";
 
 	pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
 

@@ -42,6 +42,9 @@ namespace GocatorGUI {
             }
             cloudPoints.Points = dataList;
 
+            //List<PointsVisual3D> numberList = new List<PointsVisual3D>() {  };
+            //numberList.Add(cloudPoints);
+
             // Add geometry to helixPlot. It renders asynchronously in the WPF composite render thread...
             helixPlot.Children.Add(cloudPoints);
         }
