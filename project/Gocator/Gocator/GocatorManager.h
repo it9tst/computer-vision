@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Process.h"
-#include "Server.h"
-
 #define DECLSPEC __declspec(dllexport)
 
 #ifndef GOCATORMANAGER_H
 #define GOCATORMANAGER_H
+
+#include "Process.h"
+#include "Server.h"
 
 namespace GocatorCV {
 
@@ -22,12 +22,12 @@ namespace GocatorCV {
 	public:
 		GocatorManager();
 		bool ServerStart();
-		bool SetParameter(const char* param, int type);
-		bool Init();
-		bool LoadPointCloud(const char* strfilename);
-		bool FileAnalysis(int type);
-		bool StartAcquisition(int type);
-		bool StopAcquisition();
+		void SetParameter(char* str, int strlen, const char* param, int type);
+		void Init(char* str, int strlen);
+		void LoadPointCloud(char* str, int strlen, const char* strfilename);
+		void StartAcquisition(char* str, int strlen, int type, bool checkSavePCD);
+		void StopAcquisition(char* str, int strlen);
+		bool FileAnalysis(int type, bool checkSavePCL);
 	};
 }
 

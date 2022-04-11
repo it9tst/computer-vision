@@ -157,7 +157,6 @@
     <ClCompile Include="Error.cpp" />
     <ClCompile Include="Gocator.cpp" />
     <ClCompile Include="GocatorManager.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="Analysis.cpp" />
     <ClCompile Include="GocatorWrapper.cpp" />
     <ClCompile Include="Process.cpp">

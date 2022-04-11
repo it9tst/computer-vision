@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace GocatorGUI {
     public class CWrapper {
@@ -15,22 +12,22 @@ namespace GocatorGUI {
         private static extern bool GocatorManager_ServerStart(IntPtr class_pointer);
 
         [DllImport("Gocator.dll")]
-        private static extern bool GocatorManager_SetParameter(IntPtr class_pointer, string param, int type);
+        private static extern void GocatorManager_SetParameter(IntPtr class_pointer, StringBuilder str, int strlen, string param, int type);
 
         [DllImport("Gocator.dll")]
-        private static extern bool GocatorManager_Init(IntPtr class_pointer);
+        private static extern void GocatorManager_Init(IntPtr class_pointer, StringBuilder str, int strlen);
 
         [DllImport("Gocator.dll")]
-        private static extern bool GocatorManager_LoadPointCloud(IntPtr class_pointer, string strfilename);
+        private static extern void GocatorManager_LoadPointCloud(IntPtr class_pointer, StringBuilder str, int strlen, string strfilename);
 
         [DllImport("Gocator.dll")]
-        private static extern bool GocatorManager_FileAnalysis(IntPtr class_pointer, int type);
+        private static extern void GocatorManager_StartAcquisition(IntPtr class_pointer, StringBuilder str, int strlen, int type, bool checkSavePCD);
 
         [DllImport("Gocator.dll")]
-        private static extern bool GocatorManager_StartAcquisition(IntPtr class_pointer, int type);
-
+        private static extern void GocatorManager_StopAcquisition(IntPtr class_pointer, StringBuilder str, int strlen);
+        
         [DllImport("Gocator.dll")]
-        private static extern bool GocatorManager_StopAcquisition(IntPtr class_pointer);
+        private static extern bool GocatorManager_FileAnalysis(IntPtr class_pointer, int type, bool checkSavePCD);
 
         private readonly IntPtr _pointerclass;
 
@@ -42,28 +39,28 @@ namespace GocatorGUI {
             return GocatorManager_ServerStart(_pointerclass);
         }
 
-        public bool GocatorManager_SetParameter(string param, int type) {
-            return GocatorManager_SetParameter(_pointerclass, param, type);
+        public void GocatorManager_SetParameter(StringBuilder str, int strlen, string param, int type) {
+            GocatorManager_SetParameter(_pointerclass, str, strlen, param, type);
         }
 
-        public bool GocatorManager_Init() {
-            return GocatorManager_Init(_pointerclass);
+        public void GocatorManager_Init(StringBuilder str, int strlen) {
+            GocatorManager_Init(_pointerclass, str, strlen);
         }
 
-        public bool GocatorManager_LoadPointCloud(string strfilename) {
-            return GocatorManager_LoadPointCloud(_pointerclass, strfilename);
+        public void GocatorManager_LoadPointCloud(StringBuilder str, int strlen, string strfilename) {
+            GocatorManager_LoadPointCloud(_pointerclass, str, strlen, strfilename);
         }
 
-        public bool GocatorManager_FileAnalysis(int type) {
-            return GocatorManager_FileAnalysis(_pointerclass, type);
+        public void GocatorManager_StartAcquisition(StringBuilder str, int strlen, int type, bool checkSavePCD) {
+            GocatorManager_StartAcquisition(_pointerclass, str, strlen, type, checkSavePCD);
         }
 
-        public bool GocatorManager_StartAcquisition(int type) {
-            return GocatorManager_StartAcquisition(_pointerclass, type);
+        public void GocatorManager_StopAcquisition(StringBuilder str, int strlen) {
+            GocatorManager_StopAcquisition(_pointerclass, str, strlen);
         }
 
-        public bool GocatorManager_StopAcquisition() {
-            return GocatorManager_StopAcquisition(_pointerclass);
+        public bool GocatorManager_FileAnalysis(int type, bool checkSavePCL) {
+            return GocatorManager_FileAnalysis(_pointerclass, type, checkSavePCL);
         }
     }
 }

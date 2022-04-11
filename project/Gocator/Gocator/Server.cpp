@@ -6,7 +6,7 @@ GocatorCV::Server::Server() {
 
 void GocatorCV::Server::ServerStart() {
 
-	acquisition_thread = std::thread(&Server::Serv, this);
+	server_thread = std::thread(&Server::Serv, this);
 }
 
 void GocatorCV::Server::Serv() {
@@ -38,21 +38,49 @@ void GocatorCV::Server::Serv() {
 	if ((client = accept(server, (SOCKADDR*)&clientAddr, &clientAddrSize))) {
 		std::cout << "Client connected!" << std::endl;
 	}
-}
-
-void GocatorCV::Server::Send(std::vector<double> s) {
-
-	//send(client, s, s.size()*sizeof(double), 0);
-
-	/*
-	const char* prova = "il mio invio";
-	const char* prova2 = "il mio secondo invio";
-
-	send(client, prova, strlen(prova), 0);
-	std::this_thread::sleep_for(std::chrono::milliseconds(5000));
-	send(client, prova2, strlen(prova2), 0);
-	*/
 
 	//closesocket(client);
 	//std::cout << "Client disconnected." << std::endl;
+}
+
+void GocatorCV::Server::SendPCL(GocatorCV::PCL pcl) {
+
+	std::vector<web::json::value> arrayPoints;
+
+	for (int i = 0; i < pcl.x.size(); i++) {
+		web::json::value point;
+		point[L"x"] = web::json::value::number(pcl.x[i]);
+		point[L"y"] = web::json::value::number(pcl.y[i]);
+		point[L"z"] = web::json::value::number(pcl.z[i]);
+		arrayPoints.push_back(point);
+	}
+
+	web::json::value myJSON;
+	myJSON[L"point_cloud"] = web::json::value::array(arrayPoints);
+
+	//std::wcout << myJSON.serialize() << std::endl;
+
+	auto result = myJSON.serialize();
+
+	send(client, (const char*)result.c_str(), result.size() * sizeof(wchar_t), 0);
+}
+
+void GocatorCV::Server::SendStats(GocatorCV::Statistics stats) {
+
+	std::vector<web::json::value> arrayStats;
+
+	for (int i = 0; i < stats.row.size(); i++) {
+		web::json::value row;
+		row[L"row"] = web::json::value::string(utility::conversions::to_utf16string(stats.row[i]));
+		arrayStats.push_back(row);
+	}
+
+	web::json::value myJSON;
+	myJSON[L"stats"] = web::json::value::array(arrayStats);
+
+	//std::wcout << myJSON.serialize() << std::endl;
+
+	auto result = myJSON.serialize();
+
+	send(client, (const char*)result.c_str(), result.size() * sizeof(wchar_t), 0);
 }

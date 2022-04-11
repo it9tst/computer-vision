@@ -342,6 +342,7 @@
                 <TabItem Header="Output">
                     <Grid Background="Gainsboro">
                         <TextBox
+                            Name="textBoxOutput"
                             Background="Gainsboro"
                             HorizontalAlignment="Left"
                             Height="627"
@@ -349,7 +350,9 @@
                             Width="344"
                             VerticalScrollBarVisibility="Auto"
                             TextWrapping="Wrap"
-                            FontFamily="Roboto" Padding="0"/>
+                            FontFamily="Roboto"
+                            Padding="0"
+                            IsReadOnly="True"/>
                     </Grid>
                 </TabItem>
                 <TabItem Header="Config">
@@ -364,7 +367,7 @@
                                     <TextBox Name="textBoxSensorIP" Height="23" TextWrapping="Wrap" Width="120" FontFamily="Roboto" VerticalAlignment="Top" Margin="10,11,0,0" VerticalContentAlignment="Center"/>
                                     <Button Content="CONNECT" Width="75" Height="20" FontFamily="Roboto" VerticalAlignment="Top" Margin="10,12,0,0" Click="buttonConnect_Click"/>
                                 </StackPanel>
-                                <Label Content="Ok" Height="30" Foreground="ForestGreen" FontFamily="Roboto" VerticalAlignment="Bottom" Margin="15,0,0,0" Visibility="Hidden"/>
+                                <Label Name="labelConnect" Height="40" Foreground="ForestGreen" FontFamily="Roboto" VerticalAlignment="Bottom" Margin="15,0,0,0" FontSize="10" Opacity="0.8" Visibility="Hidden"/>
                             </Grid>
                             <Grid Height="80">
                                 <StackPanel Orientation="Horizontal">
@@ -372,14 +375,14 @@
                                     <TextBox Name="textBoxExposure" Height="23" TextWrapping="Wrap" Width="120" FontFamily="Roboto" VerticalAlignment="Top" Margin="10,11,0,0" VerticalContentAlignment="Center"/>
                                     <Button Content="REFRESH" Width="75" Height="20" FontFamily="Roboto" VerticalAlignment="Top" Margin="10,12,0,0" Click="buttonRefresh_Click"/>
                                 </StackPanel>
-                                <Label Content="Ok - New Exposure: 2000" Height="30" Foreground="ForestGreen" FontFamily="Roboto" VerticalAlignment="Bottom" Margin="15,0,0,0" Visibility="Hidden"/>
+                                <Label Name="labelRefresh" Height="40" Foreground="ForestGreen" FontFamily="Roboto" VerticalAlignment="Bottom" Margin="15,0,0,0" FontSize="10" Opacity="0.8" Visibility="Hidden"/>
                             </Grid>
                             <Grid Height="80">
                                 <StackPanel Orientation="Horizontal">
                                     <Label Content="File Analysis offline:" FontFamily="Roboto" VerticalAlignment="Top" Margin="10,10,0,0"/>
                                     <Button Content="LOAD PCL" Width="75" Height="20" FontFamily="Roboto" VerticalAlignment="Top" Margin="10,12,0,0" Click="buttonLoadPCL_Click"/>
                                 </StackPanel>
-                                <Label Content="Ok" Height="30" Foreground="ForestGreen" FontFamily="Roboto" VerticalAlignment="Bottom" Margin="15,0,0,0" Visibility="Hidden"/>
+                                <Label Name="labelLoadPCL" Height="40" Foreground="ForestGreen" FontFamily="Roboto" VerticalAlignment="Bottom" Margin="15,0,0,0" FontSize="10" Opacity="0.8" Visibility="Hidden"/>
                             </Grid>
                             <Grid Height="50">
                                 <StackPanel Orientation="Horizontal">
@@ -389,7 +392,7 @@
                                 </StackPanel>
                             </Grid>
                             <Grid Height="50">
-                                <CheckBox Name="checkSaveFilePCL" Content="Save PCL file during analysis" FontFamily="Roboto" VerticalAlignment="Top" Margin="15,10,0,0"/>
+                                <CheckBox Name="checkSaveFilePCD" Content="Save PCD file during analysis" FontFamily="Roboto" VerticalAlignment="Top" Margin="15,10,0,0"/>
                             </Grid>
                         </StackPanel>
                     </Grid>

@@ -302,9 +302,9 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr GocatorCV::Gocator::Grab() {
 		}
 		GoDestroy(dataset);
 		
-		//cloud->height = 1;
-		//cloud->width = cloud->size();
-		//cloud->resize(cloud->size());
+		cloud->height = 1;
+		cloud->width = cloud->size();
+		cloud->resize(cloud->size());
 
 		//cv::imwrite("../../Scan/image_prova_" + datetime() + ".jpg", img);
 		

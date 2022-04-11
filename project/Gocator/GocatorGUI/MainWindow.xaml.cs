@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
@@ -14,39 +15,28 @@ namespace GocatorGUI {
     /// </summary>
     public partial class MainWindow : Window {
 
-        private CWrapper wrapper;
-        private CClient client;
+        private CWrapper wrapper = new CWrapper();
+        private CClient client = new CClient();
+        private int STRING_MAX_LENGTH = 5000;
         private string strfilename;
         private int type = 1;
-        private bool checkSavePCL = false;
+        private bool checkSavePCD = false;
 
         public MainWindow() {
             this.InitializeComponent();
 
-            wrapper = new CWrapper();
             wrapper.GocatorManager_ServerStart();
-            client = new CClient();
 
-            Thread thread = new Thread(client.StartClient);
+            Thread thread = new Thread(delegate () {
+                client.StartClient(this);
+            });
             thread.Start();
-            
-            CreateModel();
         }
 
-        public void CreateModel() {
-            List<Point3D> points;
-            points = new List<Point3D>();
-
-            Random random = new Random();
-            double maximum = 5;
-            double minimum = -5;
-
-            for (int i = 0; i < 100; i++) {
-                points.Add(new Point3D(random.NextDouble() * (maximum - minimum) + minimum, random.NextDouble() * (maximum - minimum) + minimum, random.NextDouble() * (maximum - minimum) + minimum));
-            }
-
+        public void CreateModel(List<Point3D> points) {
+            
             Point3DCollection dataList = new Point3DCollection();
-            PointsVisual3D cloudPoints = new PointsVisual3D { Color = Colors.White, Size = 3.0f };
+            PointsVisual3D cloudPoints = new PointsVisual3D { Color = Colors.White, Size = 1.0f };
             foreach (Point3D p in points) {
                 dataList.Add(p);
             }
@@ -80,21 +70,50 @@ namespace GocatorGUI {
 
         // Panel Config
         private void buttonConnect_Click(object sender, RoutedEventArgs e) {
+            
+            StringBuilder message = new StringBuilder(STRING_MAX_LENGTH);
             string sensor_ip = textBoxSensorIP.Text;
-            wrapper.GocatorManager_SetParameter(sensor_ip, 1);
-            wrapper.GocatorManager_Init();
+
+            wrapper.GocatorManager_SetParameter(message, STRING_MAX_LENGTH, sensor_ip, 1);
+            wrapper.GocatorManager_Init(message, STRING_MAX_LENGTH);
+
+            if (!message.ToString().Equals("OK")) {
+                labelConnect.Foreground = new SolidColorBrush(Colors.Red);
+            }
+            labelConnect.Content = message.ToString().Replace('-', '\n');
+            labelConnect.Visibility = Visibility.Visible;
         }
 
         private void buttonRefresh_Click(object sender, RoutedEventArgs e) {
+
+            StringBuilder message = new StringBuilder(STRING_MAX_LENGTH);
             string exposure = textBoxExposure.Text;
-            wrapper.GocatorManager_SetParameter(exposure, 2);
+
+            wrapper.GocatorManager_SetParameter(message, STRING_MAX_LENGTH, exposure, 2);
+
+            if (!message.ToString().Equals("OK")) {
+                labelRefresh.Foreground = new SolidColorBrush(Colors.Red);
+            }
+            labelRefresh.Content = message.ToString().Replace('-', '\n');
+            labelRefresh.Visibility = Visibility.Visible;
         }
 
         private void buttonLoadPCL_Click(object sender, RoutedEventArgs e) {
+
+            StringBuilder message = new StringBuilder(STRING_MAX_LENGTH);
+
             OpenFileDialog openFileDialog = new OpenFileDialog();
+            
             if (openFileDialog.ShowDialog() == true) {
+                
                 strfilename = openFileDialog.FileName;
-                wrapper.GocatorManager_LoadPointCloud(strfilename);
+                wrapper.GocatorManager_LoadPointCloud(message, STRING_MAX_LENGTH, strfilename);
+
+                if (!message.ToString().Equals("OK")) {
+                    labelLoadPCL.Foreground = new SolidColorBrush(Colors.Red);
+                }
+                labelLoadPCL.Content = message.ToString().Replace('-', '\n');
+                labelLoadPCL.Visibility = Visibility.Visible;
             }
         }
 
@@ -108,17 +127,32 @@ namespace GocatorGUI {
         }
 
         private void buttonStartAcquisition_Click(object sender, RoutedEventArgs e) {
+
+            StringBuilder message = new StringBuilder(STRING_MAX_LENGTH);
+
             checkInit();
-            wrapper.GocatorManager_StartAcquisition(type);
+            wrapper.GocatorManager_StartAcquisition(message, STRING_MAX_LENGTH, type, checkSavePCD);
+
+            if (!message.ToString().Equals("OK")) {
+                MessageBox.Show(message.ToString());
+            }
         }
 
         private void buttonStopAcquisition_Click(object sender, RoutedEventArgs e) {
-            wrapper.GocatorManager_StopAcquisition();
+
+            StringBuilder message = new StringBuilder(STRING_MAX_LENGTH);
+
+            wrapper.GocatorManager_StopAcquisition(message, STRING_MAX_LENGTH);
+
+            if (!message.ToString().Equals("OK")) {
+                MessageBox.Show(message.ToString());
+            }
         }
 
         private void buttonFileAnalysis_Click(object sender, RoutedEventArgs e) {
+
             checkInit();
-            wrapper.GocatorManager_FileAnalysis(type);
+            wrapper.GocatorManager_FileAnalysis(type, checkSavePCD);
         }
 
         private void checkInit() {
@@ -129,10 +163,10 @@ namespace GocatorGUI {
                 type = 2;
             }
 
-            if (checkSaveFilePCL.IsChecked == true) {
-                checkSavePCL = true;
+            if (checkSaveFilePCD.IsChecked == true) {
+                checkSavePCD = true;
             } else {
-                checkSavePCL = false;
+                checkSavePCD = false;
             }
         }
     }

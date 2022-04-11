@@ -9,71 +9,105 @@ GocatorCV::GocatorManager::GocatorManager() {
 }
 
 bool GocatorCV::GocatorManager::ServerStart() {
+
 	server.ServerStart();
 	return true;
 }
 
-bool GocatorCV::GocatorManager::SetParameter(const char* param, int type) {
+void GocatorCV::GocatorManager::SetParameter(char* str, int strlen, const char* param, int type) {
+
+	std::string message = "Ok";
 
 	if (type == 1) {
 
 		const char* sensor_ip = param;
 
 		if ((error = gocator.SetParameter(GocatorCV::ParameterType::SENSOR_IP, (void*)sensor_ip)).GetCode() != GocatorCV::ErrorType::OK) {
-			error.DisplayMessage();
-			return false;
+			message = error.DisplayMessage();
 		}
 	} else if (type == 2) {
 
 		const char* exposure = param;
 
 		if ((error = gocator.SetParameter(GocatorCV::ParameterType::EXPOSURE, (void*)&exposure)).GetCode() != GocatorCV::ErrorType::OK) {
-			error.DisplayMessage();
-			return false;
+			message = error.DisplayMessage();
 		}
 	}
-	
-	return true;
+
+	message = message.substr(0, strlen);
+
+	std::copy(message.begin(), message.end(), str);
+	str[std::min(strlen - 1, (int)message.size())] = 0;
 }
 
-bool GocatorCV::GocatorManager::Init() {
+void GocatorCV::GocatorManager::Init(char* str, int strlen) {
 	
+	std::string message = "Ok";
+
 	if ((error = gocator.Init()).GetCode() != GocatorCV::ErrorType::OK) {
-		error.DisplayMessage();
-		return false;
+		message = error.DisplayMessage();
 	}
 
-	return true;
+	message = message.substr(0, strlen);
+
+	std::copy(message.begin(), message.end(), str);
+	str[std::min(strlen - 1, (int)message.size())] = 0;
 }
 
-bool GocatorCV::GocatorManager::LoadPointCloud(const char* strfilename) {
+void GocatorCV::GocatorManager::LoadPointCloud(char* str, int strlen, const char* strfilename) {
+
+	std::string message = "Ok";
 
 	pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
 
 	if (pcl::io::loadPCDFile<pcl::PointXYZ>(strfilename, *cloud) == -1) {
 		PCL_ERROR("Couldn't read file *.pcd\n\n");
-		return false;
+		message = "Couldn't read file *.pcd";
 	}
 
+	analysis.TestServer(&server);
 	analysis.LoadPointCloud(cloud);
 
+	message = message.substr(0, strlen);
+
+	std::copy(message.begin(), message.end(), str);
+	str[std::min(strlen - 1, (int)message.size())] = 0;
+}
+
+bool GocatorCV::GocatorManager::FileAnalysis(int type, bool checkSavePCD) {
+
+	analysis.Algorithm(type, checkSavePCD);
 	return true;
 }
 
-bool GocatorCV::GocatorManager::FileAnalysis(int type) {
-
-	analysis.Algorithm(type);
-	return true;
-}
-
-bool GocatorCV::GocatorManager::StartAcquisition(int type) {
+void GocatorCV::GocatorManager::StartAcquisition(char* str, int strlen, int type, bool checkSavePCD) {
 	
-	process.StartAcquisition(&gocator, &analysis, type);
-	return true;
+	std::string message = "Ok";
+
+	if ((error = gocator.Start()).GetCode() != GocatorCV::ErrorType::OK) {
+		message = error.DisplayMessage();
+	}
+
+	process.StartAcquisition(&gocator, &analysis, type, checkSavePCD);
+	
+	message = message.substr(0, strlen);
+
+	std::copy(message.begin(), message.end(), str);
+	str[std::min(strlen - 1, (int)message.size())] = 0;
 }
 
-bool GocatorCV::GocatorManager::StopAcquisition() {
+void GocatorCV::GocatorManager::StopAcquisition(char* str, int strlen) {
+
+	std::string message = "Ok";
 
 	process.StopAcquisition();
-	return true;
+
+	if ((error = gocator.Stop()).GetCode() != GocatorCV::ErrorType::OK) {
+		message = error.DisplayMessage();
+	}
+	
+	message = message.substr(0, strlen);
+
+	std::copy(message.begin(), message.end(), str);
+	str[std::min(strlen - 1, (int)message.size())] = 0;
 }

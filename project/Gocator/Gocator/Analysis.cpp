@@ -4,11 +4,26 @@ GocatorCV::Analysis::Analysis() {
 	// constructor
 }
 
-void GocatorCV::Analysis::LoadPointCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud) {
-    this->cloud = cloud;
+void GocatorCV::Analysis::TestServer(GocatorCV::Server* server) {
+    this->server = server;
 }
 
-void GocatorCV::Analysis::Algorithm(int type) {
+void GocatorCV::Analysis::LoadPointCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud) {
+    this->cloud = cloud;
+
+    GocatorCV::PCL pcl;
+    for (int i = 0; i < this->cloud->size(); i++) {
+        pcl.x.push_back(this->cloud->points[i].x);
+        pcl.y.push_back(this->cloud->points[i].y);
+        pcl.z.push_back(this->cloud->points[i].z);
+    }
+
+    server->SendPCL(pcl);
+}
+
+void GocatorCV::Analysis::Algorithm(int type, bool checkSavePCD) {
+
+    this->checkSavePCD = checkSavePCD;
     
     if (type == 1) {
         // *****ANALISI IMMAGINI (BATTISTRADA 1-2)*****
@@ -248,9 +263,14 @@ void GocatorCV::Analysis::Algorithm(int type) {
             distance_max.push_back(max);
         }
 
+        GocatorCV::Statistics _stats;
+
         double min_min = *std::min_element(distance_min.begin(), distance_min.end());
         double max_min = *std::max_element(distance_min.begin(), distance_min.end());
         double mean_min = std::accumulate(distance_min.begin(), distance_min.end(), 0.0) / distance_min.size();
+        _stats.row.push_back("Distanza minima totale tra le distanze minime per linea: " + std::to_string(min_min) + " mm");
+        _stats.row.push_back("Distanza massima totale tra le distanze minime per linea: " + std::to_string(max_min) + " mm");
+        _stats.row.push_back("Distanza media totale tra le distanze minime per linea: " + std::to_string(mean_min) + " mm");
         std::cout << "Distanza minima totale tra le distanze minime per linea: " << min_min << " mm" << std::endl;
         std::cout << "Distanza massima totale tra le distanze minime per linea: " << max_min << " mm" << std::endl;
         std::cout << "Distanza media totale tra le distanze minime per linea: " << mean_min << " mm" << std::endl;
@@ -258,23 +278,23 @@ void GocatorCV::Analysis::Algorithm(int type) {
         double min_max = *std::min_element(distance_max.begin(), distance_max.end());
         double max_max = *std::max_element(distance_max.begin(), distance_max.end());
         double mean_max = std::accumulate(distance_max.begin(), distance_max.end(), 0.0) / distance_max.size();
+        _stats.row.push_back("Distanza minima totale tra le distanze massime per linea: " + std::to_string(min_max) + " mm");
+        _stats.row.push_back("Distanza massima totale tra le distanze massime per linea: " + std::to_string(max_max) + " mm");
+        _stats.row.push_back("Distanza media totale tra le distanze massime per linea: " + std::to_string(mean_max) + " mm");
         std::cout << "Distanza minima totale tra le distanze massime per linea: " << min_max << " mm" << std::endl;
         std::cout << "Distanza massima totale tra le distanze massime per linea: " << max_max << " mm" << std::endl;
         std::cout << "Distanza media totale tra le distanze massime per linea: " << mean_max << " mm" << std::endl;
 
-        std::vector<double> s;
-        s.push_back(min_min);
-        s.push_back(max_min);
-        s.push_back(mean_min);
+        server->SendStats(_stats);
 
-        GocatorCV::Server server;
-        server.Send(s);
         /*
         // GET IMAGE FROM XY PLANE
         cloud_final->height = 1;
         cloud_final->width = cloud_final->size();
         cloud_final->resize(cloud_final->size());
-        SavePCD(cloud_final, "../../Scan/" + datetime() + "_cloud_final.pcd");
+        if (checkSavePCD) {
+            SavePCD(cloud_final, "../../Scan/" + datetime() + "_cloud_final.pcd");
+        }
 
         GetMinMaxCoordinates(cloud_final);
         Sleep(1000);
@@ -506,12 +526,16 @@ void GocatorCV::Analysis::StatisticalOutlierRemovalFilter(pcl::PointCloud<pcl::P
     std::cerr << "Cloud after filtering:" << std::endl;
     std::cerr << *cloud_filtered << std::endl;
 
-    PCL_INFO("Saving statistical outlier removal filter in input cloud to *.pcd\n\n");
-    SavePCD(cloud_filtered, "../../Scan/" + datetime() + "_Statistical_Outlier_Removal_Filter.pcd");
+    if (checkSavePCD) {
+        PCL_INFO("Saving statistical outlier removal filter in input cloud to *.pcd\n\n");
+        SavePCD(cloud_filtered, "../../Scan/" + datetime() + "_Statistical_Outlier_Removal_Filter.pcd");
+    }
 /*
     sor.setNegative(true);
     sor.filter(*cloud_filtered);
-    SavePCD(cloud_filtered, "../../Scan/table_scene_lms400_outliers.pcd");
+    if (checkSavePCD) {
+        SavePCD(cloud_filtered, "../../Scan/table_scene_lms400_outliers.pcd");
+    }
 */
 }
 
@@ -541,8 +565,10 @@ void GocatorCV::Analysis::PlaneSegmentation(pcl::PointCloud<pcl::PointXYZ>::Ptr 
     if (inliers->indices.size() == 0) {
         PCL_ERROR("Could not estimate a planar model for the given dataset.\n\n");
     } else {
-        PCL_INFO("Saving dominant plane in input cloud to *.pcd\n\n");
-        SavePCD(cloud_segmented, "../../Scan/" + datetime() + "_Plane_Segmentation.pcd");
+        if (checkSavePCD) {
+            PCL_INFO("Saving dominant plane in input cloud to *.pcd\n\n");
+            SavePCD(cloud_segmented, "../../Scan/" + datetime() + "_Plane_Segmentation.pcd");
+        }
     }
 /*
     // Remove inliers from input and repeat for 2nd dominant plane
@@ -560,8 +586,10 @@ void GocatorCV::Analysis::PlaneSegmentation(pcl::PointCloud<pcl::PointXYZ>::Ptr 
     if (inliers->indices.size() == 0) {
         PCL_ERROR("Could not estimate a planar model for the given dataset.");
     } else {
-        PCL_INFO("Saving dominant plane in outliers to: table_scene_lms400_second_plane.pcd\n\n");
-        SavePCD(outliersSegmented, "../../Scan/table_scene_lms400_second_plane.pcd");
+        if (checkSavePCD) {
+            PCL_INFO("Saving dominant plane in outliers to: table_scene_lms400_second_plane.pcd\n\n");
+            SavePCD(outliersSegmented, "../../Scan/table_scene_lms400_second_plane.pcd");
+        }
     }
 */
 }
@@ -582,8 +610,10 @@ void GocatorCV::Analysis::ProjectPoints(pcl::PointCloud<pcl::PointXYZ>::Ptr clou
     proj.setModelCoefficients(coefficients);
     proj.filter(*cloud_projected);
 
-    PCL_INFO("Saving project points in input cloud to *.pcd\n\n");
-    SavePCD(cloud_projected, "../../Scan/" + datetime() + "_Project_Points.pcd");
+    if (checkSavePCD) {
+        PCL_INFO("Saving project points in input cloud to *.pcd\n\n");
+        SavePCD(cloud_projected, "../../Scan/" + datetime() + "_Project_Points.pcd");
+    }
 }
 
 void GocatorCV::Analysis::MatrixTransform(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_transformed, double x, double y, double z) {
@@ -594,8 +624,10 @@ void GocatorCV::Analysis::MatrixTransform(pcl::PointCloud<pcl::PointXYZ>::Ptr cl
 
     pcl::transformPointCloud(*cloud, *cloud_transformed, transform);
 
-    PCL_INFO("Saving matrix transformation in input cloud to *.pcd\n\n");
-    SavePCD(cloud_transformed, "../../Scan/" + datetime() + "_Matrix_Transformation.pcd");
+    if (checkSavePCD) {
+        PCL_INFO("Saving matrix transformation in input cloud to *.pcd\n\n");
+        SavePCD(cloud_transformed, "../../Scan/" + datetime() + "_Matrix_Transformation.pcd");
+    }
 }
 
 void GocatorCV::Analysis::GetMinMaxCoordinates(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud) {
@@ -644,25 +676,36 @@ std::string GocatorCV::Analysis::datetime() {
 }
 
 void GocatorCV::Analysis::ContoursMeasurements(std::vector<std::vector<cv::Point>> contours) {
-    std::vector<double> stats_area;
-    std::vector<double> stats_perimeter;
-    std::vector<double> stats_width;
-    std::vector<double> stats_height;
-    double area;
-    double perimeter;
+    GocatorCV::Statistics _stats;
+
+    std::vector<double> stats_area, stats_perimeter, stats_width, stats_height;
+    double area, perimeter;
     cv::RotatedRect rotated_rect;
 
     for (int i = 0; i < contours.size(); i++) {
+        std::stringstream _area, _perimetro, _width, _height;
         area = cv::contourArea(contours[i]);
         perimeter = cv::arcLength(contours[i], true);
         rotated_rect = cv::minAreaRect(contours[i]);
 
         if (rotated_rect.angle < -45) {
-            std::cout << "Blob " << i << "\t- Area: " << setprecision(2) << std::fixed << area / 100 << " cm^2\tPerimetro: " << setprecision(2) << std::fixed << perimeter / 100 << " cm\tWidth: " << setprecision(2) << std::fixed << rotated_rect.size.width / 100 << " cm\tHeight: " << setprecision(2) << std::fixed << rotated_rect.size.height / 100 << " cm" << std::endl;
+            _area << setprecision(2) << std::fixed << area / 100;
+            _perimetro << setprecision(2) << std::fixed << perimeter / 100;
+            _width << setprecision(2) << std::fixed << rotated_rect.size.width / 100;
+            _height << setprecision(2) << std::fixed << rotated_rect.size.height / 100;
+            _stats.row.push_back("Blob " + std::to_string(i) + "\t- Area: " + _area.str() + " cm^2\tPerimetro: " + _perimetro.str() + " cm\tWidth: " + _width.str() + " cm\tHeight: " + _height.str() + " cm");
+            std::cout << "Blob " << i << "\t- Area: " << _area.str() << " cm^2\tPerimetro: " << _perimetro.str() << " cm\tWidth: " << _width.str() << " cm\tHeight: " << _height.str() << " cm" << std::endl;
+
             stats_width.push_back(rotated_rect.size.width);
             stats_height.push_back(rotated_rect.size.height);
         } else {
-            std::cout << "Blob " << i << "\t- Area: " << setprecision(2) << std::fixed << area / 100 << " cm^2\tPerimetro: " << setprecision(2) << std::fixed << perimeter / 100 << " cm\tWidth: " << setprecision(2) << std::fixed << rotated_rect.size.height / 100 << " cm\tHeight: " << setprecision(2) << std::fixed << rotated_rect.size.width / 100 << " cm" << std::endl;
+            _area << setprecision(2) << std::fixed << area / 100;
+            _perimetro << setprecision(2) << std::fixed << perimeter / 100;
+            _width << setprecision(2) << std::fixed << rotated_rect.size.height / 100;
+            _height << setprecision(2) << std::fixed << rotated_rect.size.width / 100;
+            _stats.row.push_back("Blob " + std::to_string(i) + "\t- Area: " + _area.str() + " cm^2\tPerimetro: " + _perimetro.str() + " cm\tWidth: " + _width.str() + " cm\tHeight: " + _height.str() + " cm");
+            std::cout << "Blob " << i << "\t- Area: " << _area.str() << " cm^2\tPerimetro: " << _perimetro.str() << " cm\tWidth: " << _width.str() << " cm\tHeight: " << _height.str() << " cm" << std::endl;
+
             stats_width.push_back(rotated_rect.size.height);
             stats_height.push_back(rotated_rect.size.width);
         }
@@ -671,11 +714,36 @@ void GocatorCV::Analysis::ContoursMeasurements(std::vector<std::vector<cv::Point
         stats_perimeter.push_back(perimeter);
     }
     
-    std::cout << std::endl << "Area Minima: " << *std::min_element(stats_area.begin(), stats_area.end()) / 100 << " cm\t\tArea Massima: " << setprecision(2) << std::fixed << *std::max_element(stats_area.begin(), stats_area.end()) / 100 << " cm\t\tArea Media: " << setprecision(2) << std::fixed << (std::accumulate(stats_area.begin(), stats_area.end(), 0.0) / stats_area.size()) / 100 << " cm" << std::endl;
-    std::cout << "Perimetro Minimo: " << *std::min_element(stats_perimeter.begin(), stats_perimeter.end()) / 100 << " cm\tPerimetro Massimo: " << setprecision(2) << std::fixed << *std::max_element(stats_perimeter.begin(), stats_perimeter.end()) / 100 << " cm\tPerimetro Medio: " << setprecision(2) << std::fixed << (std::accumulate(stats_perimeter.begin(), stats_perimeter.end(), 0.0) / stats_perimeter.size()) / 100 << " cm" << std::endl;
-    std::cout << "Width Minima: " << *std::min_element(stats_width.begin(), stats_width.end()) / 100 << " cm\t\tWidth Massima: " << setprecision(2) << std::fixed << *std::max_element(stats_width.begin(), stats_width.end()) / 100 << " cm\t\tArea Width: " << setprecision(2) << std::fixed << (std::accumulate(stats_width.begin(), stats_width.end(), 0.0) / stats_width.size()) / 100 << " cm" << std::endl;
-    std::cout << "Height Minima: " << *std::min_element(stats_height.begin(), stats_height.end()) / 100 << " cm\t\tHeight Massima: " << setprecision(2) << std::fixed << *std::max_element(stats_height.begin(), stats_height.end()) / 100 << " cm\t\tHeight Media: " << setprecision(2) << std::fixed << (std::accumulate(stats_height.begin(), stats_height.end(), 0.0) / stats_height.size()) / 100 << " cm" << std::endl;
-    
+    std::stringstream _area_minima, _area_massima, _area_media;
+    _area_minima << setprecision(2) << std::fixed << *std::min_element(stats_area.begin(), stats_area.end()) / 100;
+    _area_massima << setprecision(2) << std::fixed << *std::max_element(stats_area.begin(), stats_area.end()) / 100;
+    _area_media << setprecision(2) << std::fixed << (std::accumulate(stats_area.begin(), stats_area.end(), 0.0) / stats_area.size()) / 100;
+    _stats.row.push_back("Area Minima: " + _area_minima.str() + " cm\t\tArea Massima: " + _area_massima.str() + " cm\t\tArea Media: " + _area_media.str() + " cm");
+    std::cout << std::endl << "Area Minima: " << _area_minima.str() << " cm\t\tArea Massima: " << _area_massima.str() << " cm\t\tArea Media: " << _area_media.str() << " cm" << std::endl;
+
+    std::stringstream _perimetro_minimo, _perimetro_massimo, _perimetro_medio;
+    _perimetro_minimo << setprecision(2) << std::fixed << *std::min_element(stats_perimeter.begin(), stats_perimeter.end()) / 100;
+    _perimetro_massimo << setprecision(2) << std::fixed << *std::max_element(stats_perimeter.begin(), stats_perimeter.end()) / 100;
+    _perimetro_medio << setprecision(2) << std::fixed << (std::accumulate(stats_perimeter.begin(), stats_perimeter.end(), 0.0) / stats_perimeter.size()) / 100;
+    _stats.row.push_back("Perimetro Minimo: " + _perimetro_minimo.str() + " cm\tPerimetro Massimo: " + _perimetro_massimo.str() + " cm\tPerimetro Medio: " + _perimetro_medio.str() + " cm");
+    std::cout << "Perimetro Minimo: " << _perimetro_minimo.str() << " cm\tPerimetro Massimo: " << _perimetro_massimo.str() << " cm\tPerimetro Medio: " << _perimetro_medio.str() << " cm" << std::endl;
+
+    std::stringstream _width_minima, _width_massima, _width_media;
+    _width_minima << setprecision(2) << std::fixed << *std::min_element(stats_width.begin(), stats_width.end()) / 100;
+    _width_massima << setprecision(2) << std::fixed << *std::max_element(stats_width.begin(), stats_width.end()) / 100;
+    _width_media << setprecision(2) << std::fixed << (std::accumulate(stats_width.begin(), stats_width.end(), 0.0) / stats_width.size()) / 100;
+    _stats.row.push_back("Width Minima: " + _width_minima.str() + " cm\t\tWidth Massima: " + _width_massima.str() + " cm\t\tArea Width: " + _width_media.str() + " cm");
+    std::cout << "Width Minima: " << _width_minima.str() << " cm\t\tWidth Massima: " << _width_massima.str() << " cm\t\tArea Width: " << _width_media.str() << " cm" << std::endl;
+
+    std::stringstream _height_minima, _height_massima, _height_media;
+    _height_minima << setprecision(2) << std::fixed << *std::min_element(stats_height.begin(), stats_height.end()) / 100;
+    _height_massima << setprecision(2) << std::fixed << *std::max_element(stats_height.begin(), stats_height.end()) / 100;
+    _height_media << setprecision(2) << std::fixed << (std::accumulate(stats_height.begin(), stats_height.end(), 0.0) / stats_height.size()) / 100 << " cm";
+    _stats.row.push_back("Height Minima: " + _height_minima.str() + " cm\t\tHeight Massima: " + _height_massima.str() + " cm\t\tHeight Media: " + _height_media.str() + " cm");
+    std::cout << "Height Minima: " << _height_minima.str() << " cm\t\tHeight Massima: " << _height_massima.str() << " cm\t\tHeight Media: " << _height_media.str() << " cm" << std::endl;
+
+    server->SendStats(_stats);
+
     std::cout << std::endl;
 }
 
@@ -765,17 +833,32 @@ cv::Mat GocatorCV::Analysis::MorphClosingMacroBlob(cv::Mat image) {
 }
 
 void GocatorCV::Analysis::DistanceBetweenMacroBlob(std::vector<std::vector<cv::Point>> contours_MacroBlob) {
+    GocatorCV::Statistics _stats;
+
     std::vector<double> stats;
     for (int i = 0; i < contours_MacroBlob.size() - 1; i++) {
         double d = MinDistanceContours(contours_MacroBlob[i], contours_MacroBlob[i + 1]);
-        std::cout << "MacroBlob " << i << " - MacroBlob " << i + 1 << " -- Distanza: " << setprecision(2) << std::fixed << d / 100 << " cm" << std::endl;
         stats.push_back(d);
+
+        std::stringstream _distanza;
+        _distanza << setprecision(2) << std::fixed << d / 100;
+        _stats.row.push_back("MacroBlob " + std::to_string(i) + " - MacroBlob " + std::to_string(i + 1) + " -- Distanza: " + _distanza.str() + " cm");
+        std::cout << "MacroBlob " << i << " - MacroBlob " << i + 1 << " -- Distanza: " << _distanza.str() << " cm" << std::endl;
     }
 
-    std::cout << "Distanza Minima: " << setprecision(2) << std::fixed << *std::min_element(stats.begin(), stats.end()) / 100 << " cm\tDistanza Massima: " << setprecision(2) << std::fixed << *std::max_element(stats.begin(), stats.end()) / 100 << " cm\tDistanza Media: " << setprecision(2) << std::fixed << (std::accumulate(stats.begin(), stats.end(), 0.0) / stats.size()) / 100 << " cm" << std::endl << std::endl;
+    std::stringstream _distanza_minima, _distanza_massima, _distanza_media;
+    _distanza_minima << setprecision(2) << std::fixed << *std::min_element(stats.begin(), stats.end()) / 100;
+    _distanza_massima << setprecision(2) << std::fixed << *std::max_element(stats.begin(), stats.end()) / 100;
+    _distanza_media << setprecision(2) << std::fixed << (std::accumulate(stats.begin(), stats.end(), 0.0) / stats.size()) / 100;
+    std::cout << "Distanza Minima: " << _distanza_minima.str() << " cm\tDistanza Massima: " << _distanza_massima.str() << " cm\tDistanza Media: " << _distanza_media.str() << " cm" << std::endl << std::endl;
+    _stats.row.push_back("Distanza Minima: " + _distanza_minima.str() + " cm\tDistanza Massima: " + _distanza_massima.str() + " cm\tDistanza Media: " + _distanza_media.str() + " cm");
+    
+    server->SendStats(_stats);
 }
 
 void GocatorCV::Analysis::DistanceBetweenBlob(std::vector<std::vector<cv::Point>> contours_MacroBlob, std::vector<std::vector<cv::Point>> contours_Blob) {
+    GocatorCV::Statistics _stats;
+
     std::vector <std::set<int>> list_MacroBlob;
     double x1, y1, ppt1;
 
@@ -830,7 +913,12 @@ void GocatorCV::Analysis::DistanceBetweenBlob(std::vector<std::vector<cv::Point>
 
             if (indice_minimo_attuale > -1 && check_blob.count({ check[0], check[1] }) == 0) {
                 double d = MinDistanceContours(contours_Blob[check[0]], contours_Blob[check[1]]);
-                std::cout << "MacroBlob " << i << " -- Blob " << check[0] << " - Blob " << check[1] << " -- Distanza: " << setprecision(2) << std::fixed << d / 100 << " cm" << std::endl;
+
+                std::stringstream _distanza;
+                _distanza << setprecision(2) << std::fixed << d / 100;
+                _stats.row.push_back("MacroBlob " + std::to_string(i) + " -- Blob " + std::to_string(check[0]) + " - Blob " + std::to_string(check[1]) + " -- Distanza: " + _distanza.str() + " cm");
+                std::cout << "MacroBlob " << i << " -- Blob " << check[0] << " - Blob " << check[1] << " -- Distanza: " << _distanza.str() << " cm" << std::endl;
+                
                 check_blob.insert({ check[0], check[1] });
             }
         }

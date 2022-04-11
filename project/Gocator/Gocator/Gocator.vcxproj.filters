@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>File di origine</Filter>
-    </ClCompile>
     <ClCompile Include="Process.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>

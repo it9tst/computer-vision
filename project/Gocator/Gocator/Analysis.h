@@ -62,6 +62,8 @@ namespace GocatorCV {
 	class Analysis {
 
 	private:
+		GocatorCV::Server* server;
+		bool checkSavePCD = false;
 		pcl::PointCloud<pcl::PointXYZ>::Ptr cloud;
 		pcl::PointXYZ min_pt, max_pt;
 		pcl::PCDWriter writer;
@@ -96,8 +98,9 @@ namespace GocatorCV {
 
 	public:
 		Analysis();
+		void TestServer(GocatorCV::Server* server);
 		void LoadPointCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
-		void Algorithm(int type);
+		void Algorithm(int type, bool checkSavePCD);
 		void CheckValidPoints(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_correct);
 		void DebugAlgorithm2();
 	};

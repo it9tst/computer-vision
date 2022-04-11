@@ -2,7 +2,6 @@
 
 using namespace GocatorCV;
 
-// Gocator
 extern "C" __declspec(dllexport) GocatorManager * CreateGocatorManager() {
 	return new GocatorManager();
 }
@@ -11,26 +10,26 @@ extern "C" __declspec(dllexport) bool GocatorManager_ServerStart(GocatorManager 
 	return gocatormanager->ServerStart();
 }
 
-extern "C" __declspec(dllexport) bool GocatorManager_SetParameter(GocatorManager * gocatormanager, const char* param, int type) {
-	return gocatormanager->SetParameter(param, type);
+extern "C" __declspec(dllexport) void GocatorManager_SetParameter(GocatorManager * gocatormanager, char* str, int strlen, const char* param, int type) {
+	gocatormanager->SetParameter(str, strlen, param, type);
 }
 
-extern "C" __declspec(dllexport) bool GocatorManager_Init(GocatorManager * gocatormanager) {
-	return gocatormanager->Init();
+extern "C" __declspec(dllexport) void GocatorManager_Init(GocatorManager * gocatormanager, char* str, int strlen) {
+	gocatormanager->Init(str, strlen);
 }
 
-extern "C" __declspec(dllexport) bool GocatorManager_LoadPointCloud(GocatorManager * gocatormanager, const char* strfilename) {
-	return gocatormanager->LoadPointCloud(strfilename);
+extern "C" __declspec(dllexport) void GocatorManager_LoadPointCloud(GocatorManager * gocatormanager, char* str, int strlen, const char* strfilename) {
+	gocatormanager->LoadPointCloud(str, strlen, strfilename);
 }
 
-extern "C" __declspec(dllexport) bool GocatorManager_FileAnalysis(GocatorManager * gocatormanager, int type) {
-	return gocatormanager->FileAnalysis(type);
+extern "C" __declspec(dllexport) void GocatorManager_StartAcquisition(GocatorManager * gocatormanager, char* str, int strlen, int type, bool checkSavePCD) {
+	gocatormanager->StartAcquisition(str, strlen, type, checkSavePCD);
 }
 
-extern "C" __declspec(dllexport) bool GocatorManager_StartAcquisition(GocatorManager * gocatormanager, int type) {
-	return gocatormanager->StartAcquisition(type);
+extern "C" __declspec(dllexport) void GocatorManager_StopAcquisition(GocatorManager * gocatormanager, char* str, int strlen) {
+	gocatormanager->StopAcquisition(str, strlen);
 }
 
-extern "C" __declspec(dllexport) bool GocatorManager_StopAcquisition(GocatorManager * gocatormanager) {
-	return gocatormanager->StopAcquisition();
+extern "C" __declspec(dllexport) bool GocatorManager_FileAnalysis(GocatorManager * gocatormanager, int type, bool checkSavePCD) {
+	return gocatormanager->FileAnalysis(type, checkSavePCD);
 }

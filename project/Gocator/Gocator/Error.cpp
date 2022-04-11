@@ -13,8 +13,9 @@ GocatorCV::ErrorType GocatorCV::Error::GetCode() {
     return this->type;
 }
 
-void GocatorCV::Error::DisplayMessage() { 
+std::string GocatorCV::Error::DisplayMessage() { 
     std::cout << message << std::endl;
+    return message;
 }
 
 std::string GocatorCV::Error::GocatorCode(kStatus status) {
