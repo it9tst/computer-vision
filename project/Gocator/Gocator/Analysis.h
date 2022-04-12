@@ -63,7 +63,8 @@ namespace GocatorCV {
 
 	private:
 		GocatorCV::Server* server;
-		bool checkSavePCD = false;
+		bool check_save_pcd = false;
+		std::string folder_path_save_pcd = "../../Scan/";
 		pcl::PointCloud<pcl::PointXYZ>::Ptr cloud;
 		pcl::PointXYZ min_pt, max_pt;
 		pcl::PCDWriter writer;
@@ -100,7 +101,7 @@ namespace GocatorCV {
 		Analysis();
 		void TestServer(GocatorCV::Server* server);
 		void LoadPointCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
-		void Algorithm(int type, bool checkSavePCD);
+		void Algorithm(int type, bool check_save_pcd, std::string folder_path_save_pcd);
 		void CheckValidPoints(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_correct);
 		void DebugAlgorithm2();
 	};

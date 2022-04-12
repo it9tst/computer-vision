@@ -5,6 +5,13 @@
 ### Documentation
 [``Final Report``](https://htmlpreview.github.io/?https://github.com/it9tst/computer-vision/project/Report/relazione.pdf)
 
+### Use
+
+```
+vcpkg install gsl gsl:x64-windows
+vcpkg install cpprestsdk cpprestsdk:x64-windows
+```
+
 ### Author
 [Gabriele Tornatore](https://github.com/it9tst)
 

@@ -22,13 +22,14 @@ namespace GocatorCV {
 		std::mutex m_mutex;
 		std::deque< pcl::PointCloud<pcl::PointXYZ>::Ptr > buffer_save_data;
 		bool thread_saving_active;
-		bool checkSavePCD = false;
+		bool check_save_pcd = false;
+		std::string folder_path_save_pcd = "../../Scan/";
 		int type;
 		std::string datetime();
 
 	public:
 		Process();
-		void StartAcquisition(GocatorCV::Gocator *gocator, GocatorCV::Analysis* analysis, int type, bool checkSavePCD);
+		void StartAcquisition(GocatorCV::Gocator *gocator, GocatorCV::Analysis* analysis, int type, bool check_save_pcd, std::string folder_path_save_pcd);
 		void StopAcquisition();
 		void SaveAcquisition();
 		void StartGrab();

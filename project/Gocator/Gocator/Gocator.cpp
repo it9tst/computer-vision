@@ -47,10 +47,14 @@ GocatorCV::Error GocatorCV::Gocator::Init() {
 	}
 
 	// read current parameters
-	exposure = GoSetup_Exposure(setup, GO_ROLE_MAIN);
-	std::cout << "\tCurrent Parameters:" << std::endl;
-	std::cout << "\t-------------------" << std::endl;
-	std::cout << "\tExposure: " << exposure << std::endl << std::endl;
+	try {
+		exposure = GoSetup_Exposure(setup, GO_ROLE_MAIN);
+		std::cout << "\tCurrent Parameters:" << std::endl;
+		std::cout << "\t-------------------" << std::endl;
+		std::cout << "\tExposure: " << exposure << std::endl << std::endl;
+	} catch (...) {
+		std::cout << "GoSetup_Exposure Exception" << std::endl;
+	}
 
 	return Error(OK, 1);
 }
@@ -93,7 +97,7 @@ GocatorCV::Error GocatorCV::Gocator::SetParameter(ParameterType name, void* valu
 		case EXPOSURE:
 		{
 			k64f* _value = (k64f*)value;
-
+			
 			// modify parameter in main sensor
 			if ((status = GoSetup_SetExposure(setup, GO_ROLE_MAIN, *_value)) != kOK) {
 				return Error(GOSETUP_SETEXPOSURE, status);
@@ -102,10 +106,14 @@ GocatorCV::Error GocatorCV::Gocator::SetParameter(ParameterType name, void* valu
 			GoSensor_Flush(sensor);
 
 			// read current parameters
-			exposure = GoSetup_Exposure(setup, GO_ROLE_MAIN);
-			std::cout << "\tNew Parameters:" << std::endl;
-			std::cout << "\t---------------" << std::endl;
-			std::cout << "\tExposure: " << exposure << std::endl << std::endl;
+			try {
+				exposure = GoSetup_Exposure(setup, GO_ROLE_MAIN);
+				std::cout << "\tNew Parameters:" << std::endl;
+				std::cout << "\t---------------" << std::endl;
+				std::cout << "\tExposure: " << exposure << std::endl << std::endl;
+			} catch (...) {
+				std::cout << "GoSetup_Exposure Exception" << std::endl;
+			}
 		}
 			break;
 		default:

@@ -303,15 +303,16 @@
             <HelixToolkit:HelixViewport3D x:Name="helixPlot" ShowFrameRate="True" ZoomExtentsWhenLoaded="True" ZoomAroundMouseDownPoint="True" RotateAroundMouseDownPoint="True" IsTopBottomViewOrientedToFrontBack="True" IsViewCubeEdgeClicksEnabled="True">
 
                 <!--  Remember to add light to the scene  -->
-                <HelixToolkit:SunLight />
+                <HelixToolkit:DefaultLights />
 
                 <!--  You can also add elements here in the xaml  -->
                 <HelixToolkit:GridLinesVisual3D
-                Width="10"
-                Length="10"
-                MajorDistance="1"
-                MinorDistance="1"
-                Thickness="0.01" />
+                Width="300"
+                Length="300"
+                MajorDistance="10"
+                MinorDistance="5"
+                Thickness="0.1"
+                Fill="DimGray" />
 
             </HelixToolkit:HelixViewport3D>
         </Grid>
@@ -354,15 +355,15 @@
                             <Grid Height="80">
                                 <StackPanel Orientation="Horizontal">
                                     <Label Content="Exposure:" FontFamily="Roboto" VerticalAlignment="Top" Margin="10,10,0,0"/>
-                                    <TextBox Name="textBoxExposure" Height="23" TextWrapping="Wrap" Width="120" FontFamily="Roboto" VerticalAlignment="Top" Margin="10,11,0,0" VerticalContentAlignment="Center"/>
-                                    <Button Content="REFRESH" Width="75" Height="20" FontFamily="Roboto" VerticalAlignment="Top" Margin="10,12,0,0" Click="buttonRefresh_Click"/>
+                                    <TextBox Name="textBoxExposure" Height="23" TextWrapping="Wrap" Width="120" FontFamily="Roboto" VerticalAlignment="Top" Margin="10,11,0,0" VerticalContentAlignment="Center" IsEnabled="False"/>
+                                    <Button Name="buttonRefresh" Content="REFRESH" Width="75" Height="20" FontFamily="Roboto" VerticalAlignment="Top" Margin="10,12,0,0" Click="buttonRefresh_Click" IsEnabled="False"/>
                                 </StackPanel>
                                 <Label Name="labelRefresh" Height="40" Foreground="ForestGreen" FontFamily="Roboto" VerticalAlignment="Bottom" Margin="15,0,0,0" FontSize="10" Opacity="0.8" Visibility="Hidden"/>
                             </Grid>
                             <Grid Height="80">
                                 <StackPanel Orientation="Horizontal">
                                     <Label Content="File Analysis offline:" FontFamily="Roboto" VerticalAlignment="Top" Margin="10,10,0,0"/>
-                                    <Button Content="LOAD PCL" Width="75" Height="20" FontFamily="Roboto" VerticalAlignment="Top" Margin="10,12,0,0" Click="buttonLoadPCL_Click"/>
+                                    <Button Content="LOAD PCD" Width="75" Height="20" FontFamily="Roboto" VerticalAlignment="Top" Margin="10,13,0,0" Click="buttonLoadPCD_Click"/>
                                 </StackPanel>
                                 <Label Name="labelLoadPCL" Height="40" Foreground="ForestGreen" FontFamily="Roboto" VerticalAlignment="Bottom" Margin="15,0,0,0" FontSize="10" Opacity="0.8" Visibility="Hidden"/>
                             </Grid>
@@ -374,7 +375,10 @@
                                 </StackPanel>
                             </Grid>
                             <Grid Height="50">
-                                <CheckBox Name="checkSaveFilePCD" Content="Save PCD file during analysis" FontFamily="Roboto" VerticalAlignment="Top" Margin="15,10,0,0"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <CheckBox Name="checkSaveFilePCD" Content="Save PCD file during analysis" FontFamily="Roboto" VerticalAlignment="Top" VerticalContentAlignment="Center" Margin="15,18,0,0" Click="checkSaveFilePCD_Click"/>
+                                    <Button Name="buttonSelectFolder" Content="SELECT FOLDER" Width="105" Height="20" FontFamily="Roboto" VerticalAlignment="Top" Margin="10,15,0,0" Click="buttonSelectFolder_Click" IsEnabled="False"/>
+                                </StackPanel>
                             </Grid>
                         </StackPanel>
                     </Grid>
@@ -412,31 +416,34 @@
                             Orientation="Horizontal">
 
                 <Button 
+                    Name="buttonStartAcquisition"
                     Width="130"
                     Height="30"
                     Content="START ACQUISITION"
                     FontFamily="Roboto"
                     Margin="0,0,10,0"
                     VerticalAlignment="Center"
-                    Click="buttonStartAcquisition_Click"/>
+                    Click="buttonStartAcquisition_Click" IsEnabled="False"/>
 
                 <Button 
+                    Name="buttonStopAcquisition"
                     Width="130"
                     Height="30"
                     Content="STOP ACQUISITION"
                     FontFamily="Roboto"
                     Margin="0,0,10,0"
                     VerticalAlignment="Center"
-                    Click="buttonStopAcquisition_Click"/>
+                    Click="buttonStopAcquisition_Click" IsEnabled="False"/>
 
                 <Button 
+                    Name="buttonFileAnalysis"
                     Width="100"
                     Height="30"
                     Content="FILE ANALYSIS"
                     FontFamily="Roboto"
                     Margin="0,0,10,0"
                     VerticalAlignment="Center"
-                    Click="buttonFileAnalysis_Click"/>
+                    Click="buttonFileAnalysis_Click" IsEnabled="False"/>
 
             </StackPanel>
         </Grid>

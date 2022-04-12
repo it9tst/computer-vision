@@ -4,12 +4,13 @@ GocatorCV::Server::Server() {
 	// constructor
 }
 
-void GocatorCV::Server::ServerStart() {
+void GocatorCV::Server::ServerInit() {
 
-	server_thread = std::thread(&Server::Serv, this);
+	server_thread = std::thread(&Server::ServerStart, this);
 }
 
-void GocatorCV::Server::Serv() {
+void GocatorCV::Server::ServerStart() {
+	
 	WSADATA WSAData;
 	SOCKADDR_IN serverAddr, clientAddr;
 
@@ -38,9 +39,14 @@ void GocatorCV::Server::Serv() {
 	if ((client = accept(server, (SOCKADDR*)&clientAddr, &clientAddrSize))) {
 		std::cout << "Client connected!" << std::endl;
 	}
+}
 
-	//closesocket(client);
-	//std::cout << "Client disconnected." << std::endl;
+void GocatorCV::Server::ServerStop() {
+	
+	closesocket(client);
+	std::cout << "Client disconnected." << std::endl;
+	
+	server_thread.join();
 }
 
 void GocatorCV::Server::SendPCL(GocatorCV::PCL pcl) {
@@ -63,6 +69,7 @@ void GocatorCV::Server::SendPCL(GocatorCV::PCL pcl) {
 	auto result = myJSON.serialize();
 
 	send(client, (const char*)result.c_str(), result.size() * sizeof(wchar_t), 0);
+	std::cout << "Ho inviato dal server: " << result.size() * sizeof(wchar_t) << std::endl;
 }
 
 void GocatorCV::Server::SendStats(GocatorCV::Statistics stats) {
@@ -83,4 +90,5 @@ void GocatorCV::Server::SendStats(GocatorCV::Statistics stats) {
 	auto result = myJSON.serialize();
 
 	send(client, (const char*)result.c_str(), result.size() * sizeof(wchar_t), 0);
+	std::cout << "Ho inviato dal server: " << result.size() * sizeof(wchar_t) << std::endl;
 }

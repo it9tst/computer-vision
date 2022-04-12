@@ -21,13 +21,14 @@ namespace GocatorCV {
 
 	public:
 		GocatorManager();
-		bool ServerStart();
+		~GocatorManager();
+		void ServerStart();
 		void SetParameter(char* str, int strlen, const char* param, int type);
 		void Init(char* str, int strlen);
-		void LoadPointCloud(char* str, int strlen, const char* strfilename);
-		void StartAcquisition(char* str, int strlen, int type, bool checkSavePCD);
+		void StartAcquisition(char* str, int strlen, int type, bool checkSavePCD, const char* folder_path_save_pcd);
 		void StopAcquisition(char* str, int strlen);
-		bool FileAnalysis(int type, bool checkSavePCL);
+		void LoadPointCloud(char* str, int strlen, const char* strfilename);
+		bool FileAnalysis(int type, bool check_save_pcd, const char* folder_path_save_pcd);
 	};
 }
 

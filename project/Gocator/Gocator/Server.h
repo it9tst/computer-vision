@@ -29,8 +29,9 @@ namespace GocatorCV {
 
 	public:
 		Server();
+		void ServerInit();
 		void ServerStart();
-		void Serv();
+		void ServerStop();
 		void SendPCL(GocatorCV::PCL pcl);
 		void SendStats(GocatorCV::Statistics stats);
 	};

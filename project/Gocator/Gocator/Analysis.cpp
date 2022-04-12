@@ -12,18 +12,19 @@ void GocatorCV::Analysis::LoadPointCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr clo
     this->cloud = cloud;
 
     GocatorCV::PCL pcl;
-    for (int i = 0; i < this->cloud->size(); i++) {
-        pcl.x.push_back(this->cloud->points[i].x);
-        pcl.y.push_back(this->cloud->points[i].y);
-        pcl.z.push_back(this->cloud->points[i].z);
+    for (int i = 0; i < cloud->size(); i++) {
+        pcl.x.push_back(cloud->points[i].x);
+        pcl.y.push_back(cloud->points[i].y);
+        pcl.z.push_back(cloud->points[i].z);
     }
 
     server->SendPCL(pcl);
 }
 
-void GocatorCV::Analysis::Algorithm(int type, bool checkSavePCD) {
+void GocatorCV::Analysis::Algorithm(int type, bool check_save_pcd, std::string folder_path_save_pcd) {
 
-    this->checkSavePCD = checkSavePCD;
+    this->check_save_pcd = check_save_pcd;
+    this->folder_path_save_pcd = folder_path_save_pcd;
     
     if (type == 1) {
         // *****ANALISI IMMAGINI (BATTISTRADA 1-2)*****
@@ -38,7 +39,7 @@ void GocatorCV::Analysis::Algorithm(int type, bool checkSavePCD) {
 
         // Plane model segmentation
         pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_segmented(new pcl::PointCloud<pcl::PointXYZ>);
-        PlaneSegmentation(cloud_filtered, cloud_segmented, 5); // valore threshold (battistrada1: 1 - battistrada2: 5)
+        PlaneSegmentation(cloud_filtered, cloud_segmented, 1); // valore threshold (battistrada1: 1 - battistrada2: 5)
 
         GetMinMaxCoordinates(cloud_segmented);
 
@@ -60,7 +61,6 @@ void GocatorCV::Analysis::Algorithm(int type, bool checkSavePCD) {
         MatrixTransform(cloud_projected, cloud_transformed, x, y, 0);
 
         GetMinMaxCoordinates(cloud_transformed);
-
 
         // INIT OPENCV
         std::cout << "Image Width: " << (int)(max_pt.x * 10) << std::endl;
@@ -86,7 +86,7 @@ void GocatorCV::Analysis::Algorithm(int type, bool checkSavePCD) {
         cv::rotate(img, img, cv::ROTATE_90_CLOCKWISE);
         cv::flip(img, img, 1);
 
-        cv::imwrite("../../Scan/" + datetime() + "_image.jpg", img);
+        cv::imwrite(folder_path_save_pcd + "/" + datetime() + "_image.jpg", img);
 
         // BLOB - Morphological Transformations - Closing
         cv::Mat closing_Blob = MorphClosingBlob(img);
@@ -111,9 +111,6 @@ void GocatorCV::Analysis::Algorithm(int type, bool checkSavePCD) {
             // MACRO_BLOB - BLOB - Distance
             DistanceBetweenBlob(contours_MacroBlob, contours_Blob);
         }
-
-        // Visualising a point cloud
-        //Visualization(cloud);
 
     } else {
         // *****PER TUTTE LE LINEE (BATTISTRADA 3)*****
@@ -292,8 +289,8 @@ void GocatorCV::Analysis::Algorithm(int type, bool checkSavePCD) {
         cloud_final->height = 1;
         cloud_final->width = cloud_final->size();
         cloud_final->resize(cloud_final->size());
-        if (checkSavePCD) {
-            SavePCD(cloud_final, "../../Scan/" + datetime() + "_cloud_final.pcd");
+        if (check_save_pcd) {
+            SavePCD(cloud_final, folder_path_save_pcd + "/" + datetime() + "_cloud_final.pcd");
         }
 
         GetMinMaxCoordinates(cloud_final);
@@ -336,10 +333,8 @@ void GocatorCV::Analysis::Algorithm(int type, bool checkSavePCD) {
         }
 
         cv::flip(img, img, 0);
-        cv::imwrite("../../Scan/" + datetime() + "_image.jpg", img);
+        cv::imwrite(folder_path_save_pcd + "/" + datetime() + "_image.jpg", img);
         */
-        // Visualising a point cloud
-        //Visualization(cloud_final);
     }
 }
 
@@ -526,15 +521,15 @@ void GocatorCV::Analysis::StatisticalOutlierRemovalFilter(pcl::PointCloud<pcl::P
     std::cerr << "Cloud after filtering:" << std::endl;
     std::cerr << *cloud_filtered << std::endl;
 
-    if (checkSavePCD) {
+    if (check_save_pcd) {
         PCL_INFO("Saving statistical outlier removal filter in input cloud to *.pcd\n\n");
-        SavePCD(cloud_filtered, "../../Scan/" + datetime() + "_Statistical_Outlier_Removal_Filter.pcd");
+        SavePCD(cloud_filtered, folder_path_save_pcd + "/" + datetime() + "_Statistical_Outlier_Removal_Filter.pcd");
     }
 /*
     sor.setNegative(true);
     sor.filter(*cloud_filtered);
-    if (checkSavePCD) {
-        SavePCD(cloud_filtered, "../../Scan/table_scene_lms400_outliers.pcd");
+    if (check_save_pcd) {
+        SavePCD(cloud_filtered, folder_path_save_pcd + "/table_scene_lms400_outliers.pcd");
     }
 */
 }
@@ -565,9 +560,9 @@ void GocatorCV::Analysis::PlaneSegmentation(pcl::PointCloud<pcl::PointXYZ>::Ptr 
     if (inliers->indices.size() == 0) {
         PCL_ERROR("Could not estimate a planar model for the given dataset.\n\n");
     } else {
-        if (checkSavePCD) {
+        if (check_save_pcd) {
             PCL_INFO("Saving dominant plane in input cloud to *.pcd\n\n");
-            SavePCD(cloud_segmented, "../../Scan/" + datetime() + "_Plane_Segmentation.pcd");
+            SavePCD(cloud_segmented, folder_path_save_pcd + "/" + datetime() + "_Plane_Segmentation.pcd");
         }
     }
 /*
@@ -586,9 +581,9 @@ void GocatorCV::Analysis::PlaneSegmentation(pcl::PointCloud<pcl::PointXYZ>::Ptr 
     if (inliers->indices.size() == 0) {
         PCL_ERROR("Could not estimate a planar model for the given dataset.");
     } else {
-        if (checkSavePCD) {
+        if (check_save_pcd) {
             PCL_INFO("Saving dominant plane in outliers to: table_scene_lms400_second_plane.pcd\n\n");
-            SavePCD(outliersSegmented, "../../Scan/table_scene_lms400_second_plane.pcd");
+            SavePCD(outliersSegmented, folder_path_save_pcd + "/table_scene_lms400_second_plane.pcd");
         }
     }
 */
@@ -610,9 +605,9 @@ void GocatorCV::Analysis::ProjectPoints(pcl::PointCloud<pcl::PointXYZ>::Ptr clou
     proj.setModelCoefficients(coefficients);
     proj.filter(*cloud_projected);
 
-    if (checkSavePCD) {
+    if (check_save_pcd) {
         PCL_INFO("Saving project points in input cloud to *.pcd\n\n");
-        SavePCD(cloud_projected, "../../Scan/" + datetime() + "_Project_Points.pcd");
+        SavePCD(cloud_projected, folder_path_save_pcd + "/" + datetime() + "_Project_Points.pcd");
     }
 }
 
@@ -624,9 +619,9 @@ void GocatorCV::Analysis::MatrixTransform(pcl::PointCloud<pcl::PointXYZ>::Ptr cl
 
     pcl::transformPointCloud(*cloud, *cloud_transformed, transform);
 
-    if (checkSavePCD) {
+    if (check_save_pcd) {
         PCL_INFO("Saving matrix transformation in input cloud to *.pcd\n\n");
-        SavePCD(cloud_transformed, "../../Scan/" + datetime() + "_Matrix_Transformation.pcd");
+        SavePCD(cloud_transformed, folder_path_save_pcd + "/" + datetime() + "_Matrix_Transformation.pcd");
     }
 }
 
@@ -801,7 +796,7 @@ std::vector<std::vector<cv::Point>> GocatorCV::Analysis::ContoursDetection(cv::M
         cv::putText(drawing, std::to_string(i), cv::Point(boundRect[i].x + (boundRect[i].width / 2) , boundRect[i].y + (boundRect[i].height / 2)), cv::FONT_HERSHEY_SIMPLEX, 0.9, cv::Scalar(0, 255, 0), 2, false);
     }
 
-    cv::imwrite("../../Scan/" + datetime() + "_drawing.jpg", drawing);
+    cv::imwrite(folder_path_save_pcd + "/" + datetime() + "_drawing.jpg", drawing);
     /*
     cv::resize(drawing, drawing, cv::Size(drawing.cols / 2, drawing.rows / 2));
     cv::imshow("Output image", drawing);
@@ -875,6 +870,7 @@ void GocatorCV::Analysis::DistanceBetweenBlob(std::vector<std::vector<cv::Point>
         }
         list_MacroBlob.push_back(blob);
     }
+
     /*
     std::set<int>::iterator itr;
     for (auto v : macro_blob) {

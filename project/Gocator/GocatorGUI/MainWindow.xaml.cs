@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading;
 using System.Windows;
@@ -8,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using HelixToolkit.Wpf;
 using Microsoft.Win32;
+using Ookii.Dialogs.Wpf;
 
 namespace GocatorGUI {
     /// <summary>
@@ -17,10 +19,10 @@ namespace GocatorGUI {
 
         private CWrapper wrapper = new CWrapper();
         private CClient client = new CClient();
-        private int STRING_MAX_LENGTH = 5000;
-        private string strfilename;
+        private int STRING_MAX_LENGTH = 1000;
         private int type = 1;
         private bool checkSavePCD = false;
+        private string folderPathSavePCD = "";
 
         public MainWindow() {
             this.InitializeComponent();
@@ -28,7 +30,7 @@ namespace GocatorGUI {
             wrapper.GocatorManager_ServerStart();
 
             Thread thread = new Thread(delegate () {
-                client.StartClient(this);
+                client.ClientStart(this);
             });
             thread.Start();
         }
@@ -80,7 +82,12 @@ namespace GocatorGUI {
             wrapper.GocatorManager_SetParameter(message, STRING_MAX_LENGTH, sensor_ip, 1);
             wrapper.GocatorManager_Init(message, STRING_MAX_LENGTH);
 
-            if (!message.ToString().Equals("OK")) {
+            if (message.ToString().Equals("OK")) {
+                textBoxExposure.IsEnabled = true;
+                buttonRefresh.IsEnabled = true;
+                buttonStartAcquisition.IsEnabled = true;
+                buttonStopAcquisition.IsEnabled = true;
+            } else {
                 labelConnect.Foreground = new SolidColorBrush(Colors.Red);
             }
             labelConnect.Content = message.ToString().Replace('-', '\n');
@@ -101,22 +108,48 @@ namespace GocatorGUI {
             labelRefresh.Visibility = Visibility.Visible;
         }
 
-        private void buttonLoadPCL_Click(object sender, RoutedEventArgs e) {
+        private void buttonLoadPCD_Click(object sender, RoutedEventArgs e) {
 
             StringBuilder message = new StringBuilder(STRING_MAX_LENGTH);
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
             
             if (openFileDialog.ShowDialog() == true) {
-                
-                strfilename = openFileDialog.FileName;
+
+                string strfilename = openFileDialog.FileName;
                 wrapper.GocatorManager_LoadPointCloud(message, STRING_MAX_LENGTH, strfilename);
 
-                if (!message.ToString().Equals("OK")) {
+                if (message.ToString().Equals("OK")) {
+                    buttonFileAnalysis.IsEnabled = true;
+                } else {
                     labelLoadPCL.Foreground = new SolidColorBrush(Colors.Red);
                 }
                 labelLoadPCL.Content = message.ToString().Replace('-', '\n');
                 labelLoadPCL.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void checkSaveFilePCD_Click(object sender, RoutedEventArgs e) {
+
+            if (!checkSavePCD) {
+                checkSavePCD = true;
+                buttonSelectFolder.IsEnabled = true;
+            } else {
+                checkSavePCD = false;
+                buttonSelectFolder.IsEnabled = false;
+            }
+        }
+
+        private void buttonSelectFolder_Click(object sender, RoutedEventArgs e) {
+
+            var folderBrowser = new VistaFolderBrowserDialog();
+
+            bool? success = folderBrowser.ShowDialog();
+
+            if (success == true) {
+
+                folderPathSavePCD = folderBrowser.SelectedPath;
+                Console.WriteLine(folderBrowser.SelectedPath);
             }
         }
 
@@ -134,7 +167,7 @@ namespace GocatorGUI {
             StringBuilder message = new StringBuilder(STRING_MAX_LENGTH);
 
             checkInit();
-            wrapper.GocatorManager_StartAcquisition(message, STRING_MAX_LENGTH, type, checkSavePCD);
+            wrapper.GocatorManager_StartAcquisition(message, STRING_MAX_LENGTH, type, checkSavePCD, folderPathSavePCD);
 
             if (!message.ToString().Equals("OK")) {
                 MessageBox.Show(message.ToString());
@@ -155,7 +188,7 @@ namespace GocatorGUI {
         private void buttonFileAnalysis_Click(object sender, RoutedEventArgs e) {
 
             checkInit();
-            wrapper.GocatorManager_FileAnalysis(type, checkSavePCD);
+            wrapper.GocatorManager_FileAnalysis(type, checkSavePCD, folderPathSavePCD);
         }
 
         private void checkInit() {
@@ -165,12 +198,10 @@ namespace GocatorGUI {
             } else {
                 type = 2;
             }
+        }
 
-            if (checkSaveFilePCD.IsChecked == true) {
-                checkSavePCD = true;
-            } else {
-                checkSavePCD = false;
-            }
+        private void checkSaveFilePCD_Checked(object sender, RoutedEventArgs e) {
+
         }
     }
 }
