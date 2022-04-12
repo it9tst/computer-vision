@@ -32,23 +32,25 @@ void GocatorCV::Process::SaveAcquisition(){
 	int count = 0;
 
 	while (thread_saving_active) {
-		if (buffer_save_data.empty()) {
-			std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-		} else {
-			locker.lock();
-			auto _p_cloud_save = buffer_save_data.front();
-			buffer_save_data.pop_front();
-			std::cout << "SAVE - size: " << buffer_save_data.size() << std::endl;
-			locker.unlock();
+		if(true){
+			if (buffer_save_data.empty()) {
+				std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+			} else {
+				locker.lock();
+				auto _p_cloud_save = buffer_save_data.front();
+				buffer_save_data.pop_front();
+				std::cout << "SAVE - size: " << buffer_save_data.size() << std::endl;
+				locker.unlock();
 
-			analysis->LoadPointCloud(_p_cloud_save);
-			analysis->Algorithm(type, check_save_pcd, folder_path_save_pcd);
+				analysis->LoadPointCloud(_p_cloud_save);
+				analysis->Algorithm(type, check_save_pcd, folder_path_save_pcd);
 
-			std::cout << "SAVE - save value: " << count << std::endl;
-			if (check_save_pcd) {
-				pcl::io::savePCDFileASCII(folder_path_save_pcd + "/Point_Cloud_Gocator_" + datetime() + "_" + std::to_string(count) + ".pcd", *_p_cloud_save);
+				std::cout << "SAVE - save value: " << count << std::endl;
+				if (check_save_pcd) {
+					pcl::io::savePCDFileASCII(folder_path_save_pcd + "/Point_Cloud_Gocator_" + datetime() + "_" + std::to_string(count) + ".pcd", *_p_cloud_save);
+				}
+				count++;
 			}
-			count++;
 		}
 	}
 }

@@ -14,8 +14,8 @@ GocatorCV::GocatorManager::~GocatorManager() {
 
 void GocatorCV::GocatorManager::ServerStart() {
 
-	//server_thread = std::thread(&Server::ServerStart, server);
 	server.ServerInit();
+	analysis.TestServer(&server);
 }
 
 void GocatorCV::GocatorManager::SetParameter(char* str, int strlen, const char* param, int type) {
@@ -23,8 +23,11 @@ void GocatorCV::GocatorManager::SetParameter(char* str, int strlen, const char* 
 	std::string message = "OK";
 
 	if (type == 1) {
-
-		if ((error = gocator.SetParameter(GocatorCV::ParameterType::SENSOR_IP, (void*)param)).GetCode() != GocatorCV::ErrorType::OK) {
+		std::cout << param << std::endl;
+		
+		const char* sensor_ip = "192.168.1.151";
+		//const char* sensor_ip = param;
+		if ((error = gocator.SetParameter(GocatorCV::ParameterType::SENSOR_IP, (void*)sensor_ip)).GetCode() != GocatorCV::ErrorType::OK) {
 			message = error.DisplayMessage();
 		}
 	} else if (type == 2) {
@@ -102,7 +105,6 @@ void GocatorCV::GocatorManager::LoadPointCloud(char* str, int strlen, const char
 		message = "Couldn't read file *.pcd";
 	}
 
-	analysis.TestServer(&server);
 	analysis.LoadPointCloud(cloud);
 
 	message = message.substr(0, strlen);

@@ -27,7 +27,8 @@ namespace GocatorGUI {
 
             IPAddress ip = Dns.GetHostEntry("127.0.0.1").AddressList[0];
             int port = 7200;
-            IPEndPoint remoteEP = new IPEndPoint(ip, port);
+            //IPEndPoint remoteEP = new IPEndPoint(ip, port);
+            IPEndPoint remoteEP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), port);
 
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
