@@ -46,45 +46,49 @@ namespace GocatorGUI {
 
             while (true) {
                 try {
-                    using (var networkStream = new NetworkStream(socket))
-                    using (var reader = new StreamReader(networkStream, Encoding.Unicode, true))
-                    using (var jsonReader = new JsonTextReader(reader)) {
-                        Console.WriteLine("sono qui nel client");
-                        var serializer = new JsonSerializer();
-                        var result = serializer.Deserialize(jsonReader);
+                    using (var networkStream = new NetworkStream(socket)) {
+                        Console.WriteLine("NetworkStream");
+                        using (var reader = new StreamReader(networkStream, Encoding.Unicode, true)) {
+                            Console.WriteLine("StreamReader");
+                            using (var jsonReader = new JsonTextReader(reader)) {
+                                Console.WriteLine("JsonTextReader");
+                                var serializer = new JsonSerializer();
+                                var result = serializer.Deserialize(jsonReader);
 
-                        DataSet dataSet = JsonConvert.DeserializeObject<DataSet>(result.ToString());
+                                DataSet dataSet = JsonConvert.DeserializeObject<DataSet>(result.ToString());
 
-                        if (dataSet.Tables.Contains("point_cloud")) {
+                                if (dataSet.Tables.Contains("point_cloud")) {
 
-                            DataTable dataTable = dataSet.Tables["point_cloud"];
-                            Console.WriteLine(dataTable.Rows.Count);
+                                    DataTable dataTable = dataSet.Tables["point_cloud"];
+                                    Console.WriteLine(dataTable.Rows.Count);
 
-                            List<Point3D> points = new List<Point3D>();
+                                    List<Point3D> points = new List<Point3D>();
 
-                            foreach (DataRow row in dataTable.Rows) {
-                                points.Add(new Point3D(Convert.ToDouble(row["x"]), Convert.ToDouble(row["y"]), Convert.ToDouble(row["z"])));
-                                //Console.WriteLine(row["x"] + " - " + row["y"] + " - " + row["z"]);
+                                    foreach (DataRow row in dataTable.Rows) {
+                                        points.Add(new Point3D(Convert.ToDouble(row["x"]), Convert.ToDouble(row["y"]), Convert.ToDouble(row["z"])));
+                                        //Console.WriteLine(row["x"] + " - " + row["y"] + " - " + row["z"]);
+                                    }
+
+                                    this.mainWindow.Dispatcher.Invoke(() => {
+                                        this.mainWindow.CreateModel(points);
+                                    });
+                                } else if (dataSet.Tables.Contains("stats")) {
+                                    DataTable dataTable = dataSet.Tables["stats"];
+                                    Console.WriteLine(dataTable.Rows.Count);
+
+                                    foreach (DataRow row in dataTable.Rows) {
+
+                                        string sent = row["row"].ToString();
+                                        Console.WriteLine(sent);
+
+                                        this.mainWindow.Dispatcher.Invoke(() => {
+                                            this.mainWindow.textBoxOutput.AppendText(sent);
+                                            this.mainWindow.textBoxOutput.AppendText(Environment.NewLine);
+                                        });
+                                    }
+                                }
                             }
-
-                            this.mainWindow.Dispatcher.Invoke(() => {
-                                this.mainWindow.CreateModel(points);
-                            });
-                        } else if (dataSet.Tables.Contains("stats")) {
-                            DataTable dataTable = dataSet.Tables["stats"];
-                            Console.WriteLine(dataTable.Rows.Count);
-
-                            foreach (DataRow row in dataTable.Rows) {
-
-                                string sent = row["row"].ToString();
-                                Console.WriteLine(sent);
-
-                                this.mainWindow.Dispatcher.Invoke(() => {
-                                    this.mainWindow.textBoxOutput.AppendText(sent);
-                                    this.mainWindow.textBoxOutput.AppendText(Environment.NewLine);
-                                });
-                            }
-                        }
+                        } 
                     }
                 } catch (ObjectDisposedException) {
                     Console.WriteLine("SERVER: server was closed");
