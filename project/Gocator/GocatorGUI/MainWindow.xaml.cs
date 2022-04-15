@@ -40,6 +40,7 @@ namespace GocatorGUI {
         private int pos = 0;
         private bool first_model = true;
         private int previews_index = 0;
+        private int index = 0;
 
         public MainWindow() {
             this.InitializeComponent();
@@ -73,14 +74,14 @@ namespace GocatorGUI {
             if (new_model & !first_model) {
                 Console.WriteLine("Inserisco una nuova model");
                 UpdateGraph(cloudPoints, id);
-
+                UpdateComboBox();
                 new_model = false;
             }
 
             if (first_model) {
                 Console.WriteLine("Inserisco la prima model");
                 UpdateGraph(cloudPoints, id);
-
+                UpdateComboBox();
                 first_model = false;
             }
         }
@@ -94,7 +95,7 @@ namespace GocatorGUI {
             if (listModel.Count == 1) {
                 helixPlot.Children.Add(cloudPoints);
             } else {
-                helixPlot.Children.Remove(listModel[pos].points[0]);
+                helixPlot.Children.Remove(listModel[pos].points[index]);
                 helixPlot.Children.Add(cloudPoints);
                 pos++;
             }
@@ -254,19 +255,19 @@ namespace GocatorGUI {
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             
             var selectedcomboitem = sender as ComboBox;
-            int name = selectedcomboitem.SelectedIndex;
+            index = selectedcomboitem.SelectedIndex;
             
             helixPlot.Children.Remove(listModel[pos].points[previews_index]);
-            helixPlot.Children.Add(listModel[pos].points[name]);
+            helixPlot.Children.Add(listModel[pos].points[index]);
 
-            previews_index = name;
+            previews_index = index;
         }
 
         private void ButtonBackward_Click(object sender, RoutedEventArgs e) {
 
             if (pos != 0) {
-                helixPlot.Children.Remove(listModel[pos].points[0]);
-                helixPlot.Children.Add(listModel[pos - 1].points[0]);
+                helixPlot.Children.Remove(listModel[pos].points[index]);
+                helixPlot.Children.Add(listModel[pos - 1].points[index]);
 
                 textBoxOutput.Text = "";
                 for (int i = 0; i < listModel[pos - 1].row.Count; i++) {
@@ -284,8 +285,8 @@ namespace GocatorGUI {
         private void ButtonForward_Click(object sender, RoutedEventArgs e) {
 
             if (pos < listModel.Count - 1) {
-                helixPlot.Children.Remove(listModel[pos].points[0]);
-                helixPlot.Children.Add(listModel[pos + 1].points[0]);
+                helixPlot.Children.Remove(listModel[pos].points[index]);
+                helixPlot.Children.Add(listModel[pos + 1].points[index]);
 
                 textBoxOutput.Text = "";
                 for (int i = 0; i < listModel[pos + 1].row.Count; i++) {
