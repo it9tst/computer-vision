@@ -1,56 +1,152 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using HelixToolkit.Wpf;
 using Microsoft.Win32;
+using Newtonsoft.Json;
 using Ookii.Dialogs.Wpf;
 
 namespace GocatorGUI {
-    /// <summary>
-    /// Logica di interazione per MainWindow.xaml
-    /// </summary>
+
+    struct Model {
+        public int id;
+        public List<PointsVisual3D> points;
+        public List<string> row;
+
+        public Model(int id) {
+            this.id = id;
+            points = new List<PointsVisual3D>();
+            row = new List<string>();
+        }
+    }
+
     public partial class MainWindow : Window {
 
         private CWrapper wrapper = new CWrapper();
-        private CClient client = new CClient();
+        private Pipe pipe = new Pipe();
+
         private int STRING_MAX_LENGTH = 1000;
-        private int type = 1;
+        private int type = 11;
         private bool checkSavePCD = false;
         private string folderPathSavePCD = "";
+        
+        private List<Model> listModel = new List<Model>();
+        private int pos = 0;
+        private bool first_model = true;
+        private int previews_index = 0;
 
         public MainWindow() {
             this.InitializeComponent();
 
-            wrapper.GocatorManager_ServerStart();
-
             Thread thread = new Thread(delegate () {
-                client.ClientStart(this);
+                pipe.PipeRead(this);
             });
             thread.Start();
         }
 
-        public void CreateModel(List<Point3D> points) {
+        public void AddPCL(List<Point3D> points, int id) {
             
             Point3DCollection dataList = new Point3DCollection();
             PointsVisual3D cloudPoints = new PointsVisual3D { Color = Colors.White, Size = 1.0f };
+            
             foreach (Point3D p in points) {
                 dataList.Add(p);
             }
             cloudPoints.Points = dataList;
+            
+            bool new_model = true;
+            foreach (Model model in listModel) {
+                if (model.id == id) {
+                    Console.WriteLine("Aggiungo ad una model esistente");
+                    model.points.Add(cloudPoints);
+                    new_model = false;
+                    UpdateComboBox();
+                }
+            }
 
-            //List<PointsVisual3D> numberList = new List<PointsVisual3D>() {  };
-            //numberList.Add(cloudPoints);
+            if (new_model & !first_model) {
+                Console.WriteLine("Inserisco una nuova model");
+                UpdateGraph(cloudPoints, id);
 
-            // Add geometry to helixPlot. It renders asynchronously in the WPF composite render thread...
-            helixPlot.Children.Add(cloudPoints);
+                new_model = false;
+            }
+
+            if (first_model) {
+                Console.WriteLine("Inserisco la prima model");
+                UpdateGraph(cloudPoints, id);
+
+                first_model = false;
+            }
         }
 
+        public void UpdateGraph(PointsVisual3D cloudPoints, int id) {
+            var model = new Model(id);
+            model.points.Add(cloudPoints);
+            listModel.Add(model);
+
+            // Add geometry to helixPlot. It renders asynchronously in the WPF composite render thread...
+            if (listModel.Count == 1) {
+                helixPlot.Children.Add(cloudPoints);
+            } else {
+                helixPlot.Children.Remove(listModel[pos].points[0]);
+                helixPlot.Children.Add(cloudPoints);
+                pos++;
+            }
+        }
+
+        public void AddRow(string sent, int id) {
+
+            listModel[listModel.Count - 1].row.Add(sent);
+
+            textBoxOutput.AppendText(sent);
+            textBoxOutput.AppendText(Environment.NewLine);
+        }
+
+        private void UpdateComboBox() {
+
+            List<string> data = new List<string>();
+
+            for (int i = 0; i < listModel[pos].points.Count; i++) {
+                data.Add(i.ToString());
+            }
+
+            comboBox.ItemsSource = data;
+            comboBox.SelectedIndex = 0;
+            previews_index = 0;
+        }
+
+        private void UpdateConfig(string sensor_ip) {
+
+            List<Config> _data = new List<Config>();
+
+            _data.Add(new Config() {
+                SensorIP = sensor_ip
+            });
+
+            string json = JsonConvert.SerializeObject(_data.ToArray());
+
+            //write string to file
+            System.IO.File.WriteAllText(@"cfg.json", json);
+        }
+
+        private void CheckType() {
+
+            if (radioType1.IsChecked == true) {
+                type = 11;
+            } else if (radioType2.IsChecked == true) {
+                type = 12;
+            } else {
+                type = 2;
+            }
+        }
+
+        // Panel Window
         private void Border_MouseDown(object sender, MouseButtonEventArgs e) {
             if (e.LeftButton == MouseButtonState.Pressed) {
                 DragMove();
@@ -74,10 +170,11 @@ namespace GocatorGUI {
         }
 
         // Panel Config
-        private void buttonConnect_Click(object sender, RoutedEventArgs e) {
+        private void ButtonConnect_Click(object sender, RoutedEventArgs e) {
             
             StringBuilder message = new StringBuilder(STRING_MAX_LENGTH);
             string sensor_ip = textBoxSensorIP.Text;
+            UpdateConfig(sensor_ip);
 
             wrapper.GocatorManager_SetParameter(message, STRING_MAX_LENGTH, sensor_ip, 1);
             wrapper.GocatorManager_Init(message, STRING_MAX_LENGTH);
@@ -94,7 +191,7 @@ namespace GocatorGUI {
             labelConnect.Visibility = Visibility.Visible;
         }
 
-        private void buttonRefresh_Click(object sender, RoutedEventArgs e) {
+        private void ButtonRefresh_Click(object sender, RoutedEventArgs e) {
 
             StringBuilder message = new StringBuilder(STRING_MAX_LENGTH);
             string exposure = textBoxExposure.Text;
@@ -108,7 +205,7 @@ namespace GocatorGUI {
             labelRefresh.Visibility = Visibility.Visible;
         }
 
-        private void buttonLoadPCD_Click(object sender, RoutedEventArgs e) {
+        private void ButtonLoadPCD_Click(object sender, RoutedEventArgs e) {
 
             StringBuilder message = new StringBuilder(STRING_MAX_LENGTH);
 
@@ -129,7 +226,7 @@ namespace GocatorGUI {
             }
         }
 
-        private void checkSaveFilePCD_Click(object sender, RoutedEventArgs e) {
+        private void CheckSaveFilePCD_Click(object sender, RoutedEventArgs e) {
 
             if (!checkSavePCD) {
                 checkSavePCD = true;
@@ -140,7 +237,7 @@ namespace GocatorGUI {
             }
         }
 
-        private void buttonSelectFolder_Click(object sender, RoutedEventArgs e) {
+        private void ButtonSelectFolder_Click(object sender, RoutedEventArgs e) {
 
             var folderBrowser = new VistaFolderBrowserDialog();
 
@@ -154,19 +251,60 @@ namespace GocatorGUI {
         }
 
         // Button on Bottom
-        private void buttonBackward_Click(object sender, RoutedEventArgs e) {
-            // scorri point cloud
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            
+            var selectedcomboitem = sender as ComboBox;
+            int name = selectedcomboitem.SelectedIndex;
+            
+            helixPlot.Children.Remove(listModel[pos].points[previews_index]);
+            helixPlot.Children.Add(listModel[pos].points[name]);
+
+            previews_index = name;
         }
 
-        private void buttonForward_Click(object sender, RoutedEventArgs e) {
-            // scorri point cloud
+        private void ButtonBackward_Click(object sender, RoutedEventArgs e) {
+
+            if (pos != 0) {
+                helixPlot.Children.Remove(listModel[pos].points[0]);
+                helixPlot.Children.Add(listModel[pos - 1].points[0]);
+
+                textBoxOutput.Text = "";
+                for (int i = 0; i < listModel[pos - 1].row.Count; i++) {
+                    textBoxOutput.AppendText(listModel[pos - 1].row[i]);
+                    textBoxOutput.AppendText(Environment.NewLine);
+                }
+
+                pos--;
+                UpdateComboBox();
+            }
+
+            Console.WriteLine(pos);
         }
 
-        private void buttonStartAcquisition_Click(object sender, RoutedEventArgs e) {
+        private void ButtonForward_Click(object sender, RoutedEventArgs e) {
+
+            if (pos < listModel.Count - 1) {
+                helixPlot.Children.Remove(listModel[pos].points[0]);
+                helixPlot.Children.Add(listModel[pos + 1].points[0]);
+
+                textBoxOutput.Text = "";
+                for (int i = 0; i < listModel[pos + 1].row.Count; i++) {
+                    textBoxOutput.AppendText(listModel[pos + 1].row[i]);
+                    textBoxOutput.AppendText(Environment.NewLine);
+                }
+
+                pos++;
+                UpdateComboBox();
+            }
+
+            Console.WriteLine(pos);
+        }
+
+        private void ButtonStartAcquisition_Click(object sender, RoutedEventArgs e) {
 
             StringBuilder message = new StringBuilder(STRING_MAX_LENGTH);
 
-            checkInit();
+            CheckType();
             wrapper.GocatorManager_StartAcquisition(message, STRING_MAX_LENGTH, type, checkSavePCD, folderPathSavePCD);
 
             if (!message.ToString().Equals("OK")) {
@@ -174,7 +312,7 @@ namespace GocatorGUI {
             }
         }
 
-        private void buttonStopAcquisition_Click(object sender, RoutedEventArgs e) {
+        private void ButtonStopAcquisition_Click(object sender, RoutedEventArgs e) {
 
             StringBuilder message = new StringBuilder(STRING_MAX_LENGTH);
 
@@ -185,23 +323,10 @@ namespace GocatorGUI {
             }
         }
 
-        private void buttonFileAnalysis_Click(object sender, RoutedEventArgs e) {
+        private void ButtonFileAnalysis_Click(object sender, RoutedEventArgs e) {
 
-            checkInit();
+            CheckType();
             wrapper.GocatorManager_FileAnalysis(type, checkSavePCD, folderPathSavePCD);
-        }
-
-        private void checkInit() {
-
-            if (radioType1.IsChecked == true) {
-                type = 1;
-            } else {
-                type = 2;
-            }
-        }
-
-        private void checkSaveFilePCD_Checked(object sender, RoutedEventArgs e) {
-
         }
     }
 }

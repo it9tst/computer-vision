@@ -16,23 +16,24 @@ namespace GocatorCV {
 	private:
 		GocatorCV::Gocator *gocator;
 		GocatorCV::Analysis *analysis;
-		std::thread acquisition_thread;
-		std::thread saving_thread;
-		std::thread analysis_thread;
+		std::thread thread_acquisition;
+		std::thread thread_saving;
+		std::thread thread_analysis;
 		std::mutex m_mutex;
 		std::deque< pcl::PointCloud<pcl::PointXYZ>::Ptr > buffer_save_data;
 		bool thread_saving_active;
 		bool check_save_pcd = false;
+		int object_type;
 		std::string folder_path_save_pcd = "../../Scan/";
-		int type;
 		std::string datetime();
 
 	public:
 		Process();
-		void StartAcquisition(GocatorCV::Gocator *gocator, GocatorCV::Analysis* analysis, int type, bool check_save_pcd, std::string folder_path_save_pcd);
+		Process(GocatorCV::Gocator* gocator, GocatorCV::Analysis* analysis);
+		void StartAcquisition(int object_type, bool check_save_pcd, std::string folder_path_save_pcd);
 		void StopAcquisition();
 		void SaveAcquisition();
 		void StartGrab();
-		void Visualization(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
+		int GetRNG();
 	};
 }

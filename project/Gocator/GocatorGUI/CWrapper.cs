@@ -12,9 +12,6 @@ namespace GocatorGUI {
         private static extern void DeleteGocatorManager(IntPtr class_pointer);
 
         [DllImport("Gocator.dll")]
-        private static extern void GocatorManager_ServerStart(IntPtr class_pointer);
-
-        [DllImport("Gocator.dll")]
         private static extern void GocatorManager_SetParameter(IntPtr class_pointer, StringBuilder str, int strlen, string param, int type);
 
         [DllImport("Gocator.dll")]
@@ -36,10 +33,6 @@ namespace GocatorGUI {
 
         public CWrapper() {
             _pointerclass = CreateGocatorManager();
-        }
-
-        public void GocatorManager_ServerStart() {
-            GocatorManager_ServerStart(_pointerclass);
         }
 
         public void GocatorManager_SetParameter(StringBuilder str, int strlen, string param, int type) {

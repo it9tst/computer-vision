@@ -75,7 +75,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CClient.cs" />
+    <Compile Include="Pipe.cs" />
+    <Compile Include="Config.cs" />
     <Compile Include="CWrapper.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">

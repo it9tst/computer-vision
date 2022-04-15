@@ -9,7 +9,7 @@
 
 ```
 vcpkg install gsl gsl:x64-windows
-vcpkg install cpprestsdk cpprestsdk:x64-windows
+vcpkg install nlohmann-json:x64-windows
 ```
 
 ### Author

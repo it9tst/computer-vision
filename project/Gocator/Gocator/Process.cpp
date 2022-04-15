@@ -1,29 +1,31 @@
 #include "Process.h"
 
-GocatorCV::Process::Process() {
-	// constructor
-}
+// constructors
+GocatorCV::Process::Process() {}
 
-void GocatorCV::Process::StartAcquisition(GocatorCV::Gocator *gocator, GocatorCV::Analysis *analysis, int type, bool check_save_pcd, std::string folder_path_save_pcd) {
-
+GocatorCV::Process::Process(GocatorCV::Gocator* gocator, GocatorCV::Analysis* analysis) {
 	this->gocator = gocator;
 	this->analysis = analysis;
-	this->type = type;
+}
+
+void GocatorCV::Process::StartAcquisition(int object_type, bool check_save_pcd, std::string folder_path_save_pcd) {
+
+	this->object_type = object_type;
 	this->check_save_pcd = check_save_pcd;
 	this->folder_path_save_pcd = folder_path_save_pcd;
 
 	thread_saving_active = true;
 	
-	acquisition_thread = std::thread(&Process::StartGrab, this);
-	saving_thread = std::thread(&Process::SaveAcquisition, this);
+	thread_acquisition = std::thread(&Process::StartGrab, this);
+	thread_saving = std::thread(&Process::SaveAcquisition, this);
 }
 
 void GocatorCV::Process::StopAcquisition() {
 	
 	thread_saving_active = false;
 
-	acquisition_thread.join();
-	saving_thread.join();
+	thread_acquisition.join();
+	thread_saving.join();
 }
 
 void GocatorCV::Process::SaveAcquisition(){
@@ -32,7 +34,7 @@ void GocatorCV::Process::SaveAcquisition(){
 	int count = 0;
 
 	while (thread_saving_active) {
-		if(true){
+		if(count == count){
 			if (buffer_save_data.empty()) {
 				std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 			} else {
@@ -42,8 +44,10 @@ void GocatorCV::Process::SaveAcquisition(){
 				std::cout << "SAVE - size: " << buffer_save_data.size() << std::endl;
 				locker.unlock();
 
-				analysis->LoadPointCloud(_p_cloud_save);
-				analysis->Algorithm(type, check_save_pcd, folder_path_save_pcd);
+				// start analysis
+				int id = GetRNG();
+				analysis->LoadPointCloud(_p_cloud_save, id);
+				analysis->Algorithm(object_type, check_save_pcd, folder_path_save_pcd, id);
 
 				std::cout << "SAVE - save value: " << count << std::endl;
 				if (check_save_pcd) {
@@ -72,33 +76,6 @@ void GocatorCV::Process::StartGrab() {
 	}
 }
 
-void GocatorCV::Process::Visualization(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud) {
-
-	pcl::PointCloud<pcl::PointXYZ>::Ptr cloudCopy(new pcl::PointCloud<pcl::PointXYZ>());
-	pcl::copyPointCloud(*cloud, *cloudCopy);
-
-	//pcl::PointCloud<pcl::PointXYZ>::Ptr cloudCorrect(new pcl::PointCloud<pcl::PointXYZ>);
-	//analysis.CheckValidPoints(cloudCopy, cloudCorrect);
-
-	vtkObject::GlobalWarningDisplayOff();
-
-	// Visualization
-	pcl::visualization::PCLVisualizer::Ptr viewer(new pcl::visualization::PCLVisualizer("cloud", true));
-
-	pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> red(cloudCopy, 255, 0, 0);
-	viewer->setBackgroundColor(0, 0, 0);
-	viewer->addPointCloud<pcl::PointXYZ>(cloudCopy, red, "cloud");
-	viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "cloud");
-	viewer->addCoordinateSystem(1);
-	viewer->initCameraParameters();
-
-	// Main loop
-	while (!viewer->wasStopped()) {
-		viewer->spinOnce(100);
-		std::this_thread::sleep_for(std::chrono::milliseconds(100));
-	}
-}
-
 std::string GocatorCV::Process::datetime() {
 	auto t = std::time(nullptr);
 	auto tm = *std::localtime(&t);
@@ -107,4 +84,11 @@ std::string GocatorCV::Process::datetime() {
 	std::string name = oss.str();
 
 	return std::string(name);
+}
+
+int GocatorCV::Process::GetRNG() {
+
+	std::srand(static_cast<unsigned int>(std::time(nullptr)));
+
+	return std::rand();
 }

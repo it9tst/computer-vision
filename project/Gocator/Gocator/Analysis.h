@@ -39,7 +39,7 @@
 #include "matplotlibcpp.h"
 namespace plt = matplotlibcpp;
 
-#include "Server.h"
+#include "Pipe.h"
 
 
 namespace GocatorCV {
@@ -62,9 +62,11 @@ namespace GocatorCV {
 	class Analysis {
 
 	private:
-		GocatorCV::Server* server;
+		GocatorCV::Pipe* pipe;
 		bool check_save_pcd = false;
 		std::string folder_path_save_pcd = "../../Scan/";
+		int id;
+
 		pcl::PointCloud<pcl::PointXYZ>::Ptr cloud;
 		pcl::PointXYZ min_pt, max_pt;
 		pcl::PCDWriter writer;
@@ -99,9 +101,9 @@ namespace GocatorCV {
 
 	public:
 		Analysis();
-		void TestServer(GocatorCV::Server* server);
-		void LoadPointCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
-		void Algorithm(int type, bool check_save_pcd, std::string folder_path_save_pcd);
+		Analysis(GocatorCV::Pipe* pipe);
+		void LoadPointCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int id);
+		void Algorithm(int type, bool check_save_pcd, std::string folder_path_save_pcd, int id);
 		void CheckValidPoints(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_correct);
 		void DebugAlgorithm2();
 	};

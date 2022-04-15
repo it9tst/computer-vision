@@ -6,7 +6,7 @@
 #define GOCATORMANAGER_H
 
 #include "Process.h"
-#include "Server.h"
+#include <nlohmann/json.hpp>
 
 namespace GocatorCV {
 
@@ -17,18 +17,18 @@ namespace GocatorCV {
 		GocatorCV::Process process;
 		GocatorCV::Analysis analysis;
 		GocatorCV::Error error;
-		GocatorCV::Server server;
+		GocatorCV::Pipe pipe;
+		int id;
 
 	public:
 		GocatorManager();
 		~GocatorManager();
-		void ServerStart();
 		void SetParameter(char* str, int strlen, const char* param, int type);
 		void Init(char* str, int strlen);
-		void StartAcquisition(char* str, int strlen, int type, bool checkSavePCD, const char* folder_path_save_pcd);
+		void StartAcquisition(char* str, int strlen, int object_type, bool check_save_pcd, const char* folder_path_save_pcd);
 		void StopAcquisition(char* str, int strlen);
-		void LoadPointCloud(char* str, int strlen, const char* strfilename);
-		bool FileAnalysis(int type, bool check_save_pcd, const char* folder_path_save_pcd);
+		void LoadPointCloud(char* str, int strlen, const char* file_name);
+		bool FileAnalysis(int object_type, bool check_save_pcd, const char* folder_path_save_pcd);
 	};
 }
 
