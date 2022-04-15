@@ -37,14 +37,14 @@ namespace GocatorGUI {
         private string folderPathSavePCD = "";
         
         private List<Model> listModel = new List<Model>();
-        private int pos = 0;
         private bool first_model = true;
-        private int previews_index = 0;
+        private int pos = 0;
+        private int index_preview = 0;
         private int index = 0;
-
+        
         public MainWindow() {
             this.InitializeComponent();
-
+            
             Thread thread = new Thread(delegate () {
                 pipe.PipeRead(this);
             });
@@ -97,7 +97,7 @@ namespace GocatorGUI {
             } else {
                 helixPlot.Children.Remove(listModel[pos].points[index]);
                 helixPlot.Children.Add(cloudPoints);
-                pos++;
+                pos = listModel.Count - 1;
             }
         }
 
@@ -119,7 +119,6 @@ namespace GocatorGUI {
 
             comboBox.ItemsSource = data;
             comboBox.SelectedIndex = 0;
-            previews_index = 0;
         }
 
         private void UpdateConfig(string sensor_ip) {
@@ -209,14 +208,14 @@ namespace GocatorGUI {
         private void ButtonLoadPCD_Click(object sender, RoutedEventArgs e) {
 
             StringBuilder message = new StringBuilder(STRING_MAX_LENGTH);
-
             OpenFileDialog openFileDialog = new OpenFileDialog();
             
             if (openFileDialog.ShowDialog() == true) {
 
+                Mouse.OverrideCursor = Cursors.Wait;
                 string strfilename = openFileDialog.FileName;
                 wrapper.GocatorManager_LoadPointCloud(message, STRING_MAX_LENGTH, strfilename);
-
+                
                 if (message.ToString().Equals("OK")) {
                     buttonFileAnalysis.IsEnabled = true;
                 } else {
@@ -225,6 +224,8 @@ namespace GocatorGUI {
                 labelLoadPCL.Content = message.ToString().Replace('-', '\n');
                 labelLoadPCL.Visibility = Visibility.Visible;
             }
+
+            Mouse.OverrideCursor = Cursors.Arrow;
         }
 
         private void CheckSaveFilePCD_Click(object sender, RoutedEventArgs e) {
@@ -256,18 +257,18 @@ namespace GocatorGUI {
             
             var selectedcomboitem = sender as ComboBox;
             index = selectedcomboitem.SelectedIndex;
-            
-            helixPlot.Children.Remove(listModel[pos].points[previews_index]);
+
+            helixPlot.Children.Remove(listModel[pos].points[index_preview]);
             helixPlot.Children.Add(listModel[pos].points[index]);
 
-            previews_index = index;
+            index_preview = index;
         }
 
         private void ButtonBackward_Click(object sender, RoutedEventArgs e) {
 
-            if (pos != 0) {
+            if (pos != 0 && index == 0) {
                 helixPlot.Children.Remove(listModel[pos].points[index]);
-                helixPlot.Children.Add(listModel[pos - 1].points[index]);
+                helixPlot.Children.Add(listModel[pos - 1].points[0]);
 
                 textBoxOutput.Text = "";
                 for (int i = 0; i < listModel[pos - 1].row.Count; i++) {
@@ -284,9 +285,9 @@ namespace GocatorGUI {
 
         private void ButtonForward_Click(object sender, RoutedEventArgs e) {
 
-            if (pos < listModel.Count - 1) {
+            if (pos < listModel.Count - 1 && index == 0) {
                 helixPlot.Children.Remove(listModel[pos].points[index]);
-                helixPlot.Children.Add(listModel[pos + 1].points[index]);
+                helixPlot.Children.Add(listModel[pos + 1].points[0]);
 
                 textBoxOutput.Text = "";
                 for (int i = 0; i < listModel[pos + 1].row.Count; i++) {
@@ -299,6 +300,18 @@ namespace GocatorGUI {
             }
 
             Console.WriteLine(pos);
+        }
+        
+        private void ButtonReset_Click(object sender, RoutedEventArgs e) {
+
+            if (index == 0) {
+                helixPlot.Children.Remove(listModel[pos].points[index]);
+                listModel.Clear();
+                first_model = true;
+                pos = 0;
+                index_preview = 0;
+                index = 0;
+            }
         }
 
         private void ButtonStartAcquisition_Click(object sender, RoutedEventArgs e) {
@@ -327,7 +340,9 @@ namespace GocatorGUI {
         private void ButtonFileAnalysis_Click(object sender, RoutedEventArgs e) {
 
             CheckType();
+            Mouse.OverrideCursor = Cursors.Wait;
             wrapper.GocatorManager_FileAnalysis(type, checkSavePCD, folderPathSavePCD);
+            Mouse.OverrideCursor = Cursors.Arrow;
         }
     }
 }
