@@ -4,7 +4,7 @@ GocatorCV::GocatorManager::GocatorManager() {
 	GocatorCV::Pipe pipe;
 	GocatorCV::Gocator gocator;
 	GocatorCV::Analysis analysis(&pipe);
-	GocatorCV::Process process(&gocator, &analysis);
+	GocatorCV::Process process;
 	GocatorCV::Error error;
 }
 
@@ -25,7 +25,7 @@ void GocatorCV::GocatorManager::SetParameter(char* str, int strlen, const char* 
 
 		std::string sensor_ip_string = j[0]["SensorIP"].get<std::string>();
 
-		const char* sensor_ip = sensor_ip_string.c_str();
+		const char* sensor_ip = "192.168.1.151"; //sensor_ip_string.c_str();
 		std::cout << "char: " << sensor_ip << std::endl;
 
 		if ((error = gocator.SetParameter(GocatorCV::ParameterType::SENSOR_IP, (void*)sensor_ip)).GetCode() != GocatorCV::ErrorType::OK) {
@@ -71,7 +71,7 @@ void GocatorCV::GocatorManager::StartAcquisition(char* str, int strlen, int obje
 		message = error.DisplayMessage();
 	}
 
-	process.StartAcquisition(object_type, check_save_pcd, _folder_path_save_pcd);
+	process.StartAcquisition(object_type, check_save_pcd, _folder_path_save_pcd, &gocator, &analysis);
 	
 	message = message.substr(0, strlen);
 

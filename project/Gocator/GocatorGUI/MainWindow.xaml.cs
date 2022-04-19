@@ -35,7 +35,9 @@ namespace GocatorGUI {
         private int type = 11;
         private bool checkSavePCD = false;
         private string folderPathSavePCD = "";
-        
+        private bool checkClick = false;
+
+
         private List<Model> listModel = new List<Model>();
         private bool first_model = true;
         private int pos = 0;
@@ -159,14 +161,27 @@ namespace GocatorGUI {
 
         private void ButtonWindowState_Click(object sender, RoutedEventArgs e) {
             
-            double x = SystemParameters.WorkArea.Width;
-            double y = SystemParameters.WorkArea.Height;
-            
-            Application.Current.MainWindow.WindowState = WindowState.Normal;
-            Application.Current.MainWindow.Top = 0;
-            Application.Current.MainWindow.Left = 0;
-            Application.Current.MainWindow.Width = x;
-            Application.Current.MainWindow.Height = y;
+            if (!checkClick) {
+                double x = SystemParameters.WorkArea.Width;
+                double y = SystemParameters.WorkArea.Height;
+
+                Application.Current.MainWindow.WindowState = WindowState.Normal;
+                Application.Current.MainWindow.Top = 0;
+                Application.Current.MainWindow.Left = 0;
+                Application.Current.MainWindow.Width = x;
+                Application.Current.MainWindow.Height = y;
+
+                checkClick = true;
+            } else {
+                Application.Current.MainWindow.WindowState = WindowState.Normal;
+                Application.Current.MainWindow.Top = 0;
+                Application.Current.MainWindow.Left = 0;
+                Application.Current.MainWindow.Width = 1280;
+                Application.Current.MainWindow.Height = 630;
+                Application.Current.MainWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+                checkClick = false;
+            }
         }
 
         private void ButtonClose_Click(object sender, RoutedEventArgs e) {
@@ -310,6 +325,7 @@ namespace GocatorGUI {
 
             if (index == 0) {
                 helixPlot.Children.Remove(listModel[pos].points[index]);
+                textBoxOutput.Text = "";
                 listModel.Clear();
                 first_model = true;
                 pos = 0;

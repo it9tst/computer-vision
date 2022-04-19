@@ -29,11 +29,11 @@ namespace GocatorCV {
 
 	public:
 		Process();
-		Process(GocatorCV::Gocator* gocator, GocatorCV::Analysis* analysis);
-		void StartAcquisition(int object_type, bool check_save_pcd, std::string folder_path_save_pcd);
+		//Process(GocatorCV::Gocator* gocator, GocatorCV::Analysis* analysis);
+		void StartAcquisition(int object_type, bool check_save_pcd, std::string folder_path_save_pcd, GocatorCV::Gocator* gocator, GocatorCV::Analysis* analysis);
 		void StopAcquisition();
-		void SaveAcquisition();
 		void StartGrab();
+		void SaveAcquisition();
 		int GetRNG();
 	};
 }

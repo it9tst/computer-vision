@@ -2,17 +2,19 @@
 
 // constructors
 GocatorCV::Process::Process() {}
-
+/*
 GocatorCV::Process::Process(GocatorCV::Gocator* gocator, GocatorCV::Analysis* analysis) {
 	this->gocator = gocator;
 	this->analysis = analysis;
 }
-
-void GocatorCV::Process::StartAcquisition(int object_type, bool check_save_pcd, std::string folder_path_save_pcd) {
+*/
+void GocatorCV::Process::StartAcquisition(int object_type, bool check_save_pcd, std::string folder_path_save_pcd, GocatorCV::Gocator* gocator, GocatorCV::Analysis* analysis) {
 
 	this->object_type = object_type;
 	this->check_save_pcd = check_save_pcd;
 	this->folder_path_save_pcd = folder_path_save_pcd;
+	this->gocator = gocator;
+	this->analysis = analysis;
 
 	thread_saving_active = true;
 	
@@ -26,6 +28,23 @@ void GocatorCV::Process::StopAcquisition() {
 
 	thread_acquisition.join();
 	thread_saving.join();
+}
+
+void GocatorCV::Process::StartGrab() {
+
+	std::unique_lock<std::mutex> locker(m_mutex, std::defer_lock);
+	pcl::PointCloud<pcl::PointXYZ>::Ptr _p_cloud;
+
+	while (thread_saving_active) {
+		_p_cloud = gocator->Grab();
+
+		locker.lock();
+		buffer_save_data.push_back(_p_cloud);
+		int s = buffer_save_data.size();
+		locker.unlock();
+
+		std::cout << "GRAB - size: " << s << std::endl;
+	}
 }
 
 void GocatorCV::Process::SaveAcquisition(){
@@ -56,23 +75,6 @@ void GocatorCV::Process::SaveAcquisition(){
 				count++;
 			}
 		}
-	}
-}
-
-void GocatorCV::Process::StartGrab() {
-
-	std::unique_lock<std::mutex> locker(m_mutex, std::defer_lock);
-	pcl::PointCloud<pcl::PointXYZ>::Ptr _p_cloud;
-
-	while (thread_saving_active) {
-		_p_cloud = gocator->Grab();
-
-		locker.lock();
-		buffer_save_data.push_back(_p_cloud);
-		int s = buffer_save_data.size();
-		locker.unlock();
-
-		std::cout << "GRAB - size: " << s << std::endl;
 	}
 }
 
