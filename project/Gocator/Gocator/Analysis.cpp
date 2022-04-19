@@ -22,7 +22,9 @@ void GocatorCV::Analysis::LoadPointCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr clo
 }
 
 void GocatorCV::Analysis::Algorithm(int object_type, bool check_save_pcd, std::string folder_path_save_pcd, int id) {
-
+    
+    auto start = std::chrono::high_resolution_clock::now();
+    
     this->check_save_pcd = check_save_pcd;
     this->folder_path_save_pcd = folder_path_save_pcd;
     this->id = id;
@@ -365,6 +367,9 @@ void GocatorCV::Analysis::Algorithm(int object_type, bool check_save_pcd, std::s
             cv::imwrite(folder_path_save_pcd + "/" + datetime() + "_image.jpg", img);
         }
         */
+        auto stop = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+        std::cout << "Time taken by function Algorithm: " << duration.count() << " microseconds" << std::endl;
     }
 }
 

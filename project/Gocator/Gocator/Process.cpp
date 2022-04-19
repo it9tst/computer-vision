@@ -6,8 +6,10 @@ GocatorCV::Process::Process() {}
 GocatorCV::Process::Process(GocatorCV::Gocator* gocator, GocatorCV::Analysis* analysis) {
 	this->gocator = gocator;
 	this->analysis = analysis;
+	std::cout << this << std::endl;
 }
 */
+//void GocatorCV::Process::StartAcquisition(int object_type, bool check_save_pcd, std::string folder_path_save_pcd) {
 void GocatorCV::Process::StartAcquisition(int object_type, bool check_save_pcd, std::string folder_path_save_pcd, GocatorCV::Gocator* gocator, GocatorCV::Analysis* analysis) {
 
 	this->object_type = object_type;
@@ -36,6 +38,7 @@ void GocatorCV::Process::StartGrab() {
 	pcl::PointCloud<pcl::PointXYZ>::Ptr _p_cloud;
 
 	while (thread_saving_active) {
+		std::cout << this << std::endl;
 		_p_cloud = gocator->Grab();
 
 		locker.lock();

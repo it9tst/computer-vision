@@ -7,6 +7,7 @@
 #include <iostream>
 #include <thread>
 #include <nlohmann/json.hpp>
+#include <chrono>
 
 namespace GocatorCV {
 

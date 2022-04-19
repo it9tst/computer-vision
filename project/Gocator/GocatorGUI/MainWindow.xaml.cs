@@ -173,12 +173,12 @@ namespace GocatorGUI {
 
                 checkClick = true;
             } else {
+
                 Application.Current.MainWindow.WindowState = WindowState.Normal;
                 Application.Current.MainWindow.Top = 0;
                 Application.Current.MainWindow.Left = 0;
                 Application.Current.MainWindow.Width = 1280;
                 Application.Current.MainWindow.Height = 630;
-                Application.Current.MainWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
                 checkClick = false;
             }
