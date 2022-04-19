@@ -27,7 +27,7 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="420"/>
         </Grid.ColumnDefinitions>
 
         <Border Grid.ColumnSpan="2"
@@ -321,16 +321,15 @@
               Grid.Column="1"
               Margin="10">
 
-            <TabControl HorizontalAlignment="Left" VerticalAlignment="Top" Width="350">
+            <TabControl HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="400">
                 <TabItem Header="Output">
                     <Grid Background="Gainsboro">
                         <TextBox
                             Name="textBoxOutput"
                             Background="Gainsboro"
-                            HorizontalAlignment="Left"
-                            Height="627"
-                            VerticalAlignment="Top"
-                            Width="344"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Width="Auto"
                             VerticalScrollBarVisibility="Auto"
                             TextWrapping="Wrap"
                             FontFamily="Roboto"
@@ -340,7 +339,7 @@
                 </TabItem>
                 <TabItem Header="Config">
                     <Grid Background="#fff">
-                        <StackPanel HorizontalAlignment="Left" Height="627" VerticalAlignment="Top" Width="344">
+                        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="Auto">
                             <Grid Height="40">
                                 <Label Content="Gocator Calibrate" FontFamily="Roboto" FontSize="20" Margin="5,5,0,0"/>
                             </Grid>

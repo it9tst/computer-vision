@@ -30,7 +30,7 @@ namespace GocatorGUI {
 
         private CWrapper wrapper = new CWrapper();
         private Pipe pipe = new Pipe();
-
+        
         private int STRING_MAX_LENGTH = 1000;
         private int type = 11;
         private bool checkSavePCD = false;
@@ -158,11 +158,15 @@ namespace GocatorGUI {
         }
 
         private void ButtonWindowState_Click(object sender, RoutedEventArgs e) {
-            if (Application.Current.MainWindow.WindowState != WindowState.Maximized) {
-                Application.Current.MainWindow.WindowState = WindowState.Maximized;
-            } else {
-                Application.Current.MainWindow.WindowState = WindowState.Normal;
-            }
+            
+            double x = SystemParameters.WorkArea.Width;
+            double y = SystemParameters.WorkArea.Height;
+            
+            Application.Current.MainWindow.WindowState = WindowState.Normal;
+            Application.Current.MainWindow.Top = 0;
+            Application.Current.MainWindow.Left = 0;
+            Application.Current.MainWindow.Width = x;
+            Application.Current.MainWindow.Height = y;
         }
 
         private void ButtonClose_Click(object sender, RoutedEventArgs e) {

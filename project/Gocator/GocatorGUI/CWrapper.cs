@@ -35,6 +35,10 @@ namespace GocatorGUI {
             _pointerclass = CreateGocatorManager();
         }
 
+        ~CWrapper() {
+            DeleteGocatorManager(_pointerclass);
+        }
+
         public void GocatorManager_SetParameter(StringBuilder str, int strlen, string param, int type) {
             GocatorManager_SetParameter(_pointerclass, str, strlen, param, type);
         }
