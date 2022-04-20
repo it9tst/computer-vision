@@ -28,7 +28,8 @@ namespace GocatorGUI {
 
     public partial class MainWindow : Window {
 
-        private CWrapper wrapper = new CWrapper();
+        //private CWrapper wrapper = new CWrapper();
+        private CWrapper wrapper ;
         private Pipe pipe = new Pipe();
         
         private int STRING_MAX_LENGTH = 1000;
@@ -46,6 +47,8 @@ namespace GocatorGUI {
         
         public MainWindow() {
             this.InitializeComponent();
+
+            wrapper = new CWrapper();
             
             Thread thread = new Thread(delegate () {
                 pipe.PipeRead(this);

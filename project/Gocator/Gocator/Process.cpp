@@ -2,21 +2,21 @@
 
 // constructors
 GocatorCV::Process::Process() {}
-/*
+/**/
 GocatorCV::Process::Process(GocatorCV::Gocator* gocator, GocatorCV::Analysis* analysis) {
 	this->gocator = gocator;
 	this->analysis = analysis;
 	std::cout << this << std::endl;
 }
-*/
-//void GocatorCV::Process::StartAcquisition(int object_type, bool check_save_pcd, std::string folder_path_save_pcd) {
-void GocatorCV::Process::StartAcquisition(int object_type, bool check_save_pcd, std::string folder_path_save_pcd, GocatorCV::Gocator* gocator, GocatorCV::Analysis* analysis) {
+
+void GocatorCV::Process::StartAcquisition(int object_type, bool check_save_pcd, std::string folder_path_save_pcd) {
+	//void GocatorCV::Process::StartAcquisition(int object_type, bool check_save_pcd, std::string folder_path_save_pcd, GocatorCV::Gocator* gocator, GocatorCV::Analysis* analysis) {
 
 	this->object_type = object_type;
 	this->check_save_pcd = check_save_pcd;
 	this->folder_path_save_pcd = folder_path_save_pcd;
-	this->gocator = gocator;
-	this->analysis = analysis;
+	//this->gocator = gocator;
+	//this->analysis = analysis;
 
 	thread_saving_active = true;
 	
@@ -76,7 +76,7 @@ void GocatorCV::Process::SaveAcquisition(){
 					pcl::io::savePCDFileASCII(folder_path_save_pcd + "/Point_Cloud_Gocator_" + datetime() + "_" + std::to_string(count) + ".pcd", *_p_cloud_save);
 				}
 				count++;
-			}
+			} 
 		}
 	}
 }

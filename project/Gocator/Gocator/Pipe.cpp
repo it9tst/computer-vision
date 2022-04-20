@@ -40,8 +40,8 @@ void GocatorCV::Pipe::SendPCL(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int id)
 	}
 
 	auto stop = std::chrono::high_resolution_clock::now();
-	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-	std::cout << "Time taken by function SendPCL: " << duration.count() << " microseconds" << std::endl;
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+	std::cout << "Time taken by function SendPCL: " << duration.count() << " milliseconds" << std::endl;
 }
 
 void GocatorCV::Pipe::SendStats(GocatorCV::Statistics stats, int id) {
@@ -73,8 +73,8 @@ void GocatorCV::Pipe::SendStats(GocatorCV::Statistics stats, int id) {
 	}
 	
 	auto stop = std::chrono::high_resolution_clock::now();
-	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-	std::cout << "Time taken by function SendStats: " << duration.count() << " microseconds" << std::endl;
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+	std::cout << "Time taken by function SendStats: " << duration.count() << " milliseconds" << std::endl;
 }
 
 std::string GocatorCV::Pipe::string_to_hex(const std::string& input) {

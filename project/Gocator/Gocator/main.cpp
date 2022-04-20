@@ -8,7 +8,7 @@
 //main
 int main(int argc, char** argv) {
 
-	bool isOnline = false;
+	bool isOnline = true;
 
 	const char* sensor_ip = "192.168.1.151";
 	k64f exposure = 2000;
@@ -38,8 +38,8 @@ int main(int argc, char** argv) {
 		if ((error = gocator.Start()).GetCode() != GocatorCV::ErrorType::OK) {
 			error.DisplayMessage();
 		}
-
-		process.StartAcquisition(&gocator, &analysis, type);
+		
+		process.StartAcquisition(11, false, "", &gocator, &analysis);
 		Sleep(30000);
 		process.StopAcquisition();
 
@@ -55,9 +55,9 @@ int main(int argc, char** argv) {
 		}
 		
 		std::cout << "Loaded " << cloud->width * cloud->height << " data points from *.pcd" << std::endl << std::endl;
-
-		analysis.LoadPointCloud(cloud);
-		analysis.Algorithm(type);
+		
+		analysis.LoadPointCloud(cloud, 1);
+		analysis.Algorithm(11, false, "", 1);
 		//analysis.DebugAlgorithm2();
 	}
 

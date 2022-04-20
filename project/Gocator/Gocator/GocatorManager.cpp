@@ -73,8 +73,8 @@ void GocatorCV::GocatorManager::StartAcquisition(char* str, int strlen, int obje
 		message = error.DisplayMessage();
 	}
 
-	//process.StartAcquisition(object_type, check_save_pcd, _folder_path_save_pcd);
-	process.StartAcquisition(object_type, check_save_pcd, _folder_path_save_pcd, &gocator, &analysis);
+	process.StartAcquisition(object_type, check_save_pcd, _folder_path_save_pcd);
+	//process.StartAcquisition(object_type, check_save_pcd, _folder_path_save_pcd, &gocator, &analysis);
 	
 	message = message.substr(0, strlen);
 
@@ -112,8 +112,8 @@ void GocatorCV::GocatorManager::LoadPointCloud(char* str, int strlen, const char
 	}
 	
 	auto stop = std::chrono::high_resolution_clock::now();
-	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-	std::cout << "Time taken by function loadPCDFile: " << duration.count() << " microseconds" << std::endl;
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+	std::cout << "Time taken by function loadPCDFile: " << duration.count() << " milliseconds" << std::endl;
 	
 	id = process.GetRNG();
 	analysis.LoadPointCloud(cloud, id);

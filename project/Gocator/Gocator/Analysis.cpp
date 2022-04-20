@@ -368,8 +368,8 @@ void GocatorCV::Analysis::Algorithm(int object_type, bool check_save_pcd, std::s
         }
         */
         auto stop = std::chrono::high_resolution_clock::now();
-        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-        std::cout << "Time taken by function Algorithm: " << duration.count() << " microseconds" << std::endl;
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+        std::cout << "Time taken by function Algorithm: " << duration.count() << " milliseconds" << std::endl;
     }
 }
 

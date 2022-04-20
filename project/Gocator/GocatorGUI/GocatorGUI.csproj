@@ -94,7 +94,6 @@
     <Compile Include="Pipe.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="CWrapper.cs" />
-    <Compile Include="MainViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
