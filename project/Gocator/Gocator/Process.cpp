@@ -33,7 +33,6 @@ void GocatorCV::Process::StopAcquisition() {
 }
 
 void GocatorCV::Process::StartGrab() {
-
 	std::unique_lock<std::mutex> locker(m_mutex, std::defer_lock);
 	pcl::PointCloud<pcl::PointXYZ>::Ptr _p_cloud;
 

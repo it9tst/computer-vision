@@ -4,19 +4,15 @@ GocatorCV::Pipe::Pipe() {
 	// constructor
 }
 
-void GocatorCV::Pipe::SendPCL(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int id) {
+void GocatorCV::Pipe::SendPCL(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int id, int n) {
+	
 	auto start = std::chrono::high_resolution_clock::now();
 	
 	nlohmann::json j = { };
 
 	j["point_cloud"]["id"] = id;
-	/*
-	for (int i = 0; i < pcl.x.size(); i++) {
-		j["point_cloud"]["points"][i]["x"] = pcl.x[i];
-		j["point_cloud"]["points"][i]["y"] = pcl.y[i];
-		j["point_cloud"]["points"][i]["z"] = pcl.z[i];
-	}
-	*/
+	j["point_cloud"]["n"] = n;
+
 	for (int i = 0; i < cloud->size(); i++) {
 		j["point_cloud"]["points"][i]["x"] = cloud->points[i].x;
 		j["point_cloud"]["points"][i]["y"] = cloud->points[i].y;
@@ -45,6 +41,7 @@ void GocatorCV::Pipe::SendPCL(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int id)
 }
 
 void GocatorCV::Pipe::SendStats(GocatorCV::Statistics stats, int id) {
+	
 	auto start = std::chrono::high_resolution_clock::now();
 	
 	nlohmann::json j = {};

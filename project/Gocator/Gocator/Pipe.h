@@ -28,7 +28,7 @@ namespace GocatorCV {
 
 	public:
 		Pipe();
-		void SendPCL(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int id);
+		void SendPCL(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int id, int n);
 		void SendStats(GocatorCV::Statistics stats, int id);
 	};
 }

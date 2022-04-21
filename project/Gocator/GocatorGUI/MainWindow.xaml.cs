@@ -9,29 +9,27 @@ using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using HelixToolkit.Wpf;
 using Microsoft.Win32;
-using Newtonsoft.Json;
 using Ookii.Dialogs.Wpf;
 
 namespace GocatorGUI {
 
     struct Model {
         public int id;
-        public List<PointsVisual3D> points;
+        public List<PointsVisual3D> clouds;
         public List<string> row;
 
         public Model(int id) {
             this.id = id;
-            points = new List<PointsVisual3D>();
+            clouds = new List<PointsVisual3D>();
             row = new List<string>();
         }
     }
 
     public partial class MainWindow : Window {
 
-        //private CWrapper wrapper = new CWrapper();
-        private CWrapper wrapper ;
+        private CWrapper wrapper = new CWrapper();
         private Pipe pipe = new Pipe();
-        
+
         private int STRING_MAX_LENGTH = 1000;
         private int type = 11;
         private bool checkSavePCD = false;
@@ -44,65 +42,90 @@ namespace GocatorGUI {
         private int pos = 0;
         private int index_preview = 0;
         private int index = 0;
-        
+
         public MainWindow() {
             this.InitializeComponent();
-
-            wrapper = new CWrapper();
-            
+            buttonStartAcquisition.IsEnabled = true; // ELIMINARE
             Thread thread = new Thread(delegate () {
                 pipe.PipeRead(this);
             });
             thread.Start();
         }
 
-        public void AddPCL(List<Point3D> points, int id) {
-            
-            Point3DCollection dataList = new Point3DCollection();
-            PointsVisual3D cloudPoints = new PointsVisual3D { Color = Colors.White, Size = 1.0f };
-            
-            foreach (Point3D p in points) {
-                dataList.Add(p);
-            }
-            cloudPoints.Points = dataList;
-            
-            bool new_model = true;
-            foreach (Model model in listModel) {
-                if (model.id == id) {
-                    Console.WriteLine("Aggiungo ad una model esistente");
-                    model.points.Add(cloudPoints);
-                    new_model = false;
-                    UpdateComboBox();
+        public void AddPCL(List<Point3D> points, int id, int n) {
+
+            if (n == 1) {
+                Point3DCollection dataList = new Point3DCollection();
+                PointsVisual3D cloudPoints = new PointsVisual3D { Color = Colors.White, Size = 1.0f };
+
+                foreach (Point3D p in points) {
+                    dataList.Add(p);
                 }
-            }
+                cloudPoints.Points = dataList;
 
-            if (new_model & !first_model) {
-                Console.WriteLine("Inserisco una nuova model");
-                UpdateGraph(cloudPoints, id);
-                UpdateComboBox();
-                new_model = false;
-            }
+                bool new_model = true;
+                foreach (Model model in listModel) {
+                    if (model.id == id) {
+                        Console.WriteLine("Aggiungo ad una model esistente");
+                        model.clouds.Add(cloudPoints);
+                        new_model = false;
+                        UpdateComboBox();
+                    }
+                }
 
-            if (first_model) {
-                Console.WriteLine("Inserisco la prima model");
-                UpdateGraph(cloudPoints, id);
-                UpdateComboBox();
-                first_model = false;
+                if (new_model & !first_model) {
+                    Console.WriteLine("Inserisco una nuova model");
+                    UpdateGraph(cloudPoints, id);
+                    UpdateComboBox();
+                    new_model = false;
+                }
+
+                if (first_model) {
+                    Console.WriteLine("Inserisco la prima model");
+                    UpdateGraph(cloudPoints, id);
+                    UpdateComboBox();
+                    first_model = false;
+                }
+
+            } else {
+
+                Point3DCollection dataList = new Point3DCollection();
+                PointsVisual3D cloudPoints = new PointsVisual3D { Color = Colors.Red, Size = 10.0f };
+
+                foreach (Point3D p in points) {
+                    dataList.Add(p);
+                }
+                cloudPoints.Points = dataList;
+
+                foreach (Model model in listModel) {
+                    if (model.id == id) {
+                        Console.WriteLine("Inserisco min e max");
+                        model.clouds.Add(cloudPoints);
+                        UpdateComboBox();
+                    }
+                }
             }
         }
 
         public void UpdateGraph(PointsVisual3D cloudPoints, int id) {
             var model = new Model(id);
-            model.points.Add(cloudPoints);
+            model.clouds.Add(cloudPoints);
             listModel.Add(model);
 
             // Add geometry to helixPlot. It renders asynchronously in the WPF composite render thread...
             if (listModel.Count == 1) {
                 helixPlot.Children.Add(cloudPoints);
             } else {
-                helixPlot.Children.Remove(listModel[pos].points[index]);
-                helixPlot.Children.Add(cloudPoints);
-                pos = listModel.Count - 1;
+                if (index == 1) {
+                    helixPlot.Children.Remove(listModel[pos].clouds[0]);
+                    helixPlot.Children.Remove(listModel[pos].clouds[1]);
+                    helixPlot.Children.Add(cloudPoints);
+                    pos = listModel.Count - 1;
+                } else {
+                    helixPlot.Children.Remove(listModel[pos].clouds[index]);
+                    helixPlot.Children.Add(cloudPoints);
+                    pos = listModel.Count - 1;
+                }
             }
         }
 
@@ -118,26 +141,21 @@ namespace GocatorGUI {
 
             List<string> data = new List<string>();
 
-            for (int i = 0; i < listModel[pos].points.Count; i++) {
+            for (int i = 0; i < listModel[pos].clouds.Count; i++) {
                 data.Add(i.ToString());
             }
 
-            comboBox.ItemsSource = data;
             comboBox.SelectedIndex = 0;
+            comboBox.ItemsSource = data;
         }
 
-        private void UpdateConfig(string sensor_ip) {
+        private void ClearHelixViewport3D(){
 
-            List<Config> _data = new List<Config>();
+            var converter = new System.Windows.Media.BrushConverter();
 
-            _data.Add(new Config() {
-                SensorIP = sensor_ip
-            });
-
-            string json = JsonConvert.SerializeObject(_data.ToArray());
-
-            //write string to file
-            System.IO.File.WriteAllText(@"cfg.json", json);
+            helixPlot.Children.Clear();
+            helixPlot.Children.Add(new DefaultLights());
+            helixPlot.Children.Add(new GridLinesVisual3D { Width = 300, Length = 300, MajorDistance = 10, MinorDistance = 5, Thickness = 0.1, Fill = (Brush) converter.ConvertFromString("#FF696969") });
         }
 
         private void CheckType() {
@@ -196,7 +214,6 @@ namespace GocatorGUI {
             
             StringBuilder message = new StringBuilder(STRING_MAX_LENGTH);
             string sensor_ip = textBoxSensorIP.Text;
-            UpdateConfig(sensor_ip);
 
             wrapper.GocatorManager_SetParameter(message, STRING_MAX_LENGTH, sensor_ip, 1);
             wrapper.GocatorManager_Init(message, STRING_MAX_LENGTH);
@@ -280,17 +297,31 @@ namespace GocatorGUI {
             var selectedcomboitem = sender as ComboBox;
             index = selectedcomboitem.SelectedIndex;
 
-            helixPlot.Children.Remove(listModel[pos].points[index_preview]);
-            helixPlot.Children.Add(listModel[pos].points[index]);
+            ClearHelixViewport3D();
+
+            switch (index) {
+                
+                case 1:
+                    helixPlot.Children.Add(listModel[pos].clouds[0]);
+                    helixPlot.Children.Add(listModel[pos].clouds[1]);
+                    break;
+
+                default:
+                    helixPlot.Children.Add(listModel[pos].clouds[index]);
+                    break;
+            }
+
+            //helixPlot.Children.Remove(listModel[pos].clouds[index_preview]);
+            //helixPlot.Children.Add(listModel[pos].clouds[index]);
 
             index_preview = index;
         }
 
         private void ButtonBackward_Click(object sender, RoutedEventArgs e) {
 
-            if (pos != 0 && index == 0) {
-                helixPlot.Children.Remove(listModel[pos].points[index]);
-                helixPlot.Children.Add(listModel[pos - 1].points[0]);
+            if (pos != 0) {
+                ClearHelixViewport3D();
+                helixPlot.Children.Add(listModel[pos - 1].clouds[0]);
 
                 textBoxOutput.Text = "";
                 for (int i = 0; i < listModel[pos - 1].row.Count; i++) {
@@ -307,9 +338,9 @@ namespace GocatorGUI {
 
         private void ButtonForward_Click(object sender, RoutedEventArgs e) {
 
-            if (pos < listModel.Count - 1 && index == 0) {
-                helixPlot.Children.Remove(listModel[pos].points[index]);
-                helixPlot.Children.Add(listModel[pos + 1].points[0]);
+            if (pos < listModel.Count - 1) {
+                ClearHelixViewport3D();
+                helixPlot.Children.Add(listModel[pos + 1].clouds[0]);
 
                 textBoxOutput.Text = "";
                 for (int i = 0; i < listModel[pos + 1].row.Count; i++) {
@@ -326,15 +357,13 @@ namespace GocatorGUI {
         
         private void ButtonReset_Click(object sender, RoutedEventArgs e) {
 
-            if (index == 0) {
-                helixPlot.Children.Remove(listModel[pos].points[index]);
-                textBoxOutput.Text = "";
-                listModel.Clear();
-                first_model = true;
-                pos = 0;
-                index_preview = 0;
-                index = 0;
-            }
+            ClearHelixViewport3D();
+            textBoxOutput.Text = "";
+            listModel.Clear();
+            first_model = true;
+            pos = 0;
+            index_preview = 0;
+            index = 0;
         }
 
         private void ButtonStartAcquisition_Click(object sender, RoutedEventArgs e) {

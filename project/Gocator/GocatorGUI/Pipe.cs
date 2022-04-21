@@ -60,6 +60,9 @@ namespace GocatorGUI {
                         int id = (int)jsonObject["point_cloud"]["id"];
                         Console.WriteLine($"id point_cloud: {id}");
 
+                        int n = (int)jsonObject["point_cloud"]["n"];
+                        Console.WriteLine($"n point_cloud: {n}");
+
                         DataTable dataTable = jsonObject["point_cloud"]["points"].ToObject<DataTable>();
                         
                         List<Point3D> points = new List<Point3D>();
@@ -70,7 +73,7 @@ namespace GocatorGUI {
                         }
 
                         this.mainWindow.Dispatcher.Invoke(() => {
-                            this.mainWindow.AddPCL(points, id);
+                            this.mainWindow.AddPCL(points, id, n);
                         });
 
                     } else if (tmp.Key == "stats") {

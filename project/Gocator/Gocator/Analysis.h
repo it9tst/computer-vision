@@ -59,6 +59,13 @@ namespace GocatorCV {
 		std::vector<int> i;
 	};
 
+	struct MinMaxDistance {
+		std::vector<double> d;
+		std::vector<double> x;
+		std::vector<double> y;
+		std::vector<double> z;
+	};
+
 	class Analysis {
 
 	private:

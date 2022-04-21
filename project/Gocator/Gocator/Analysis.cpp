@@ -10,15 +10,8 @@ GocatorCV::Analysis::Analysis(GocatorCV::Pipe* pipe) {
 void GocatorCV::Analysis::LoadPointCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int id) {
     this->cloud = cloud;
     this->id = id;
-    /*
-    GocatorCV::PCL pcl;
-    for (int i = 0; i < cloud->size(); i++) {
-        pcl.x.push_back(cloud->points[i].x);
-        pcl.y.push_back(cloud->points[i].y);
-        pcl.z.push_back(cloud->points[i].z);
-    }
-    */
-    pipe->SendPCL(cloud, id);
+
+    pipe->SendPCL(cloud, id, 1);
 }
 
 void GocatorCV::Analysis::Algorithm(int object_type, bool check_save_pcd, std::string folder_path_save_pcd, int id) {
@@ -144,7 +137,7 @@ void GocatorCV::Analysis::Algorithm(int object_type, bool check_save_pcd, std::s
 
         pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_final(new pcl::PointCloud<pcl::PointXYZ>());
 
-        std::vector<std::vector<double>> distance_for_line;
+        std::vector<GocatorCV::MinMaxDistance> distance_for_line;
         std::set<float>::iterator k;
 
         for (k = y_line.begin(); k != y_line.end(); ++k) {
@@ -230,12 +223,13 @@ void GocatorCV::Analysis::Algorithm(int object_type, bool check_save_pcd, std::s
             // Calcolo delle distanze tra la retta che congiunge due massimi adiacenti e il minimo corrispondente
             GocatorCV::PolynomialFunction min_max_point_line_original;
             GocatorCV::PolynomialFunction max_point_line_original;
-            std::vector<double> distance_line;
+            GocatorCV::MinMaxDistance distance_inline;
 
             for (int i = 1; i < max_point_line_original_right.i.size(); i++) {
                 double d = DistancePointLine(min_point_line_original.x[i - 1], min_point_line_original.y[i - 1], max_point_line_original_right.x[i - 1], max_point_line_original_right.y[i - 1], max_point_line_original_left.x[i - 1], max_point_line_original_left.y[i - 1]);
 
                 if (d > 0.3) {
+                    // min and max points
                     min_max_point_line_original.x.push_back(max_point_line_original_right.x[i - 1]);
                     min_max_point_line_original.y.push_back(max_point_line_original_right.y[i - 1]);
                     min_max_point_line_original.i.push_back(max_point_line_original_right.i[i - 1]);
@@ -245,7 +239,8 @@ void GocatorCV::Analysis::Algorithm(int object_type, bool check_save_pcd, std::s
                     min_max_point_line_original.x.push_back(max_point_line_original_left.x[i - 1]);
                     min_max_point_line_original.y.push_back(max_point_line_original_left.y[i - 1]);
                     min_max_point_line_original.i.push_back(max_point_line_original_left.i[i - 1]);
-                    distance_line.push_back(d);
+                    
+                    // max points
                     max_point_line_original.x.push_back(max_point_line_original_right.x[i - 1]);
                     max_point_line_original.y.push_back(max_point_line_original_right.y[i - 1]);
                     max_point_line_original.i.push_back(max_point_line_original_right.i[i - 1]);
@@ -253,12 +248,17 @@ void GocatorCV::Analysis::Algorithm(int object_type, bool check_save_pcd, std::s
                     max_point_line_original.y.push_back(max_point_line_original_left.y[i - 1]);
                     max_point_line_original.i.push_back(max_point_line_original_left.i[i - 1]);
 
+                    distance_inline.d.push_back(d);
+                    distance_inline.x.push_back(min_point_line_original.x[i - 1]);
+                    distance_inline.y.push_back(*k);
+                    distance_inline.z.push_back(min_point_line_original.y[i - 1]);
+
                     std::cout << "Distanza " << i << ": " << d << " mm" << std::endl;
                 }
             }
 
-            if (!distance_line.empty()) {
-                distance_for_line.push_back(distance_line);
+            if (!distance_inline.d.empty()) {
+                distance_for_line.push_back(distance_inline);
             }
 
             for (int i = 0; i < max_point_line_original.i.size(); i++) {
@@ -267,24 +267,67 @@ void GocatorCV::Analysis::Algorithm(int object_type, bool check_save_pcd, std::s
         }
 
         // STATS
-        std::vector<double> distance_min, distance_max;
+        GocatorCV::MinMaxDistance distance_min, distance_max;
 
         for (int i = 0; i < distance_for_line.size(); i++) {
-            double min = *std::min_element(distance_for_line[i].begin(), distance_for_line[i].end());
-            double max = *std::max_element(distance_for_line[i].begin(), distance_for_line[i].end());
-            double mean = std::accumulate(distance_for_line[i].begin(), distance_for_line[i].end(), 0.0) / distance_for_line[i].size();
+            int minElementIndex = std::min_element(distance_for_line[i].d.begin(), distance_for_line[i].d.end()) - distance_for_line[i].d.begin();
+            double minElement = *std::min_element(distance_for_line[i].d.begin(), distance_for_line[i].d.end());
 
-            std::cout << "Line: " << i << " - Distanza minima: " << min << " mm" << std::endl;
-            std::cout << "Line: " << i << " - Distanza massima: " << max << " mm" << std::endl;
-            std::cout << "Line: " << i << " - Distanza media: " << mean << " mm" << std::endl;
+            distance_min.d.push_back(minElement);
+            distance_min.x.push_back(distance_for_line[i].x[minElementIndex]);
+            distance_min.y.push_back(distance_for_line[i].y[minElementIndex]);
+            distance_min.z.push_back(distance_for_line[i].z[minElementIndex]);
 
-            distance_min.push_back(min);
-            distance_max.push_back(max);
+            std::cout << "Line: " << i << " - Distanza minima: " << minElement << " mm" << std::endl;
+
+
+            int maxElementIndex = std::max_element(distance_for_line[i].d.begin(), distance_for_line[i].d.end()) - distance_for_line[i].d.begin();
+            double maxElement = *std::max_element(distance_for_line[i].d.begin(), distance_for_line[i].d.end());
+
+            distance_max.d.push_back(maxElement);
+            distance_max.x.push_back(distance_for_line[i].x[maxElementIndex]);
+            distance_max.y.push_back(distance_for_line[i].y[maxElementIndex]);
+            distance_max.z.push_back(distance_for_line[i].z[maxElementIndex]);
+
+            std::cout << "Line: " << i << " - Distanza massima: " << maxElement << " mm" << std::endl;
         }
 
         GocatorCV::Statistics _stats;
 
-        std::stringstream min_min, max_min, mean_min;
+        int minElementIndex = std::min_element(distance_min.d.begin(), distance_min.d.end()) - distance_min.d.begin();
+        double minElement = *std::min_element(distance_min.d.begin(), distance_min.d.end());
+        double x_min = distance_max.x[minElementIndex];
+        double y_min = distance_max.y[minElementIndex];
+        double z_min = distance_max.z[minElementIndex];
+
+        int maxElementIndex = std::max_element(distance_max.d.begin(), distance_max.d.end()) - distance_max.d.begin();
+        double maxElement = *std::max_element(distance_max.d.begin(), distance_max.d.end());
+        double x_max = distance_max.x[maxElementIndex];
+        double y_max = distance_max.y[maxElementIndex];
+        double z_max = distance_max.z[maxElementIndex];
+
+        std::stringstream min, max, mean;
+        min << setprecision(2) << std::fixed << minElement;
+        max << setprecision(2) << std::fixed << maxElement;
+        mean << setprecision(2) << std::fixed << (minElement + maxElement) / 2;
+        _stats.row.push_back("Altezza minima delle scalanature: " + min.str() + " mm");
+        _stats.row.push_back("Altezza massima delle scalanature: " + max.str() + " mm");
+        _stats.row.push_back("Altezza media delle scalanature: " + mean.str() + " mm");
+        std::cout << "Altezza minima delle scalanature: " << min.str() << " mm" << std::endl;
+        std::cout << "Altezza massima delle scalanature: " << max.str() << " mm" << std::endl;
+        std::cout << "Altezza media delle scalanature: " << mean.str() << " mm" << std::endl;
+
+        pipe->SendStats(_stats, id);
+
+
+        pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_min_max(new pcl::PointCloud<pcl::PointXYZ>());
+
+        cloud_min_max->points.emplace_back(pcl::PointXYZ(x_min, y_min, z_min));
+        cloud_min_max->points.emplace_back(pcl::PointXYZ(x_max, y_max, z_max));
+
+        pipe->SendPCL(cloud_min_max, id, 2);
+
+        /*
         min_min << setprecision(2) << std::fixed << *std::min_element(distance_min.begin(), distance_min.end());
         max_min << setprecision(2) << std::fixed << *std::max_element(distance_min.begin(), distance_min.end());
         mean_min << setprecision(2) << std::fixed << std::accumulate(distance_min.begin(), distance_min.end(), 0.0) / distance_min.size();
@@ -305,9 +348,7 @@ void GocatorCV::Analysis::Algorithm(int object_type, bool check_save_pcd, std::s
         std::cout << "Distanza minima totale tra le distanze massime per linea: " << min_max.str() << " mm" << std::endl;
         std::cout << "Distanza massima totale tra le distanze massime per linea: " << max_max.str() << " mm" << std::endl;
         std::cout << "Distanza media totale tra le distanze massime per linea: " << mean_max.str() << " mm" << std::endl;
-
-        pipe->SendStats(_stats, id);
-
+        */
         
         // GET IMAGE FROM XY PLANE
         cloud_final->height = 1;
@@ -316,15 +357,9 @@ void GocatorCV::Analysis::Algorithm(int object_type, bool check_save_pcd, std::s
         if (check_save_pcd) {
             SavePCD(cloud_final, folder_path_save_pcd + "/" + datetime() + "_cloud_final.pcd");
         }
-        /*
-        GocatorCV::PCL pcl;
-        for (int i = 0; i < cloud_final->size(); i++) {
-            pcl.x.push_back(cloud_final->points[i].x);
-            pcl.y.push_back(cloud_final->points[i].y);
-            pcl.z.push_back(cloud_final->points[i].z);
-        }
-        */
-        pipe->SendPCL(cloud_final, id);
+
+        pipe->SendPCL(cloud_final, id, 1);
+
         /*
         GetMinMaxCoordinates(cloud_final);
         
@@ -367,6 +402,7 @@ void GocatorCV::Analysis::Algorithm(int object_type, bool check_save_pcd, std::s
             cv::imwrite(folder_path_save_pcd + "/" + datetime() + "_image.jpg", img);
         }
         */
+
         auto stop = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
         std::cout << "Time taken by function Algorithm: " << duration.count() << " milliseconds" << std::endl;

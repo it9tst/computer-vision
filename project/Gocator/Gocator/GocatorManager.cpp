@@ -4,8 +4,8 @@ GocatorCV::GocatorManager::GocatorManager() {
 	GocatorCV::Pipe pipe;
 	GocatorCV::Gocator gocator;
 	GocatorCV::Analysis analysis(&pipe);
-	//GocatorCV::Process process(&gocator, &analysis);
-	GocatorCV::Process process;
+	GocatorCV::Process process(&gocator, &analysis);
+	//GocatorCV::Process process;
 	GocatorCV::Error error;
 	std::cout << &process << std::endl;
 }
@@ -19,20 +19,20 @@ void GocatorCV::GocatorManager::SetParameter(char* str, int strlen, const char* 
 	std::string message = "OK";
 
 	if (type == 1) {
-				
-		// read a JSON file
-		std::ifstream i("cfg.json");
-		nlohmann::json j;
-		i >> j;
 
-		std::string sensor_ip_string = j[0]["SensorIP"].get<std::string>();
+		int len = std::strlen(param);
+		char* sensor_ip = new char[len + 1];
+		std::strncpy(sensor_ip, param, std::strlen(sensor_ip));
+		sensor_ip[len] = 0;
 
-		const char* sensor_ip = "192.168.1.151"; //sensor_ip_string.c_str();
 		std::cout << "char: " << sensor_ip << std::endl;
+		std::bitset<8> nome(sensor_ip[14]);
+		std::cout << "last char: " << nome << std::endl;
 
 		if ((error = gocator.SetParameter(GocatorCV::ParameterType::SENSOR_IP, (void*)sensor_ip)).GetCode() != GocatorCV::ErrorType::OK) {
 			message = error.DisplayMessage();
 		}
+
 	} else if (type == 2) {
 
 		k64f exposure = std::atof(param);
@@ -68,11 +68,11 @@ void GocatorCV::GocatorManager::StartAcquisition(char* str, int strlen, int obje
 	std::replace(_folder_path_save_pcd.begin(), _folder_path_save_pcd.end(), '\\', '/');
 	
 	std::string message = "OK";
-
+	/*
 	if ((error = gocator.Start()).GetCode() != GocatorCV::ErrorType::OK) {
 		message = error.DisplayMessage();
 	}
-
+	*/
 	process.StartAcquisition(object_type, check_save_pcd, _folder_path_save_pcd);
 	//process.StartAcquisition(object_type, check_save_pcd, _folder_path_save_pcd, &gocator, &analysis);
 	

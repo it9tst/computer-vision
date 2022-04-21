@@ -11,4 +11,6 @@ project/Library/PCL 1.12.1/*
 !project/Library/PCL 1.12.1/README.md
 project/Library/Python38/*
 !project/Library/Python38/README.md
-project/DLL/opencv_world454d.dll
+
+project/Library/DLL-debug/opencv_world454d.dll
+project/Library/DLL-release/opencv_world454d.dll
