@@ -1,4 +1,5 @@
 labs
+project/Report/*
 
 # Ignore library
 project/Library/GO_SDK/*

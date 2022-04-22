@@ -1,17 +1,15 @@
 #include "Analysis.h"
 
 // constructors
-GocatorCV::Analysis::Analysis() {}
-
-GocatorCV::Analysis::Analysis(GocatorCV::Pipe* pipe) {
-    this->pipe = pipe;
+GocatorCV::Analysis::Analysis() {
+    GocatorCV::Pipe pipe;
 }
 
 void GocatorCV::Analysis::LoadPointCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int id) {
     this->cloud = cloud;
     this->id = id;
 
-    pipe->SendPCL(cloud, id, 1);
+    pipe.SendPCL(cloud, id, 1);
 }
 
 void GocatorCV::Analysis::Algorithm(int object_type, bool check_save_pcd, std::string folder_path_save_pcd, int id) {
@@ -296,9 +294,9 @@ void GocatorCV::Analysis::Algorithm(int object_type, bool check_save_pcd, std::s
 
         int minElementIndex = std::min_element(distance_min.d.begin(), distance_min.d.end()) - distance_min.d.begin();
         double minElement = *std::min_element(distance_min.d.begin(), distance_min.d.end());
-        double x_min = distance_max.x[minElementIndex];
-        double y_min = distance_max.y[minElementIndex];
-        double z_min = distance_max.z[minElementIndex];
+        double x_min = distance_min.x[minElementIndex];
+        double y_min = distance_min.y[minElementIndex];
+        double z_min = distance_min.z[minElementIndex];
 
         int maxElementIndex = std::max_element(distance_max.d.begin(), distance_max.d.end()) - distance_max.d.begin();
         double maxElement = *std::max_element(distance_max.d.begin(), distance_max.d.end());
@@ -310,14 +308,14 @@ void GocatorCV::Analysis::Algorithm(int object_type, bool check_save_pcd, std::s
         min << setprecision(2) << std::fixed << minElement;
         max << setprecision(2) << std::fixed << maxElement;
         mean << setprecision(2) << std::fixed << (minElement + maxElement) / 2;
-        _stats.row.push_back("Altezza minima delle scalanature: " + min.str() + " mm");
-        _stats.row.push_back("Altezza massima delle scalanature: " + max.str() + " mm");
+        _stats.row.push_back("Altezza minima delle scalanature: " + min.str() + " mm (Point Yellow)");
+        _stats.row.push_back("Altezza massima delle scalanature: " + max.str() + " mm (Point Red)");
         _stats.row.push_back("Altezza media delle scalanature: " + mean.str() + " mm");
         std::cout << "Altezza minima delle scalanature: " << min.str() << " mm" << std::endl;
         std::cout << "Altezza massima delle scalanature: " << max.str() << " mm" << std::endl;
         std::cout << "Altezza media delle scalanature: " << mean.str() << " mm" << std::endl;
 
-        pipe->SendStats(_stats, id);
+        pipe.SendStats(_stats, id);
 
 
         pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_min_max(new pcl::PointCloud<pcl::PointXYZ>());
@@ -325,7 +323,7 @@ void GocatorCV::Analysis::Algorithm(int object_type, bool check_save_pcd, std::s
         cloud_min_max->points.emplace_back(pcl::PointXYZ(x_min, y_min, z_min));
         cloud_min_max->points.emplace_back(pcl::PointXYZ(x_max, y_max, z_max));
 
-        pipe->SendPCL(cloud_min_max, id, 2);
+        pipe.SendPCL(cloud_min_max, id, 2);
 
         /*
         min_min << setprecision(2) << std::fixed << *std::min_element(distance_min.begin(), distance_min.end());
@@ -358,7 +356,7 @@ void GocatorCV::Analysis::Algorithm(int object_type, bool check_save_pcd, std::s
             SavePCD(cloud_final, folder_path_save_pcd + "/" + datetime() + "_cloud_final.pcd");
         }
 
-        pipe->SendPCL(cloud_final, id, 1);
+        pipe.SendPCL(cloud_final, id, 1);
 
         /*
         GetMinMaxCoordinates(cloud_final);
@@ -813,7 +811,7 @@ void GocatorCV::Analysis::ContoursMeasurements(std::vector<std::vector<cv::Point
     std::cout << "Height Minima: " << _height_minima.str() << " mm\t\tHeight Massima: " << _height_massima.str() << " mm\t\tHeight Media: " << _height_media.str() << " mm" << std::endl << std::endl;
     _stats.row.push_back("\n");
 
-    pipe->SendStats(_stats, id);
+    pipe.SendStats(_stats, id);
 }
 
 double GocatorCV::Analysis::DistanceBetweenTwoPoints(int x1, int y1, int x2, int y2) {
@@ -923,7 +921,7 @@ void GocatorCV::Analysis::DistanceBetweenMacroBlob(std::vector<std::vector<cv::P
     _stats.row.push_back("Distanza Media: " + _distanza_media.str() + " mm");
     _stats.row.push_back("\n");
 
-    pipe->SendStats(_stats, id);
+    pipe.SendStats(_stats, id);
 }
 
 void GocatorCV::Analysis::DistanceBetweenBlob(std::vector<std::vector<cv::Point>> contours_MacroBlob, std::vector<std::vector<cv::Point>> contours_Blob) {
@@ -995,7 +993,7 @@ void GocatorCV::Analysis::DistanceBetweenBlob(std::vector<std::vector<cv::Point>
         }
     }
 
-    pipe->SendStats(_stats, id);
+    pipe.SendStats(_stats, id);
 }
 
 GocatorCV::PolynomialFunction GocatorCV::Analysis::GaussianFilter(GocatorCV::PolynomialFunction line) {

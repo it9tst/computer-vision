@@ -16,6 +16,9 @@ namespace GocatorGUI {
         private MainWindow mainWindow;
         private BlockingCollection<string> cq = new BlockingCollection<string>(new ConcurrentQueue<string>());
 
+        public Thread threadUpdate;
+        public bool thread_saving_active = true;
+
         public Pipe() {
             
         }
@@ -24,12 +27,12 @@ namespace GocatorGUI {
 
             this.mainWindow = mainWindow;
 
-            Thread thread = new Thread(delegate () {
+            Thread threadUpdate = new Thread(delegate () {
                 Update();
             });
-            thread.Start();
+            threadUpdate.Start();
 
-            while (true) {
+            while (thread_saving_active) {
                 var namedPipeServer = new NamedPipeServerStream("gocator-pipe", PipeDirection.InOut, 1, PipeTransmissionMode.Byte);
                 var streamReader = new StreamReader(namedPipeServer);
                 namedPipeServer.WaitForConnection();
@@ -38,7 +41,7 @@ namespace GocatorGUI {
 
                 string lineContent = streamReader.ReadLine();
 
-                Console.WriteLine($"read from pipe client: {System.Text.ASCIIEncoding.UTF8.GetByteCount(lineContent)} bytes");
+                Console.WriteLine($"Number of bytes received: {System.Text.ASCIIEncoding.UTF8.GetByteCount(lineContent)} bytes");
 
                 cq.Add(lineContent);
 
@@ -48,7 +51,7 @@ namespace GocatorGUI {
 
         public void Update() {
 
-            while (true) {
+            while (thread_saving_active) {
 
                 string lineContent = cq.Take();
 
@@ -58,10 +61,10 @@ namespace GocatorGUI {
                     if (tmp.Key == "point_cloud") {
 
                         int id = (int)jsonObject["point_cloud"]["id"];
-                        Console.WriteLine($"id point_cloud: {id}");
+                        Console.WriteLine($"point_cloud id: {id}");
 
                         int n = (int)jsonObject["point_cloud"]["n"];
-                        Console.WriteLine($"n point_cloud: {n}");
+                        Console.WriteLine($"point_cloud n: {n}");
 
                         DataTable dataTable = jsonObject["point_cloud"]["points"].ToObject<DataTable>();
                         
@@ -79,11 +82,9 @@ namespace GocatorGUI {
                     } else if (tmp.Key == "stats") {
 
                         int id = (int)jsonObject["stats"]["id"];
-                        Console.WriteLine($"id stats: {id}");
+                        Console.WriteLine($"stats id: {id}");
 
                         DataTable dataTable = jsonObject["stats"]["rows"].ToObject<DataTable>();
-
-                        Console.WriteLine($"number of rows: {dataTable.Rows.Count}");
 
                         foreach (DataRow row in dataTable.Rows) {
 

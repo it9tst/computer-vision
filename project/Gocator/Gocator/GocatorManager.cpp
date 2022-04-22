@@ -1,17 +1,14 @@
 #include "GocatorManager.h"
 
 GocatorCV::GocatorManager::GocatorManager() {
-	GocatorCV::Pipe pipe;
 	GocatorCV::Gocator gocator;
-	GocatorCV::Analysis analysis(&pipe);
-	GocatorCV::Process process(&gocator, &analysis);
-	//GocatorCV::Process process;
+	GocatorCV::Process process;
+	GocatorCV::Analysis analysis;
 	GocatorCV::Error error;
-	std::cout << &process << std::endl;
 }
 
 GocatorCV::GocatorManager::~GocatorManager() {
-	
+	process.~Process();
 }
 
 void GocatorCV::GocatorManager::SetParameter(char* str, int strlen, const char* param, int type) {
@@ -68,13 +65,12 @@ void GocatorCV::GocatorManager::StartAcquisition(char* str, int strlen, int obje
 	std::replace(_folder_path_save_pcd.begin(), _folder_path_save_pcd.end(), '\\', '/');
 	
 	std::string message = "OK";
-	/*
+	
 	if ((error = gocator.Start()).GetCode() != GocatorCV::ErrorType::OK) {
 		message = error.DisplayMessage();
 	}
-	*/
-	process.StartAcquisition(object_type, check_save_pcd, _folder_path_save_pcd);
-	//process.StartAcquisition(object_type, check_save_pcd, _folder_path_save_pcd, &gocator, &analysis);
+	
+	process.StartAcquisition(object_type, check_save_pcd, _folder_path_save_pcd, &gocator, &analysis);
 	
 	message = message.substr(0, strlen);
 

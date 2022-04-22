@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GocatorGUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="630" Width="1280"
+        Title="Gocator GUI" Height="630" Width="1280"
         MinHeight="800" MinWidth="630"
         ResizeMode="CanResizeWithGrip"
         WindowStyle="None"

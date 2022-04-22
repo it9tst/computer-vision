@@ -8,7 +8,7 @@
 //main
 int main(int argc, char** argv) {
 
-	bool isOnline = true;
+	bool isOnline = false;
 
 	const char* sensor_ip = "192.168.1.151";
 	k64f exposure = 2000;
@@ -39,7 +39,7 @@ int main(int argc, char** argv) {
 			error.DisplayMessage();
 		}
 		
-		process.StartAcquisition(11, false, "", &gocator, &analysis);
+		process.StartAcquisition(2, false, "");
 		Sleep(30000);
 		process.StopAcquisition();
 
@@ -57,7 +57,7 @@ int main(int argc, char** argv) {
 		std::cout << "Loaded " << cloud->width * cloud->height << " data points from *.pcd" << std::endl << std::endl;
 		
 		analysis.LoadPointCloud(cloud, 1);
-		analysis.Algorithm(11, false, "", 1);
+		analysis.Algorithm(2, false, "", 1);
 		//analysis.DebugAlgorithm2();
 	}
 

@@ -20,19 +20,35 @@ void GocatorCV::Pipe::SendPCL(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int id,
 	}
 
 	std::string result = j.dump();
-	
 	std::string _result = result + "\r\n";
 
 	// create file
-	HANDLE fileHandle = CreateFileW(TEXT("\\\\.\\pipe\\gocator-pipe"), GENERIC_READ | GENERIC_WRITE, FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
-	DWORD dwWritten;
+	DWORD last_error;
+	DWORD numBytesWritten = 0;
+	HANDLE pipe;
+	unsigned int elapsed_seconds = 0;
+	const unsigned int timeout_seconds = 5;
 
+	pipe = CreateFileW(TEXT("\\\\.\\pipe\\gocator-pipe"), GENERIC_READ | GENERIC_WRITE, FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+
+	while (pipe == INVALID_HANDLE_VALUE && elapsed_seconds < timeout_seconds) {
+		last_error = GetLastError();
+		Sleep(100);
+		elapsed_seconds = elapsed_seconds + 0.1;
+
+		pipe = CreateFileW(TEXT("\\\\.\\pipe\\gocator-pipe"), GENERIC_READ | GENERIC_WRITE, FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+	}
+
+	if (pipe == INVALID_HANDLE_VALUE) {
+		std::cerr << "Failed to connect to pipe: last_error=" << last_error << "\n";
+	}
+	
 	// send data to server
-	if (fileHandle != INVALID_HANDLE_VALUE) {
-		std::cout << "send from pipe server: " << strlen((const char*)_result.c_str()) << " bytes" << std::endl;
-		WriteFile(fileHandle, (const char*)_result.c_str(), strlen((const char*)_result.c_str()), &dwWritten, NULL);
+	if (pipe != INVALID_HANDLE_VALUE) {
+		std::cout << "Number of bytes sent: " << strlen((const char*)_result.c_str()) << " bytes" << std::endl;
+		WriteFile(pipe, (const char*)_result.c_str(), strlen((const char*)_result.c_str()), &numBytesWritten, NULL);
 
-		CloseHandle(fileHandle);
+		CloseHandle(pipe);
 	}
 
 	auto stop = std::chrono::high_resolution_clock::now();
@@ -48,25 +64,40 @@ void GocatorCV::Pipe::SendStats(GocatorCV::Statistics stats, int id) {
 
 	j["stats"]["id"] = id;
 
-	std::cout << "row size: " << stats.row.size() << std::endl;
 	for (int i = 0; i < stats.row.size(); i++) {
 		j["stats"]["rows"][i]["row"] = stats.row[i];
 	}
 
 	std::string result = j.dump();
-
 	std::string _result = result + "\r\n";
 
 	// create file
-	HANDLE fileHandle = CreateFileW(TEXT("\\\\.\\pipe\\gocator-pipe"), GENERIC_READ | GENERIC_WRITE, FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
-	DWORD dwWritten;
+	DWORD last_error;
+	DWORD numBytesWritten = 0;
+	HANDLE pipe;
+	unsigned int elapsed_seconds = 0;
+	const unsigned int timeout_seconds = 5;
+
+	pipe = CreateFileW(TEXT("\\\\.\\pipe\\gocator-pipe"), GENERIC_READ | GENERIC_WRITE, FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+
+	while (pipe == INVALID_HANDLE_VALUE && elapsed_seconds < timeout_seconds) {
+		last_error = GetLastError();
+		Sleep(100);
+		elapsed_seconds = elapsed_seconds + 0.1;
+
+		pipe = CreateFileW(TEXT("\\\\.\\pipe\\gocator-pipe"), GENERIC_READ | GENERIC_WRITE, FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+	}
+
+	if (pipe == INVALID_HANDLE_VALUE) {
+		std::cerr << "Failed to connect to pipe: last_error=" << last_error << "\n";
+	}
 
 	// send data to server
-	if (fileHandle != INVALID_HANDLE_VALUE) {
-		WriteFile(fileHandle, (const char*)_result.c_str(), strlen((const char*)_result.c_str()), &dwWritten, NULL);
-		std::cout << "send from pipe server: " << strlen((const char*)_result.c_str()) << " bytes" << std::endl;
+	if (pipe != INVALID_HANDLE_VALUE) {
+		WriteFile(pipe, (const char*)_result.c_str(), strlen((const char*)_result.c_str()), &numBytesWritten, NULL);
+		std::cout << "Number of bytes sent: " << strlen((const char*)_result.c_str()) << " bytes" << std::endl;
 
-		CloseHandle(fileHandle);
+		CloseHandle(pipe);
 	}
 	
 	auto stop = std::chrono::high_resolution_clock::now();

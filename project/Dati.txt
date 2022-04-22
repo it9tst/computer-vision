@@ -1,0 +1,9 @@
+# prova obj2 pc1
+Time taken by function loadPCDFile: 515 milliseconds
+Time taken by function SendPCL: 401 milliseconds
+
+Time taken by function Algorithm: 187 milliseconds
+	Time taken by function SendStats: 0 milliseconds
+	Time taken by function SendPCL: 0 milliseconds
+	Time taken by function SendPCL: 2 milliseconds
+

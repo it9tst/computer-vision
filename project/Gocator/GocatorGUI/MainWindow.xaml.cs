@@ -29,27 +29,27 @@ namespace GocatorGUI {
 
         private CWrapper wrapper = new CWrapper();
         private Pipe pipe = new Pipe();
+        private Thread threadPipe;
 
         private int STRING_MAX_LENGTH = 1000;
         private int type = 11;
         private bool checkSavePCD = false;
         private string folderPathSavePCD = "";
-        private bool checkClick = false;
-
+        private bool checkWindowStateClick = false;
 
         private List<Model> listModel = new List<Model>();
         private bool first_model = true;
         private int pos = 0;
-        private int index_preview = 0;
         private int index = 0;
+
 
         public MainWindow() {
             this.InitializeComponent();
-            buttonStartAcquisition.IsEnabled = true; // ELIMINARE
-            Thread thread = new Thread(delegate () {
+            
+            threadPipe = new Thread(delegate () {
                 pipe.PipeRead(this);
             });
-            thread.Start();
+            threadPipe.Start();
         }
 
         public void AddPCL(List<Point3D> points, int id, int n) {
@@ -77,6 +77,7 @@ namespace GocatorGUI {
                     Console.WriteLine("Inserisco una nuova model");
                     UpdateGraph(cloudPoints, id);
                     UpdateComboBox();
+                    textBoxOutput.Text = "";
                     new_model = false;
                 }
 
@@ -89,18 +90,21 @@ namespace GocatorGUI {
 
             } else {
 
-                Point3DCollection dataList = new Point3DCollection();
-                PointsVisual3D cloudPoints = new PointsVisual3D { Color = Colors.Red, Size = 10.0f };
+                Point3DCollection dataListMin = new Point3DCollection();
+                PointsVisual3D cloudPointsMin = new PointsVisual3D { Color = Colors.Yellow, Size = 10.0f };
+                dataListMin.Add(points[0]);
+                cloudPointsMin.Points = dataListMin;
 
-                foreach (Point3D p in points) {
-                    dataList.Add(p);
-                }
-                cloudPoints.Points = dataList;
+                Point3DCollection dataListMax = new Point3DCollection();
+                PointsVisual3D cloudPointsMax = new PointsVisual3D { Color = Colors.Red, Size = 10.0f };
+                dataListMax.Add(points[1]);
+                cloudPointsMax.Points = dataListMax;
 
                 foreach (Model model in listModel) {
                     if (model.id == id) {
                         Console.WriteLine("Inserisco min e max");
-                        model.clouds.Add(cloudPoints);
+                        model.clouds.Add(cloudPointsMin);
+                        model.clouds.Add(cloudPointsMax);
                         UpdateComboBox();
                     }
                 }
@@ -113,20 +117,9 @@ namespace GocatorGUI {
             listModel.Add(model);
 
             // Add geometry to helixPlot. It renders asynchronously in the WPF composite render thread...
-            if (listModel.Count == 1) {
-                helixPlot.Children.Add(cloudPoints);
-            } else {
-                if (index == 1) {
-                    helixPlot.Children.Remove(listModel[pos].clouds[0]);
-                    helixPlot.Children.Remove(listModel[pos].clouds[1]);
-                    helixPlot.Children.Add(cloudPoints);
-                    pos = listModel.Count - 1;
-                } else {
-                    helixPlot.Children.Remove(listModel[pos].clouds[index]);
-                    helixPlot.Children.Add(cloudPoints);
-                    pos = listModel.Count - 1;
-                }
-            }
+            ClearHelixViewport3D();
+            helixPlot.Children.Add(cloudPoints);
+            pos = listModel.Count - 1;
         }
 
         public void AddRow(string sent, int id) {
@@ -182,7 +175,7 @@ namespace GocatorGUI {
 
         private void ButtonWindowState_Click(object sender, RoutedEventArgs e) {
             
-            if (!checkClick) {
+            if (!checkWindowStateClick) {
                 double x = SystemParameters.WorkArea.Width;
                 double y = SystemParameters.WorkArea.Height;
 
@@ -192,7 +185,7 @@ namespace GocatorGUI {
                 Application.Current.MainWindow.Width = x;
                 Application.Current.MainWindow.Height = y;
 
-                checkClick = true;
+                checkWindowStateClick = true;
             } else {
 
                 Application.Current.MainWindow.WindowState = WindowState.Normal;
@@ -201,12 +194,16 @@ namespace GocatorGUI {
                 Application.Current.MainWindow.Width = 1280;
                 Application.Current.MainWindow.Height = 630;
 
-                checkClick = false;
+                checkWindowStateClick = false;
             }
         }
 
         private void ButtonClose_Click(object sender, RoutedEventArgs e) {
+            pipe.thread_saving_active = false;
+            //pipe.threadUpdate.Join();
+            //threadPipe.Join();
             Application.Current.Shutdown();
+            Environment.Exit(0);
         }
 
         // Panel Config
@@ -304,17 +301,18 @@ namespace GocatorGUI {
                 case 1:
                     helixPlot.Children.Add(listModel[pos].clouds[0]);
                     helixPlot.Children.Add(listModel[pos].clouds[1]);
+                    helixPlot.Children.Add(listModel[pos].clouds[2]);
+                    break;
+
+                case 2:
+                    helixPlot.Children.Add(listModel[pos].clouds[1]);
+                    helixPlot.Children.Add(listModel[pos].clouds[2]);
                     break;
 
                 default:
                     helixPlot.Children.Add(listModel[pos].clouds[index]);
                     break;
             }
-
-            //helixPlot.Children.Remove(listModel[pos].clouds[index_preview]);
-            //helixPlot.Children.Add(listModel[pos].clouds[index]);
-
-            index_preview = index;
         }
 
         private void ButtonBackward_Click(object sender, RoutedEventArgs e) {
@@ -362,7 +360,6 @@ namespace GocatorGUI {
             listModel.Clear();
             first_model = true;
             pos = 0;
-            index_preview = 0;
             index = 0;
         }
 

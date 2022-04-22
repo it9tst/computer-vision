@@ -69,7 +69,7 @@ namespace GocatorCV {
 	class Analysis {
 
 	private:
-		GocatorCV::Pipe* pipe;
+		GocatorCV::Pipe pipe;
 		bool check_save_pcd = false;
 		std::string folder_path_save_pcd = "../../Scan/";
 		int id;

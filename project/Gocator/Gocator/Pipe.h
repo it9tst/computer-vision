@@ -11,12 +11,6 @@
 
 namespace GocatorCV {
 
-	struct PCL {
-		std::vector<double> x;
-		std::vector<double> y;
-		std::vector<double> z;
-	};
-
 	struct Statistics {
 		std::vector<std::string> row;
 	};
