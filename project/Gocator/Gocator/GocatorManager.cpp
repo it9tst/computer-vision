@@ -17,14 +17,18 @@ void GocatorCV::GocatorManager::SetParameter(char* str, int strlen, const char* 
 
 	if (type == 1) {
 
+		std::cout << "param: " << param << std::endl;
+		
 		int len = std::strlen(param);
 		char* sensor_ip = new char[len + 1];
-		std::strncpy(sensor_ip, param, std::strlen(sensor_ip));
+		std::strcpy(sensor_ip, param);
 		sensor_ip[len] = 0;
 
-		std::cout << "char: " << sensor_ip << std::endl;
-		std::bitset<8> nome(sensor_ip[14]);
-		std::cout << "last char: " << nome << std::endl;
+		std::cout << "CHAR: " << sensor_ip << std::endl;
+		for (int i = 0; i < 15; i++) {
+			std::bitset<8> bts(sensor_ip[i]);
+			std::cout << "char: " << bts << std::endl;
+		}
 
 		if ((error = gocator.SetParameter(GocatorCV::ParameterType::SENSOR_IP, (void*)sensor_ip)).GetCode() != GocatorCV::ErrorType::OK) {
 			message = error.DisplayMessage();
@@ -82,12 +86,26 @@ void GocatorCV::GocatorManager::StopAcquisition(char* str, int strlen) {
 
 	std::string message = "OK";
 
-	process.StopAcquisition();
+	try {
+		process.StopAcquisition();
+	} catch (...) {
+		message = "Error Stop Acquisition";
+	}
+
+	message = message.substr(0, strlen);
+
+	std::copy(message.begin(), message.end(), str);
+	str[std::min(strlen - 1, (int)message.size())] = 0;
+}
+
+void GocatorCV::GocatorManager::Stop(char* str, int strlen) {
+
+	std::string message = "OK";
 
 	if ((error = gocator.Stop()).GetCode() != GocatorCV::ErrorType::OK) {
 		message = error.DisplayMessage();
 	}
-	
+
 	message = message.substr(0, strlen);
 
 	std::copy(message.begin(), message.end(), str);

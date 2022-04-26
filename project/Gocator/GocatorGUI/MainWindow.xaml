@@ -348,6 +348,7 @@
                                     <Label Content="Sensor IP:" FontFamily="Roboto" VerticalAlignment="Top" Margin="10,10,0,0"/>
                                     <TextBox Name="textBoxSensorIP" Height="23" TextWrapping="Wrap" Width="120" FontFamily="Roboto" VerticalAlignment="Top" Margin="10,11,0,0" VerticalContentAlignment="Center"/>
                                     <Button Content="CONNECT" Width="75" Height="20" FontFamily="Roboto" VerticalAlignment="Top" Margin="10,12,0,0" Click="ButtonConnect_Click"/>
+                                    <Button Name="buttonDisconnect" Content="DISCONNECT" Width="90" Height="20" FontFamily="Roboto" VerticalAlignment="Top" Margin="10,12,0,0" Click="ButtonDisconnect_Click" IsEnabled="False"/>
                                 </StackPanel>
                                 <Label Name="labelConnect" Height="40" Foreground="ForestGreen" FontFamily="Roboto" VerticalAlignment="Bottom" Margin="15,0,0,0" FontSize="10" Opacity="0.8" Visibility="Hidden"/>
                             </Grid>
@@ -396,10 +397,10 @@
                     Name="comboBox"
                     IsEditable="True"
                     IsReadOnly="True"
-                    Text="0"
+                    Text="Cloud Original"
                     VerticalContentAlignment="Center"
-                    HorizontalContentAlignment="Center"
-                    Width="40"
+                    HorizontalContentAlignment="Left"
+                    Width="110"
                     Height="30"
                     FontFamily="Roboto"
                     Margin="10,0,0,0"

@@ -17,6 +17,7 @@ void GocatorCV::Process::StartAcquisition(int object_type, bool check_save_pcd, 
 	this->analysis = analysis;
 
 	thread_saving_active = true;
+	buffer_save_data.clear();
 	
 	thread_acquisition = std::thread(&Process::StartGrab, this);
 	thread_saving = std::thread(&Process::SaveAcquisition, this);

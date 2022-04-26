@@ -18,6 +18,10 @@ extern "C" __declspec(dllexport) void GocatorManager_Init(GocatorManager * gocat
 	gocatormanager->Init(str, strlen);
 }
 
+extern "C" __declspec(dllexport) void GocatorManager_Stop(GocatorManager * gocatormanager, char* str, int strlen) {
+	gocatormanager->Stop(str, strlen);
+}
+
 extern "C" __declspec(dllexport) void GocatorManager_LoadPointCloud(GocatorManager * gocatormanager, char* str, int strlen, const char* file_name) {
 	gocatormanager->LoadPointCloud(str, strlen, file_name);
 }

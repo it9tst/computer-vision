@@ -18,6 +18,9 @@ namespace GocatorGUI {
         private static extern void GocatorManager_Init(IntPtr class_pointer, StringBuilder str, int strlen);
 
         [DllImport("Gocator.dll")]
+        private static extern void GocatorManager_Stop(IntPtr class_pointer, StringBuilder str, int strlen);
+
+        [DllImport("Gocator.dll")]
         private static extern void GocatorManager_LoadPointCloud(IntPtr class_pointer, StringBuilder str, int strlen, string strfilename);
 
         [DllImport("Gocator.dll")]
@@ -45,6 +48,10 @@ namespace GocatorGUI {
 
         public void GocatorManager_Init(StringBuilder str, int strlen) {
             GocatorManager_Init(_pointerclass, str, strlen);
+        }
+
+        public void GocatorManager_Stop(StringBuilder str, int strlen) {
+            GocatorManager_Stop(_pointerclass, str, strlen);
         }
 
         public void GocatorManager_LoadPointCloud(StringBuilder str, int strlen, string strfilename) {

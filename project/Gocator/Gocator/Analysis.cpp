@@ -226,7 +226,7 @@ void GocatorCV::Analysis::Algorithm(int object_type, bool check_save_pcd, std::s
             for (int i = 1; i < max_point_line_original_right.i.size(); i++) {
                 double d = DistancePointLine(min_point_line_original.x[i - 1], min_point_line_original.y[i - 1], max_point_line_original_right.x[i - 1], max_point_line_original_right.y[i - 1], max_point_line_original_left.x[i - 1], max_point_line_original_left.y[i - 1]);
 
-                if (d > 0.3) {
+                if (d > 0.5) {
                     // min and max points
                     min_max_point_line_original.x.push_back(max_point_line_original_right.x[i - 1]);
                     min_max_point_line_original.y.push_back(max_point_line_original_right.y[i - 1]);

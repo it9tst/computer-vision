@@ -7,3 +7,13 @@ Time taken by function Algorithm: 187 milliseconds
 	Time taken by function SendPCL: 0 milliseconds
 	Time taken by function SendPCL: 2 milliseconds
 
+
+# prova obj2 pc1
+Number of bytes sent: 18017573 bytes
+Time taken by function loadPCDFile: 597 milliseconds
+Time taken by function SendPCL: 432 milliseconds
+
+Time taken by function Algorithm: 354 milliseconds (w/ delay 100ms)
+	Time taken by function SendStats: 0 milliseconds
+	Time taken by function SendPCL: 2 milliseconds
+	Time taken by function SendPCL: 100 milliseconds

@@ -132,10 +132,21 @@ namespace GocatorGUI {
 
         private void UpdateComboBox() {
 
+            int c = listModel[pos].clouds.Count;
             List<string> data = new List<string>();
 
-            for (int i = 0; i < listModel[pos].clouds.Count; i++) {
-                data.Add(i.ToString());
+            if (c == 1) {
+                data.Add("Cloud original");
+            } else if (c == 2) {
+                data.Add("Cloud original");
+                data.Add("Cloud max/min");
+            } else if (c == 3) {
+                data.Add("Cloud original");
+                data.Add("Cloud max/min");
+            } else if (c == 4) {
+                data.Add("Cloud original");
+                data.Add("Cloud max/min");
+                data.Add("Cloud filter");
             }
 
             comboBox.SelectedIndex = 0;
@@ -220,6 +231,26 @@ namespace GocatorGUI {
                 buttonRefresh.IsEnabled = true;
                 buttonStartAcquisition.IsEnabled = true;
                 buttonStopAcquisition.IsEnabled = true;
+                buttonDisconnect.IsEnabled = true;
+            } else {
+                labelConnect.Foreground = new SolidColorBrush(Colors.Red);
+            }
+            labelConnect.Content = message.ToString().Replace('-', '\n');
+            labelConnect.Visibility = Visibility.Visible;
+        }
+
+        private void ButtonDisconnect_Click(object sender, RoutedEventArgs e) {
+
+            StringBuilder message = new StringBuilder(STRING_MAX_LENGTH);
+
+            wrapper.GocatorManager_Stop(message, STRING_MAX_LENGTH);
+
+            if (message.ToString().Equals("OK")) {
+                textBoxExposure.IsEnabled = false;
+                buttonRefresh.IsEnabled = false;
+                buttonStartAcquisition.IsEnabled = false;
+                buttonStopAcquisition.IsEnabled = false;
+                buttonDisconnect.IsEnabled = false;
             } else {
                 labelConnect.Foreground = new SolidColorBrush(Colors.Red);
             }
@@ -305,8 +336,7 @@ namespace GocatorGUI {
                     break;
 
                 case 2:
-                    helixPlot.Children.Add(listModel[pos].clouds[1]);
-                    helixPlot.Children.Add(listModel[pos].clouds[2]);
+                    helixPlot.Children.Add(listModel[pos].clouds[3]);
                     break;
 
                 default:

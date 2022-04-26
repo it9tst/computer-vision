@@ -27,6 +27,7 @@ namespace GocatorCV {
 		void Init(char* str, int strlen);
 		void StartAcquisition(char* str, int strlen, int object_type, bool check_save_pcd, const char* folder_path_save_pcd);
 		void StopAcquisition(char* str, int strlen);
+		void Stop(char* str, int strlen);
 		void LoadPointCloud(char* str, int strlen, const char* file_name);
 		bool FileAnalysis(int object_type, bool check_save_pcd, const char* folder_path_save_pcd);
 	};
