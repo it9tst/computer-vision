@@ -156,13 +156,32 @@ void GocatorCV::Analysis::Algorithm(int object_type, bool check_save_pcd, std::s
                 line_original.y.push_back(cloud_line->points[i].z);
                 line_original.i.push_back(i);
             }
-
+            /*
+            if (*k > (float)30 && *k < (float)31) {
+                plt::plot(line_original.x, line_original.y);
+                plt::title("Funzione originale");
+                plt::show();
+            }
+            */
             // Calcolo della funzione smussata
             GocatorCV::PolynomialFunction line_smooth = GaussianFilter(line_original);
-
+            /*
+            if (*k > (float)30 && *k < (float)31) {
+                plt::plot(line_smooth.x, line_smooth.y);
+                plt::title("Funzione smussata");
+                plt::show();
+            }
+            */
             // Calcolo tutti i minimi e i massimi della funziona smussata
             GocatorCV::PolynomialFunction min_max_point_line_smooth = DifferenceQuotient(line_smooth);
-
+            /*
+            if (*k > (float)30 && *k < (float)31) {
+                plt::plot(line_smooth.x, line_smooth.y);
+                plt::plot(min_max_point_line_smooth.x, min_max_point_line_smooth.y, "x");
+                plt::title("Minimi e massimi della funzione smussata");
+                plt::show();
+            }
+            */
             // Calcolo i massimi (da destra) della funzione originale
             GocatorCV::PolynomialFunction max_point_line_original_right;
 
@@ -171,7 +190,14 @@ void GocatorCV::Analysis::Algorithm(int object_type, bool check_save_pcd, std::s
                 max_point_line_original_right.y.push_back(line_original.y[min_max_point_line_smooth.i[i]]);
                 max_point_line_original_right.i.push_back(line_original.i[min_max_point_line_smooth.i[i]]);
             }
-
+            /*
+            if (*k > (float)30 && *k < (float)31) {
+                plt::plot(line_original.x, line_original.y);
+                plt::plot(max_point_line_original_right.x, max_point_line_original_right.y, "x");
+                plt::title("Massimi (da destra) della funzione originale");
+                plt::show();
+            }
+            */
             // Calcolo i minimi della funzione originale
             GocatorCV::PolynomialFunction min_point_line_original;
 
@@ -193,7 +219,14 @@ void GocatorCV::Analysis::Algorithm(int object_type, bool check_save_pcd, std::s
                 min_point_line_original.y.push_back(line_original.y[line.i[argminVal]]);
                 min_point_line_original.i.push_back(line.i[argminVal]);
             }
-
+            /*
+            if (*k > (float)30 && *k < (float)31) {
+                plt::plot(line_original.x, line_original.y);
+                plt::plot(min_point_line_original.x, min_point_line_original.y, "x");
+                plt::title("Minimi della funzione originale");
+                plt::show();
+            }
+            */
             // Calcolo i massimi (da sinistra) della funzione originale
             GocatorCV::PolynomialFunction max_point_line_original_left;
 
@@ -216,8 +249,26 @@ void GocatorCV::Analysis::Algorithm(int object_type, bool check_save_pcd, std::s
                 max_point_line_original_left.x.push_back(line_original.x[line_rotated.i[argmaxVal]]);
                 max_point_line_original_left.y.push_back(line_original.y[line_rotated.i[argmaxVal]]);
                 max_point_line_original_left.i.push_back(line_rotated.i[argmaxVal]);
+                /*
+                if (*k > (float)30 && *k < (float)31) {
+                    plt::named_plot("line_smooth", line_smooth.x, line_smooth.y);
+                    plt::plot({ line_smooth.x[line_rotated.i[argmaxVal]] }, { line_smooth.y[line_rotated.i[argmaxVal]] }, "x");
+                    plt::named_plot("line_rotated", line_rotated.x, line_rotated.y);
+                    plt::plot({ line_rotated.x[argmaxVal] }, { line_rotated.y[argmaxVal] }, "o");
+                    plt::title("Calcolo dei massimi (da sinistra) della funzione originale");
+                    plt::legend();
+                    plt::show();
+                }
+                */
             }
-
+            /*
+            if (*k > (float)30 && *k < (float)31) {
+                plt::plot(line_original.x, line_original.y);
+                plt::plot(max_point_line_original_left.x, max_point_line_original_left.y, "x");
+                plt::title("Massimi (da sinistra) della funzione originale");
+                plt::show();
+            }
+            */
             // Calcolo delle distanze tra la retta che congiunge due massimi adiacenti e il minimo corrispondente
             GocatorCV::PolynomialFunction min_max_point_line_original;
             GocatorCV::PolynomialFunction max_point_line_original;
@@ -254,7 +305,16 @@ void GocatorCV::Analysis::Algorithm(int object_type, bool check_save_pcd, std::s
                     std::cout << "Distanza " << i << ": " << d << " mm" << std::endl;
                 }
             }
-
+            /*
+            if (*k > (float)30 && *k < (float)31) {
+                plt::named_plot("line_original", line_original.x, line_original.y);
+                plt::plot(min_max_point_line_original.x, min_max_point_line_original.y, "x");
+                plt::named_plot("line_smooth", line_smooth.x, line_smooth.y, "r--");
+                plt::title("Calcolo delle distanze tra la retta che congiunge due massimi adiacenti e il minimo corrispondente");
+                plt::legend();
+                plt::show();
+            }
+            */
             if (!distance_inline.d.empty()) {
                 distance_for_line.push_back(distance_inline);
             }

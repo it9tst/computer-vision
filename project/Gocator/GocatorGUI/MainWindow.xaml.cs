@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -128,6 +130,8 @@ namespace GocatorGUI {
 
             textBoxOutput.AppendText(sent);
             textBoxOutput.AppendText(Environment.NewLine);
+
+            //SaveCSV(sent, 3);
         }
 
         private void UpdateComboBox() {
@@ -422,6 +426,37 @@ namespace GocatorGUI {
             Mouse.OverrideCursor = Cursors.Wait;
             wrapper.GocatorManager_FileAnalysis(type, checkSavePCD, folderPathSavePCD);
             Mouse.OverrideCursor = Cursors.Arrow;
+        }
+
+        private void SaveCSV(string sent, int t) {
+
+            if (t == 1) {
+
+            } else if (t == 2) {
+
+            } else {
+                if (sent.Contains("Altezza massima delle scalanature")) {
+                    string resultString = Regex.Match(sent, @"\d+\.*\d*").Value;
+                    var csv = new StringBuilder();
+                    var newLine = string.Format("{0},{1}", "max", resultString);
+                    csv.AppendLine(newLine);
+                    File.AppendAllText("1.csv", csv.ToString());
+
+                } else if (sent.Contains("Altezza minima delle scalanature")) {
+                    string resultString = Regex.Match(sent, @"\d+\.*\d*").Value;
+                    var csv = new StringBuilder();
+                    var newLine = string.Format("{0},{1}", "min", resultString);
+                    csv.AppendLine(newLine);
+                    File.AppendAllText("1.csv", csv.ToString());
+
+                } else if (sent.Contains("Altezza media delle scalanature")) {
+                    string resultString = Regex.Match(sent, @"\d+\.*\d*").Value;
+                    var csv = new StringBuilder();
+                    var newLine = string.Format("{0},{1}", "mean", resultString);
+                    csv.AppendLine(newLine);
+                    File.AppendAllText("1.csv", csv.ToString());
+                }
+            }
         }
     }
 }
