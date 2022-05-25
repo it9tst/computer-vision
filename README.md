@@ -3,7 +3,7 @@
 ### Final Project for exam of Computer Vision and Image Processing M - Ing. Informatica Magistrale - UniBO 2021
 
 ### Documentation
-[``Final Report``](https://htmlpreview.github.io/?https://github.com/it9tst/computer-vision/project/Report/relazione.pdf)
+[``Final Report``](https://htmlpreview.github.io/?https://github.com/it9tst/computer-vision/project/Report/main.pdf)
 
 ### Use
 

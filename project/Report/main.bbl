@@ -1,0 +1,587 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.1 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global}
+    \entry{image_s_blog}{online}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=2b3277fafeded8c7f5342fa1d1ac0060}{%
+           family={Blog},
+           familyi={B\bibinitperiod},
+           given={Image\bibnamedelima S},
+           giveni={I\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{2b3277fafeded8c7f5342fa1d1ac0060}
+      \strng{fullhash}{2b3277fafeded8c7f5342fa1d1ac0060}
+      \strng{bibnamehash}{2b3277fafeded8c7f5342fa1d1ac0060}
+      \strng{authorbibnamehash}{2b3277fafeded8c7f5342fa1d1ac0060}
+      \strng{authornamehash}{2b3277fafeded8c7f5342fa1d1ac0060}
+      \strng{authorfullhash}{2b3277fafeded8c7f5342fa1d1ac0060}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labeldatesource}{nodate}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{LMI Gocator 2490}
+      \true{nocite}
+      \verb{urlraw}
+      \verb https://www.imagesspa.it/2020/02/26/lmi-gocator-2490/
+      \endverb
+      \verb{url}
+      \verb https://www.imagesspa.it/2020/02/26/lmi-gocator-2490/
+      \endverb
+    \endentry
+    \entry{opencv_library}{article}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=7cb92723a011baf2e0abeeb403d03960}{%
+           family={Bradski},
+           familyi={B\bibinitperiod},
+           given={G.},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{7cb92723a011baf2e0abeeb403d03960}
+      \strng{fullhash}{7cb92723a011baf2e0abeeb403d03960}
+      \strng{bibnamehash}{7cb92723a011baf2e0abeeb403d03960}
+      \strng{authorbibnamehash}{7cb92723a011baf2e0abeeb403d03960}
+      \strng{authornamehash}{7cb92723a011baf2e0abeeb403d03960}
+      \strng{authorfullhash}{7cb92723a011baf2e0abeeb403d03960}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Dr. Dobb's Journal of Software Tools}
+      \field{title}{{The OpenCV Library}}
+      \field{year}{2000}
+      \true{nocite}
+      \keyw{bibtex-import}
+    \endentry
+    \entry{helix_toolkit_documentation}{online}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=37d8604c786dc78d53ec850574a57e1c}{%
+           family={Contributors},
+           familyi={C\bibinitperiod},
+           given={Helix\bibnamedelima Toolkit},
+           giveni={H\bibinitperiod\bibinitdelim T\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{37d8604c786dc78d53ec850574a57e1c}
+      \strng{fullhash}{37d8604c786dc78d53ec850574a57e1c}
+      \strng{bibnamehash}{37d8604c786dc78d53ec850574a57e1c}
+      \strng{authorbibnamehash}{37d8604c786dc78d53ec850574a57e1c}
+      \strng{authornamehash}{37d8604c786dc78d53ec850574a57e1c}
+      \strng{authorfullhash}{37d8604c786dc78d53ec850574a57e1c}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labeldatesource}{nodate}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Welcome to Helix Toolkit’s documentation!}
+      \true{nocite}
+      \verb{urlraw}
+      \verb http://docs.helix-toolkit.org/en/latest/
+      \endverb
+      \verb{url}
+      \verb http://docs.helix-toolkit.org/en/latest/
+      \endverb
+    \endentry
+    \entry{booksdaglib0034531}{book}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=fb219fee62b61373298aa0f4088c80d1}{%
+           family={Forsyth},
+           familyi={F\bibinitperiod},
+           given={David\bibnamedelima A.},
+           giveni={D\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ee672c13ddea8aa3bc5a45024cfd7354}{%
+           family={Ponce},
+           familyi={P\bibinitperiod},
+           given={Jean},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Pitman}%
+      }
+      \strng{namehash}{4f561b34e5a8005f9895f8508a6f656b}
+      \strng{fullhash}{7730c5503aa329e6471e7cbf04f74616}
+      \strng{bibnamehash}{7730c5503aa329e6471e7cbf04f74616}
+      \strng{authorbibnamehash}{7730c5503aa329e6471e7cbf04f74616}
+      \strng{authornamehash}{4f561b34e5a8005f9895f8508a6f656b}
+      \strng{authorfullhash}{7730c5503aa329e6471e7cbf04f74616}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{isbn}{978-0-273-76414-4}
+      \field{title}{Computer Vision - A Modern Approach, Second Edition.}
+      \field{year}{2012}
+      \true{nocite}
+      \field{pages}{1\bibrangedash 791}
+      \range{pages}{791}
+      \keyw{dblp}
+    \endentry
+    \entry{redazione_geomedia}{online}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=aa09a59546632092adb568a011422076}{%
+           family={Geomedia},
+           familyi={G\bibinitperiod},
+           given={Redazione},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{aa09a59546632092adb568a011422076}
+      \strng{fullhash}{aa09a59546632092adb568a011422076}
+      \strng{bibnamehash}{aa09a59546632092adb568a011422076}
+      \strng{authorbibnamehash}{aa09a59546632092adb568a011422076}
+      \strng{authornamehash}{aa09a59546632092adb568a011422076}
+      \strng{authorfullhash}{aa09a59546632092adb568a011422076}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labeldatesource}{nodate}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{LMI Technologies : il sensore Gocator, distribuito in Italia da iMAGE S S.p.a.}
+      \true{nocite}
+      \verb{urlraw}
+      \verb https://rivistageomedia.it/2019072316530/Rilievo-e-localizzazione/lmi-technologies-il-sensore-gocator-distribuito-in-italia-da-image-s-s-p-a
+      \endverb
+      \verb{url}
+      \verb https://rivistageomedia.it/2019072316530/Rilievo-e-localizzazione/lmi-technologies-il-sensore-gocator-distribuito-in-italia-da-image-s-s-p-a
+      \endverb
+    \endentry
+    \entry{gonzalez2008digital}{book}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=07713b8c79fe78ffaf9ab728a5f3ce88}{%
+           family={Gonzalez},
+           familyi={G\bibinitperiod},
+           given={Rafael\bibnamedelima C.},
+           giveni={R\bibinitperiod\bibinitdelim C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f7e4f4ce32d8e1ac04f7ee5eefcabe8f}{%
+           family={Woods},
+           familyi={W\bibinitperiod},
+           given={Richard\bibnamedelima E.},
+           giveni={R\bibinitperiod\bibinitdelim E\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{location}{1}{%
+        {Upper Saddle River, N.J.}%
+      }
+      \list{publisher}{1}{%
+        {Prentice Hall}%
+      }
+      \strng{namehash}{b2d3f574078f3bec786a6f4bed9913c2}
+      \strng{fullhash}{629c2754a63b62c1f205866b8ab085f9}
+      \strng{bibnamehash}{629c2754a63b62c1f205866b8ab085f9}
+      \strng{authorbibnamehash}{629c2754a63b62c1f205866b8ab085f9}
+      \strng{authornamehash}{b2d3f574078f3bec786a6f4bed9913c2}
+      \strng{authorfullhash}{629c2754a63b62c1f205866b8ab085f9}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Completely self-contained-and heavily illustrated-this introduction to basic concepts and methodologies for digital image processing is written at a level that truly is suitable for seniors and first-year graduate students in almost any technical discipline. The leading textbook in its field for more than twenty years, it continues its cutting-edge focus on contemporary developments in all mainstream areas of image processing-e.g., image fundamentals, image enhancement in the spatial and frequency domains, restoration, color image processing, wavelets, image compression, morphology, segmentation, image description, and the fundamentals of object recognition. It focuses on material that is fundamental and has a broad scope of application.}
+      \field{isbn}{9780131687288 013168728X 9780135052679 013505267X}
+      \field{title}{Digital image processing}
+      \field{year}{2008}
+      \true{nocite}
+      \verb{urlraw}
+      \verb http://www.amazon.com/Digital-Image-Processing-3rd-Edition/dp/013168728X
+      \endverb
+      \verb{url}
+      \verb http://www.amazon.com/Digital-Image-Processing-3rd-Edition/dp/013168728X
+      \endverb
+      \keyw{book image_processing}
+    \endentry
+    \entry{lmi_technologies}{online}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=9ac14ce9b01806a1fdd1f72e21e661b8}{%
+           family={Inc.},
+           familyi={I\bibinitperiod},
+           given={LMI\bibnamedelima Technologies},
+           giveni={L\bibinitperiod\bibinitdelim T\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{9ac14ce9b01806a1fdd1f72e21e661b8}
+      \strng{fullhash}{9ac14ce9b01806a1fdd1f72e21e661b8}
+      \strng{bibnamehash}{9ac14ce9b01806a1fdd1f72e21e661b8}
+      \strng{authorbibnamehash}{9ac14ce9b01806a1fdd1f72e21e661b8}
+      \strng{authornamehash}{9ac14ce9b01806a1fdd1f72e21e661b8}
+      \strng{authorfullhash}{9ac14ce9b01806a1fdd1f72e21e661b8}
+      \field{sortinit}{I}
+      \field{sortinithash}{8d291c51ee89b6cd86bf5379f0b151d8}
+      \field{labeldatesource}{nodate}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Gocator 2300}
+      \true{nocite}
+      \verb{urlraw}
+      \verb https://lmi3d.com/series/gocator-2300-series/
+      \endverb
+      \verb{url}
+      \verb https://lmi3d.com/series/gocator-2300-series/
+      \endverb
+    \endentry
+    \entry{direct_industry}{online}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=21a40be2cb0136fe7cbc83fc40f84fb3}{%
+           family={Industry},
+           familyi={I\bibinitperiod},
+           given={Direct},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{21a40be2cb0136fe7cbc83fc40f84fb3}
+      \strng{fullhash}{21a40be2cb0136fe7cbc83fc40f84fb3}
+      \strng{bibnamehash}{21a40be2cb0136fe7cbc83fc40f84fb3}
+      \strng{authorbibnamehash}{21a40be2cb0136fe7cbc83fc40f84fb3}
+      \strng{authornamehash}{21a40be2cb0136fe7cbc83fc40f84fb3}
+      \strng{authorfullhash}{21a40be2cb0136fe7cbc83fc40f84fb3}
+      \field{sortinit}{I}
+      \field{sortinithash}{8d291c51ee89b6cd86bf5379f0b151d8}
+      \field{labeldatesource}{nodate}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Sensore di visione intelligente Gocator Series}
+      \true{nocite}
+      \verb{urlraw}
+      \verb https://www.directindustry.it/prod/lmi-technologies/product-7226-703191.html
+      \endverb
+      \verb{url}
+      \verb https://www.directindustry.it/prod/lmi-technologies/product-7226-703191.html
+      \endverb
+    \endentry
+    \entry{point_cloud_library_2}{online}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=5a2d3a8b4599d295d5dd43f97531839c}{%
+           family={Library},
+           familyi={L\bibinitperiod},
+           given={Point\bibnamedelima Cloud},
+           giveni={P\bibinitperiod\bibinitdelim C\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{5a2d3a8b4599d295d5dd43f97531839c}
+      \strng{fullhash}{5a2d3a8b4599d295d5dd43f97531839c}
+      \strng{bibnamehash}{5a2d3a8b4599d295d5dd43f97531839c}
+      \strng{authorbibnamehash}{5a2d3a8b4599d295d5dd43f97531839c}
+      \strng{authornamehash}{5a2d3a8b4599d295d5dd43f97531839c}
+      \strng{authorfullhash}{5a2d3a8b4599d295d5dd43f97531839c}
+      \field{extraname}{1}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{extradate}{1}
+      \field{labeldatesource}{nodate}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Plane model segmentation}
+      \true{nocite}
+      \verb{urlraw}
+      \verb https://pcl.readthedocs.io/en/latest/planar_segmentation.html
+      \endverb
+      \verb{url}
+      \verb https://pcl.readthedocs.io/en/latest/planar_segmentation.html
+      \endverb
+    \endentry
+    \entry{point_cloud_library_3}{online}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=5a2d3a8b4599d295d5dd43f97531839c}{%
+           family={Library},
+           familyi={L\bibinitperiod},
+           given={Point\bibnamedelima Cloud},
+           giveni={P\bibinitperiod\bibinitdelim C\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{5a2d3a8b4599d295d5dd43f97531839c}
+      \strng{fullhash}{5a2d3a8b4599d295d5dd43f97531839c}
+      \strng{bibnamehash}{5a2d3a8b4599d295d5dd43f97531839c}
+      \strng{authorbibnamehash}{5a2d3a8b4599d295d5dd43f97531839c}
+      \strng{authornamehash}{5a2d3a8b4599d295d5dd43f97531839c}
+      \strng{authorfullhash}{5a2d3a8b4599d295d5dd43f97531839c}
+      \field{extraname}{2}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{extradate}{2}
+      \field{labeldatesource}{nodate}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Projecting points using a parametric model}
+      \true{nocite}
+      \verb{urlraw}
+      \verb https://pcl.readthedocs.io/projects/tutorials/en/latest/project_inliers.html
+      \endverb
+      \verb{url}
+      \verb https://pcl.readthedocs.io/projects/tutorials/en/latest/project_inliers.html
+      \endverb
+    \endentry
+    \entry{point_cloud_library_1}{online}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=5a2d3a8b4599d295d5dd43f97531839c}{%
+           family={Library},
+           familyi={L\bibinitperiod},
+           given={Point\bibnamedelima Cloud},
+           giveni={P\bibinitperiod\bibinitdelim C\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{5a2d3a8b4599d295d5dd43f97531839c}
+      \strng{fullhash}{5a2d3a8b4599d295d5dd43f97531839c}
+      \strng{bibnamehash}{5a2d3a8b4599d295d5dd43f97531839c}
+      \strng{authorbibnamehash}{5a2d3a8b4599d295d5dd43f97531839c}
+      \strng{authornamehash}{5a2d3a8b4599d295d5dd43f97531839c}
+      \strng{authorfullhash}{5a2d3a8b4599d295d5dd43f97531839c}
+      \field{extraname}{3}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{extradate}{3}
+      \field{labeldatesource}{nodate}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Removing outliers using a StatisticalOutlierRemoval filter}
+      \true{nocite}
+      \verb{urlraw}
+      \verb https://pcl.readthedocs.io/projects/tutorials/en/latest/statistical_outlier.html
+      \endverb
+      \verb{url}
+      \verb https://pcl.readthedocs.io/projects/tutorials/en/latest/statistical_outlier.html
+      \endverb
+    \endentry
+    \entry{point_cloud_library_4}{online}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=5a2d3a8b4599d295d5dd43f97531839c}{%
+           family={Library},
+           familyi={L\bibinitperiod},
+           given={Point\bibnamedelima Cloud},
+           giveni={P\bibinitperiod\bibinitdelim C\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{5a2d3a8b4599d295d5dd43f97531839c}
+      \strng{fullhash}{5a2d3a8b4599d295d5dd43f97531839c}
+      \strng{bibnamehash}{5a2d3a8b4599d295d5dd43f97531839c}
+      \strng{authorbibnamehash}{5a2d3a8b4599d295d5dd43f97531839c}
+      \strng{authornamehash}{5a2d3a8b4599d295d5dd43f97531839c}
+      \strng{authorfullhash}{5a2d3a8b4599d295d5dd43f97531839c}
+      \field{extraname}{4}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{extradate}{4}
+      \field{labeldatesource}{nodate}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Using a matrix to transform a point cloud}
+      \true{nocite}
+      \verb{urlraw}
+      \verb https://pcl.readthedocs.io/projects/tutorials/en/latest/matrix_transform.html
+      \endverb
+      \verb{url}
+      \verb https://pcl.readthedocs.io/projects/tutorials/en/latest/matrix_transform.html
+      \endverb
+    \endentry
+    \entry{dll_whatis}{online}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=140864078aeca1c7c35b4beb33c53c34}{%
+           family={Microsoft},
+           familyi={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{fullhash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{bibnamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authorbibnamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authornamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authorfullhash}{140864078aeca1c7c35b4beb33c53c34}
+      \field{extraname}{1}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradate}{1}
+      \field{labeldatesource}{nodate}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Creare DLL C/C++ in Visual Studio}
+      \true{nocite}
+      \verb{urlraw}
+      \verb https://docs.microsoft.com/it-it/cpp/build/dlls-in-visual-cpp?view=msvc-170
+      \endverb
+      \verb{url}
+      \verb https://docs.microsoft.com/it-it/cpp/build/dlls-in-visual-cpp?view=msvc-170
+      \endverb
+    \endentry
+    \entry{wpf_whatis}{online}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=140864078aeca1c7c35b4beb33c53c34}{%
+           family={Microsoft},
+           familyi={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{fullhash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{bibnamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authorbibnamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authornamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authorfullhash}{140864078aeca1c7c35b4beb33c53c34}
+      \field{extraname}{2}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradate}{2}
+      \field{labeldatesource}{nodate}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Informazioni su Windows Presentation Foundation (WPF)?}
+      \true{nocite}
+      \verb{urlraw}
+      \verb https://docs.microsoft.com/it-it/visualstudio/designers/getting-started-with-wpf?view=vs-2022
+      \endverb
+      \verb{url}
+      \verb https://docs.microsoft.com/it-it/visualstudio/designers/getting-started-with-wpf?view=vs-2022
+      \endverb
+    \endentry
+    \entry{wrapping_whatis}{online}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=140864078aeca1c7c35b4beb33c53c34}{%
+           family={Microsoft},
+           familyi={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{fullhash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{bibnamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authorbibnamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authornamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authorfullhash}{140864078aeca1c7c35b4beb33c53c34}
+      \field{extraname}{3}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradate}{3}
+      \field{labeldatesource}{nodate}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Procedura: eseguire il wrapping di una classe nativa affinché possa essere utilizzata in C\#}
+      \true{nocite}
+      \verb{urlraw}
+      \verb https://docs.microsoft.com/it-it/cpp/dotnet/how-to-wrap-native-class-for-use-by-csharp?view=msvc-170
+      \endverb
+      \verb{url}
+      \verb https://docs.microsoft.com/it-it/cpp/dotnet/how-to-wrap-native-class-for-use-by-csharp?view=msvc-170
+      \endverb
+    \endentry
+    \entry{the_gsl_team}{online}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=4dcbc144a88f97ccae0aebcb65f5a2ca}{%
+           family={Team},
+           familyi={T\bibinitperiod},
+           given={The\bibnamedelima GSL},
+           giveni={T\bibinitperiod\bibinitdelim G\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{4dcbc144a88f97ccae0aebcb65f5a2ca}
+      \strng{fullhash}{4dcbc144a88f97ccae0aebcb65f5a2ca}
+      \strng{bibnamehash}{4dcbc144a88f97ccae0aebcb65f5a2ca}
+      \strng{authorbibnamehash}{4dcbc144a88f97ccae0aebcb65f5a2ca}
+      \strng{authornamehash}{4dcbc144a88f97ccae0aebcb65f5a2ca}
+      \strng{authorfullhash}{4dcbc144a88f97ccae0aebcb65f5a2ca}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{labeldatesource}{nodate}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Digital Filtering}
+      \true{nocite}
+      \verb{urlraw}
+      \verb https://www.gnu.org/software/gsl/doc/html/filter.html
+      \endverb
+      \verb{url}
+      \verb https://www.gnu.org/software/gsl/doc/html/filter.html
+      \endverb
+    \endentry
+    \entry{wang2019}{article}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=54d730dfe6d3503646f38f2145fa85f1}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Xi-Bo},
+           giveni={X\bibinithyphendelim B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=977e55c9e43b43a0efe7b3721aec97af}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Ai-Juan},
+           giveni={A\bibinithyphendelim J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d232effbfcb3f764aad10391b43c02c5}{%
+           family={Ci},
+           familyi={C\bibinitperiod},
+           given={Qin-Peng},
+           giveni={Q\bibinithyphendelim P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=adf91f62f3ef3cf02f0580ae6bf1fe12}{%
+           family={Shi},
+           familyi={S\bibinitperiod},
+           given={Meng},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5d988a4c18b2045c236b301946c913d2}{%
+           family={Jing},
+           familyi={J\bibinitperiod},
+           given={Tian-Long},
+           giveni={T\bibinithyphendelim L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=938b3703468ce994303e29228217c308}{%
+           family={Zhao},
+           familyi={Z\bibinitperiod},
+           given={Wan-Zhong},
+           giveni={W\bibinithyphendelim Z\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{d1b07db07e7c3e2392b6ed1f128ea372}
+      \strng{fullhash}{d9c3acd95270bfe43f7e6f920c279803}
+      \strng{bibnamehash}{d9c3acd95270bfe43f7e6f920c279803}
+      \strng{authorbibnamehash}{d9c3acd95270bfe43f7e6f920c279803}
+      \strng{authornamehash}{d1b07db07e7c3e2392b6ed1f128ea372}
+      \strng{authorfullhash}{d9c3acd95270bfe43f7e6f920c279803}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Advances in Mechanical Engineering}
+      \field{number}{4}
+      \field{title}{The study on tire tread depth measurement method based on machine vision}
+      \field{volume}{11}
+      \field{year}{2019}
+      \true{nocite}
+      \field{pages}{1687814019837828}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1177/1687814019837828
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1177/1687814019837828
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1177/1687814019837828
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

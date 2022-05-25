@@ -1,0 +1,107 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\babel@toc {italian}{}
+\babel@toc {italian}{}
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Funzionamento di un profilometro laser.\relax }}{3}{figure.caption.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Caratteristiche visive del Gocator.\relax }}{4}{figure.caption.4}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Il box di colore giallo è l'area attiva. La linea rossa indica l'inclinazione del laser sul conveyor.\relax }}{5}{figure.caption.5}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.4}{\ignorespaces (a) Con dati grezzi. (b) Con spaziatura uniforme.\relax }}{8}{figure.caption.7}%
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Battistrada di tipo \textit {1A}\relax }}{9}{figure.caption.8}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Battistrada di tipo \textit {1B}\relax }}{10}{figure.caption.9}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Battistrada di tipo \textit {2}\relax }}{10}{figure.caption.10}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Contorni dei MacroBlob, in questo ne sono presenti 6.\relax }}{12}{figure.caption.11}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Contorni dei Blob, in questo caso ne sono presenti 16.\relax }}{12}{figure.caption.12}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Contorni dei MacroBlob, in questo caso ne sono presenti 9.\relax }}{12}{figure.caption.13}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Point cloud non elaborata del battistrada di tipo \textit {1A}.\relax }}{13}{figure.caption.14}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Point cloud del battistrada di tipo \textit {1A} dopo aver applicato il filtro statistico.\relax }}{14}{figure.caption.15}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Point cloud del battistrada di tipo \textit {1A} dopo aver applicato la segmentazione planare.\relax }}{15}{figure.caption.16}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.10}{\ignorespaces Point cloud del battistrada di tipo \textit {1A} dopo aver applicato l'operazione di proiezione.\relax }}{15}{figure.caption.17}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.11}{\ignorespaces Point cloud del battistrada di tipo \textit {1A} dopo aver applicato l'operazione di traslazione.\relax }}{16}{figure.caption.18}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.12}{\ignorespaces Immagine planare del battistrada di tipo \textit {1A}.\relax }}{16}{figure.caption.19}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.13}{\ignorespaces Immagine del battistrada di tipo \textit {1A} dopo aver applicato la prima trasformazione morfologica (Closing).\relax }}{17}{figure.caption.20}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.14}{\ignorespaces Immagine del battistrada di tipo \textit {1A} dopo aver applicato la seconda trasformazione morfologica (Closing).\relax }}{17}{figure.caption.21}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.15}{\ignorespaces Immagine del battistrada di tipo \textit {1A} con i contorni dei MacroBlob evidenziati.\relax }}{18}{figure.caption.22}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.16}{\ignorespaces Immagine del battistrada di tipo \textit {1A} con le bounding box dei MacroBlob evidenziate.\relax }}{18}{figure.caption.23}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.17}{\ignorespaces Immagine del battistrada di tipo \textit {1A} con i contorni dei Blob evidenziati.\relax }}{18}{figure.caption.24}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.18}{\ignorespaces Immagine del battistrada di tipo \textit {1A} con le bounding box dei Blob evidenziate.\relax }}{18}{figure.caption.25}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.19}{\ignorespaces Point cloud non elaborata del battistrada di tipo \textit {1B}.\relax }}{19}{figure.caption.26}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.20}{\ignorespaces Point cloud del battistrada di tipo \textit {1B} dopo aver applicato il filtro statistico.\relax }}{19}{figure.caption.27}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.21}{\ignorespaces Point cloud del battistrada di tipo \textit {1B} dopo aver applicato la segmentazione planare.\relax }}{19}{figure.caption.28}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.22}{\ignorespaces Point cloud del battistrada di tipo \textit {1B} dopo aver applicato l'operazione di proiezione.\relax }}{19}{figure.caption.29}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.23}{\ignorespaces Point cloud del battistrada di tipo \textit {1B} dopo aver applicato l'operazione di traslazione.\relax }}{20}{figure.caption.30}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.24}{\ignorespaces Immagine planare del battistrada di tipo \textit {1B}.\relax }}{20}{figure.caption.31}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.25}{\ignorespaces Immagine del battistrada di tipo \textit {1B} dopo aver applicato la trasformazione morfologica (Closing).\relax }}{20}{figure.caption.32}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.26}{\ignorespaces Immagine del battistrada di tipo \textit {1B} con le bounding box dei MacroBlob evidenziate.\relax }}{21}{figure.caption.33}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.27}{\ignorespaces Point cloud non elaborata del battistrada di tipo \textit {2}.\relax }}{21}{figure.caption.34}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.28}{\ignorespaces Funzione originale.\relax }}{22}{figure.caption.35}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.29}{\ignorespaces Funzione smussata.\relax }}{22}{figure.caption.36}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.30}{\ignorespaces Massimi e minimi della funzione smussata.\relax }}{23}{figure.caption.37}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.31}{\ignorespaces Massimi (da destra) della funzione originale.\relax }}{24}{figure.caption.38}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.32}{\ignorespaces Minimi della funzione originale.\relax }}{24}{figure.caption.39}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.33}{\ignorespaces Esempio del calcolo di uno dei massimi (da sinistra) della funzione smussata.\relax }}{25}{figure.caption.40}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.34}{\ignorespaces Massimi (da sinistra) della funzione originale.\relax }}{26}{figure.caption.41}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.35}{\ignorespaces Confronto tra la funzione originale e la funzione smussata. I punti critici segnati sono il risultato di un filtro sulla distanza maggiore di 0.5 millimetri.\relax }}{26}{figure.caption.42}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.36}{\ignorespaces Point cloud del battistrada di tipo \textit {2}, con vista sul piano \textit {XY}.\relax }}{27}{figure.caption.43}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.37}{\ignorespaces (a) Point cloud contenente i punti di massimo da sinistra e di massimo da destra. (b) Point cloud contenente i punti di minimo, massimo da sinistra e di massimo da destra.\relax }}{27}{figure.caption.44}%
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Interfaccia grafica del programma.\relax }}{29}{figure.caption.45}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Interfaccia grafica con la point cloud filtrata visualizzata a video.\relax }}{30}{figure.caption.46}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Interfaccia grafica con, visualizzata a video, la point cloud del battistrada di tipo 1A e il risultato dell'analisi.\relax }}{31}{figure.caption.47}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Interfaccia grafica con, visualizzata a video, la point cloud del battistrada di tipo 2.\relax }}{31}{figure.caption.48}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Interfaccia grafica con, visualizzata a video, la point cloud con i punti di profondità delle scanalature minima e massima.\relax }}{32}{figure.caption.49}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Interfaccia grafica con, visualizzata a video, la point cloud filtrata.\relax }}{32}{figure.caption.50}%
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }

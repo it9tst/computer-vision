@@ -1,0 +1,282 @@
+\ProvidesPackage{mymacros}[My own macros]
+
+% \RequirePackage[utf8]{inputenc}
+% \RequirePackage[T1]{fontenc}
+% \RequirePackage{amsmath, amsfonts, amssymb}
+ \RequirePackage{xspace}
+% \RequirePackage{thm-restate}
+% \RequirePackage{booktabs}
+% \RequirePackage{url}
+% \RequirePackage{nicefrac}
+% \RequirePackage{algorithm,algpseudocode}
+% \RequirePackage{caption, subcaption}
+% \RequirePackage[usenames,dvipsnames]{xcolor}
+% \RequirePackage{graphicx}
+\RequirePackage{mathtools}
+
+\newtheorem{assumption}{Assumption}
+
+%Text
+\DeclareRobustCommand{\eg}{e.g.,\@\xspace} % for example
+\DeclareRobustCommand{\ie}{i.e.,\@\xspace} % cioè 
+\DeclareRobustCommand{\wrt}{w.r.t.\@\xspace} % With Regard To (in particolar modo)
+\DeclareRobustCommand{\cf}{cf.\@\xspace} % compared to 
+\DeclareRobustCommand{\iid}{i.i.d.\@\xspace} % indipendente e identicamente distribuita
+\DeclareMathOperator{\eig}{eig}
+\newcommand{\un}{$\_$}
+%Decorations
+\newcommand{\wh}[1]{\widehat{#1}}
+\newcommand{\wt}[1]{\widetilde{#1}}
+
+\newcommand{\quotes}[1]{``#1''}
+
+%Bold symbols
+\newcommand{\vtheta}{\boldsymbol{\theta}}
+\newcommand{\vg}{\boldsymbol{g}}
+\newcommand{\vTheta}{\boldsymbol{\Theta}}
+\newcommand{\vmu}{\boldsymbol{\mu}}
+\newcommand{\vpsi}{\boldsymbol{\psi}}
+\newcommand{\vphi}{\boldsymbol{\phi}}
+\newcommand{\vzeta}{\boldsymbol{\zeta}}
+\newcommand{\vxi}{\boldsymbol{\xi}}
+\newcommand{\valpha}{\boldsymbol{\alpha}}
+\newcommand{\vx}{\boldsymbol{x}}
+\newcommand{\vh}{\boldsymbol{h}}
+\newcommand{\vv}{\boldsymbol{v}}
+\newcommand{\vw}{\boldsymbol{w}}
+
+% Todo
+% \usepackage[colorinlistoftodos]{todonotes}
+\definecolor{citrine}{rgb}{0.89, 0.82, 0.04}
+\definecolor{blued}{RGB}{70,197,221}
+\definecolor{applegreen}{rgb}{0.55, 0.71, 0.0}
+\definecolor{flame}{rgb}{0.89, 0.35, 0.13}
+\definecolor{vibrantBlue}{RGB}{0, 119, 187}
+\definecolor{vibrantMagenta}{RGB}{238, 51, 119}
+
+% \newcommand{\lb}[1]{\todo[color=blued, inline]{\small {\bf Lorenzo} #1}}
+% \newcommand{\lbout}[1]{\todo[color=blued]{\scriptsize {\bf LB} #1}}
+% \newcommand{\sab}[1]{\todo[color=applegreen, inline]{\small {\bf Luca} #1}}
+% \newcommand{\sabout}[1]{\todo[color=applegreen]{\scriptsize {\bf LS} #1}}
+% \newcommand{\am}[1]{\todo[color=flame, inline]{\small {\bf Alberto} #1}}
+% \newcommand{\amout}[1]{\todo[color=flame]{\scriptsize {\bf AM} #1}}
+
+%Calculus
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\Reals}{\mathbb{R}}
+\newcommand{\Naturals}{\mathbb{N}}
+\newcommand{\de}{\,\mathrm{d}}
+\newcommand{\Hess}{\mathcal{H}}
+\newcommand{\Jacob}{\mathcal{J}}
+\newcommand{\norm}[2][]{\left\|#2\right\|_{#1}}
+\newcommand{\Xspace}{\mathcal{X}}
+\newcommand{\Bs}{\mathcal{B}}
+
+%Probability
+\newcommand{\EV}{\mathbb{E}}
+\newcommand{\EVV}[2][]{\EV_{#1}\left[{#2}\right]}
+\newcommand{\Gauss}{\mathcal{N}}
+\newcommand{\Var}{\mathbb{V}\text{ar}}
+\newcommand{\VVar}[1]{\mathbb{V}\text{ar}\left[#1\right]}
+\newcommand{\Cov}{\mathbb{C}\text{ov}}
+\newcommand{\corr}{\rho}
+\newcommand{\Pro}{\mathbb{P}}
+\newcommand{\PPro}[1]{\mathbb{P}\left(#1\right)}
+\newcommand{\PProD}[1]{\mathscr{P}(#1)}
+\newcommand{\simiid}{\stackrel{\text{iid}}{\sim}}
+
+%Math
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+%Data
+\newcommand{\Dataset}{\mathcal{D}}
+\newcommand{\hnabla}{\widehat{\nabla}}
+
+%RL
+\newcommand{\Ospace}{\mathcal{O}}
+\newcommand{\Aspace}{\mathcal{A}}
+\newcommand{\Sspace}{\mathcal{S}}
+\newcommand{\Rspace}{\mathcal{R}}
+\newcommand{\Kspace}{\mathcal{K}}
+\newcommand{\Tran}{\mathcal{P}}
+\newcommand{\Init}{\mu}
+\newcommand{\Rew}{\mathcal{R}}
+\newcommand{\Rmax}{R_{\max}}
+\newcommand{\phimax}{\Phi}
+\newcommand{\Ppi}[1][\pi]{P^{#1}}
+\newcommand{\MSPol}{\Pi}
+
+\newcommand{\pibest}{\pi^*}
+\newcommand{\Vpi}[1][s]{V^{\pi}({#1})}
+\newcommand{\Vpinos}{V^{\pi}}
+\newcommand{\Qpi}{Q^{\pi}(s,a)}
+\newcommand{\Vbest}[1][s]{V^{*}({#1})}
+\newcommand{\Vbestnos}{V^{*}}
+\newcommand{\Qbest}{Q^{*}(s,a)}
+
+\newcommand{\Qpip}[2]{Q^{\pi} ({#1},{#2}) }
+\newcommand{\Qbestp}[2]{Q^{*} ({#1},{#2}) }
+
+\newcommand{\BOppi}{{T}^\pi}
+\newcommand{\BOpbest}{{T}^*}
+
+\newcommand{\RDis}[1][\cdot]{R(#1|s,a)}
+\newcommand{\PDis}[1][\cdot]{P(#1|s,a)}
+
+
+%Specific
+\newcommand{\sm}{\psi}
+\newcommand{\smm}{\Xi}
+\newcommand{\smmm}{Z}
+
+
+\newcommand{\BlackBox}{\rule{1.5ex}{1.5ex}}  % end of proof
+%\newenvironment{proof}{\par\noindent{\bf Proof\ }}{\hfill\BlackBox\\[2mm]}
+%Theorems
+\usepackage{thmtools}
+\usepackage{thm-restate}
+
+\declaretheorem[name=Theorem,numberwithin=section]{thm}
+\declaretheorem[name=Lemma,numberwithin=section]{lemma}
+\declaretheorem[name=Definition,numberwithin=section]{defi}
+\declaretheorem[name=Proposition,numberwithin=section]{prop}
+\declaretheorem[name=Assumption,numberwithin=section]{ass}
+\declaretheorem[name=Corollary,numberwithin=section]{coroll}
+\declaretheorem[name=Fact,numberwithin=section]{fact}
+\declaretheorem[name=Example,numberwithin=section]{example}
+\declaretheorem[name=Remark,numberwithin=section]{remark}
+\declaretheorem[name=Property,numberwithin=section]{proper}
+
+
+
+\newcommand{\Kant}{\mathcal{W}_1}
+\newcommand{\kant}{w}
+\newcommand{\suplip}{\sup_{f: \|f\|_L \le 1}}
+\newcommand{\Ss}{\mathcal{S}}
+\newcommand{\As}{\mathcal{A}}
+\newcommand{\SAs}{\mathcal{S\times A}}
+\newcommand{\SAKs}{\mathcal{S\times A\times K}}
+
+%persistence commands
+\newcommand{\ksamp}{\overline{\kappa}}
+\newcommand{\rminK}[1]{r_{min\{k,#1\}}}
+\newcommand{\minK}{min\{k,\ksamp\}}
+
+\newcommand{\PminK}[1]{P_{\min\{k,#1\}}(\mathrm{d}s'|s,a)}
+\newcommand{\PK}{P_k}
+\newcommand{\Pkint}{\PK(\mathrm{d}s'|s,a)}
+\newcommand{\Psampint}{P_{\ksamp}(\mathrm{d}s'|s,a)}
+\newcommand{\empP}{\boldsymbol{P}}
+\newcommand{\empPK}{\boldsymbol{P}^k}
+\newcommand{\empPKac}{\mathbb{P}^k}
+\newcommand{\empPKsampac}{\mathbb{P}^{\ksamp}}
+\newcommand{\Hop}{\mathcal{H}}
+
+\newcommand{\QstarK}{Q^\star_{\mathcal{K}}}
+%\newcommand{\TstarK}{T^\star_{\mathcal{K}}}
+\newcommand{\TstarK}{T^\star}
+\newcommand{\Tpsi}{T^\psi}
+
+\newcommand{\algnameExtQL}{Persistent $Q$-learning\@\xspace}
+\newcommand{\algnameQL}{Per$Q$-learning\@\xspace}
+\newcommand{\algnameExtDQN}{Persistent Deep $Q$-Network\@\xspace}
+\newcommand{\algnameDQN}{PerDQN\@\xspace}
+
+
+% algo
+\newcommand{\leftarrowsp}{\,\leftarrow\,}
+\newcommand{\func}[1]{\emph{#1}}
+
+% \newcommand{\floor}[1]{\lfloor #1 \rfloor}
+\newcommand{\floor}[1]{\left \lfloor #1 \right\rfloor }
+
+% Generic
+
+% bibliografia 
+\DeclareCiteCommand{\cite}
+    {\usebibmacro{prenote}}
+    {\usebibmacro{citeindex}%
+    \bibhyperref{\printnames{labelname}, \printfield{year} \printfield[labelnumberwidth]{labelnumber}}}
+    {\multicitedelim}
+    {\usebibmacro{postnote}}
+\DeclareMultiCiteCommand{\cites}{\cite}{\multicitedelim}
+
+\DeclareCiteCommand{\parencite}[\mkbibparens]
+    {\usebibmacro{prenote}}
+    {\usebibmacro{citeindex}%
+    \bibhyperref{\printnames{labelname}, \printfield{year} \printfield[labelnumberwidth]{labelnumber}}}
+    {\multicitedelim}
+    {\usebibmacro{postnote}}
+\DeclareMultiCiteCommand{\parencites}[\mkbibparens]{\parencite}{\multicitedelim}
+
+\newcommand{\citep}[1]{\parencite{#1}}
+
+
+% python
+% listings colours
+\definecolor{rulecolor}{rgb}{0,0,0}
+\definecolor{commentcolor}{rgb}{0,0.6,0}
+\definecolor{linenumbercolor}{rgb}{0.5,0.5,0.5}
+\definecolor{keywordcolor}{rgb}{0,0,0.95}
+\definecolor{backcolor}{rgb}{1,1,1}%{0.95,0.95,0.92}
+\definecolor{stringcolor}{rgb}{0.58,0,0.82}
+
+% setup for lstlisting
+\lstset{ %
+	backgroundcolor=\color{backcolor},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+	basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+	breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+	breaklines=true,                 % sets automatic line breaking
+	captionpos=t,                    % sets the caption-position to bottom
+	commentstyle=\color{commentcolor},    % comment style
+	extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+	frame=single,	                   % adds a frame around the code
+	keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+	keywordstyle=\color{keywordcolor},       % keyword style
+	otherkeywords={self}, 
+	%language=VHDL,                 % the language of the code
+	numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+	numbersep=5pt,                   % how far the line-numbers are from the code
+	numberstyle=\tiny\color{linenumbercolor}, % the style that is used for the line-numbers
+	rulecolor=\color{rulecolor},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+	showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+	showstringspaces=false,          % underline spaces within strings only
+	showtabs=false,                  % show tabs within strings adding particular underscores
+	stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
+	stringstyle=\color{stringcolor},     % string literal style
+	tabsize=4,	                   % sets default tabsize to 2 spaces
+	title=\lstname,                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+	inputencoding=utf8,
+	literate=
+	{á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+	{Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+	{à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
+	{À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
+	{ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+	{Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+	{â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+	{Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
+	{œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
+	{ű}{{\H{u}}}1 {Ű}{{\H{U}}}1 {ő}{{\H{o}}}1 {Ő}{{\H{O}}}1
+	{ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
+	{€}{{\euro}}1 {£}{{\pounds}}1 {«}{{\guillemotleft}}1
+	{»}{{\guillemotright}}1 {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{?`}}1
+}
+
+
+\lstset{numbers=left,numberblanklines=false,escapeinside=||}
+\let\origthelstnumber\thelstnumber
+\makeatletter
+\newcommand*\Suppressnumber{%
+  \lst@AddToHook{OnNewLine}{%
+    \let\thelstnumber\relax%
+     \advance\c@lstnumber-\@ne\relax%
+    }%
+}
+
+\newcommand*\Reactivatenumber{%
+  \lst@AddToHook{OnNewLine}{%
+   \let\thelstnumber\origthelstnumber%
+   \advance\c@lstnumber\@ne\relax}%
+}

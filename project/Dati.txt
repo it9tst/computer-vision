@@ -21,9 +21,9 @@ Time taken by function Algorithm: 354 milliseconds (w/ delay 100ms)
 
 //////////
 
-Altezza minima delle scalanature: 0.51 mm (Point Yellow)
-Altezza massima delle scalanature: 4.71 mm (Point Red)
-Altezza media delle scalanature: 2.61 mm
+Altezza minima delle scanalature: 0.51 mm (Point Yellow)
+Altezza massima delle scanalature: 4.71 mm (Point Red)
+Altezza media delle scanalature: 2.61 mm
 
 //////////
 

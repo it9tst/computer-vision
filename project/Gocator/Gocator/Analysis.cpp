@@ -125,6 +125,10 @@ void GocatorCV::Analysis::Algorithm(int object_type, bool check_save_pcd, std::s
             DistanceBetweenBlob(contours_MacroBlob, contours_Blob);
         }
 
+        auto stop = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+        std::cout << "Time taken by function Algorithm 1A-1B: " << duration.count() << " milliseconds" << std::endl;
+
     } else {
         // *****PER TUTTE LE LINEE (BATTISTRADA 3)*****
     
@@ -368,12 +372,12 @@ void GocatorCV::Analysis::Algorithm(int object_type, bool check_save_pcd, std::s
         min << setprecision(2) << std::fixed << minElement;
         max << setprecision(2) << std::fixed << maxElement;
         mean << setprecision(2) << std::fixed << (minElement + maxElement) / 2;
-        _stats.row.push_back("Altezza minima delle scalanature: " + min.str() + " mm (Point Yellow)");
-        _stats.row.push_back("Altezza massima delle scalanature: " + max.str() + " mm (Point Red)");
-        _stats.row.push_back("Altezza media delle scalanature: " + mean.str() + " mm");
-        std::cout << "Altezza minima delle scalanature: " << min.str() << " mm" << std::endl;
-        std::cout << "Altezza massima delle scalanature: " << max.str() << " mm" << std::endl;
-        std::cout << "Altezza media delle scalanature: " << mean.str() << " mm" << std::endl;
+        _stats.row.push_back("Profondità minima delle scanalature: " + min.str() + " mm (Point Yellow)");
+        _stats.row.push_back("Profondità massima delle scanalature: " + max.str() + " mm (Point Red)");
+        _stats.row.push_back("Profondità media delle scanalature: " + mean.str() + " mm");
+        std::cout << "Profondità minima delle scanalature: " << min.str() << " mm" << std::endl;
+        std::cout << "Profondità massima delle scanalature: " << max.str() << " mm" << std::endl;
+        std::cout << "Profondità media delle scanalature: " << mean.str() << " mm" << std::endl;
 
         pipe.SendStats(_stats, id);
 
@@ -463,155 +467,8 @@ void GocatorCV::Analysis::Algorithm(int object_type, bool check_save_pcd, std::s
 
         auto stop = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
-        std::cout << "Time taken by function Algorithm: " << duration.count() << " milliseconds" << std::endl;
+        std::cout << "Time taken by function Algorithm 2: " << duration.count() << " milliseconds" << std::endl;
     }
-}
-
-void GocatorCV::Analysis::DebugAlgorithm2() {
-    // *****PER UNA LINEA (BATTISTRADA 3)*****
-    
-    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_line(new pcl::PointCloud<pcl::PointXYZ>());
-
-    for (int i = 0; i < cloud->size(); i++) {
-        if (cloud->points[i].y == (float)-20.599583) {
-            cloud_line->points.emplace_back(pcl::PointXYZ(cloud->points[i].x * 1, cloud->points[i].y * 0, cloud->points[i].z * 1));
-        }
-    }
-
-    GetMinMaxCoordinates(cloud_line);
-
-    GocatorCV::PolynomialFunction line_original;
-
-    for (int i = 0; i < cloud_line->size(); i++) {
-        line_original.x.push_back(cloud_line->points[i].x);
-        line_original.y.push_back(cloud_line->points[i].z);
-        line_original.i.push_back(i);
-    }
-
-    plt::plot(line_original.x, line_original.y);
-    plt::title("Funzione originale");
-    plt::show();
-
-    // Calcolo della funzione smussata
-    GocatorCV::PolynomialFunction line_smooth = GaussianFilter(line_original);
-
-    plt::plot(line_smooth.x, line_smooth.y);
-    plt::title("Funzione smussata");
-    plt::show();
-
-    // Calcolo tutti i minimi e i massimi della funziona smussata
-    GocatorCV::PolynomialFunction min_max_point_line_smooth = DifferenceQuotient(line_smooth);
-
-    plt::plot(line_smooth.x, line_smooth.y);
-    plt::plot(min_max_point_line_smooth.x, min_max_point_line_smooth.y, "x");
-    plt::title("Minimi e massimi della funzione smussata");
-    plt::show();
-
-    // Calcolo i massimi (da destra) della funzione originale
-    GocatorCV::PolynomialFunction max_point_line_original_right;
-
-    for (int i = 0; i < min_max_point_line_smooth.i.size(); i = i + 2) {
-        max_point_line_original_right.x.push_back(line_original.x[min_max_point_line_smooth.i[i]]);
-        max_point_line_original_right.y.push_back(line_original.y[min_max_point_line_smooth.i[i]]);
-        max_point_line_original_right.i.push_back(line_original.i[min_max_point_line_smooth.i[i]]);
-    }
-
-    plt::plot(line_original.x, line_original.y);
-    plt::plot(max_point_line_original_right.x, max_point_line_original_right.y, "x");
-    plt::title("Massimi (da destra) della funzione originale");
-    plt::show();
-
-    // Calcolo i minimi della funzione originale
-    GocatorCV::PolynomialFunction min_point_line_original;
-
-    for (int i = 1; i < max_point_line_original_right.i.size(); i++) {
-        GocatorCV::PolynomialFunction line;
-
-        for (int j = 0; j < line_original.i.size(); j++) {
-            if (line_original.x[j] >= max_point_line_original_right.x[i] && line_original.x[j] <= max_point_line_original_right.x[i - 1]) {
-                line.x.push_back(line_original.x[j]);
-                line.y.push_back(line_original.y[j]);
-                line.i.push_back(j);
-            }
-        }
-
-        std::vector<double>::iterator min = std::min_element(line.y.begin(), line.y.end());
-        int argminVal = std::distance(line.y.begin(), min);
-
-        min_point_line_original.x.push_back(line_original.x[line.i[argminVal]]);
-        min_point_line_original.y.push_back(line_original.y[line.i[argminVal]]);
-        min_point_line_original.i.push_back(line.i[argminVal]);
-    }
-
-    plt::plot(line_original.x, line_original.y);
-    plt::plot(min_point_line_original.x, min_point_line_original.y, "x");
-    plt::title("Minimi della funzione originale");
-    plt::show();
-
-    // Calcolo i massimi (da sinistra) della funzione originale
-    GocatorCV::PolynomialFunction max_point_line_original_left;
-
-    for (int i = 1; i < max_point_line_original_right.i.size(); i++) {
-        GocatorCV::PolynomialFunction line_rotated;
-        double m = (max_point_line_original_right.y[i] - min_point_line_original.y[i - 1]) / (min_point_line_original.x[i - 1] - max_point_line_original_right.x[i]);
-
-        for (int j = 0; j < line_smooth.i.size(); j++) {
-            if (line_smooth.x[j] >= max_point_line_original_right.x[i] && line_smooth.x[j] <= min_point_line_original.x[i - 1]) {
-                cv::Point2d p = RotatePoint(0, 0, m, cv::Point2d(line_smooth.x[j], line_smooth.y[j]));
-                line_rotated.x.push_back(p.x);
-                line_rotated.y.push_back(p.y);
-                line_rotated.i.push_back(j);
-            }
-        }
-
-        std::vector<double>::iterator max = std::max_element(line_rotated.y.begin(), line_rotated.y.end());
-        int argmaxVal = std::distance(line_rotated.y.begin(), max);
-
-        max_point_line_original_left.x.push_back(line_original.x[line_rotated.i[argmaxVal]]);
-        max_point_line_original_left.y.push_back(line_original.y[line_rotated.i[argmaxVal]]);
-        max_point_line_original_left.i.push_back(line_rotated.i[argmaxVal]);
-
-        plt::named_plot("line_smooth", line_smooth.x, line_smooth.y);
-        plt::plot({ line_smooth.x[line_rotated.i[argmaxVal]] }, { line_smooth.y[line_rotated.i[argmaxVal]] }, "x");
-        plt::named_plot("line_rotated", line_rotated.x, line_rotated.y);
-        plt::plot({ line_rotated.x[argmaxVal] }, { line_rotated.y[argmaxVal] }, "o");
-        plt::title("Calcolo dei massimi (da sinistra) della funzione originale");
-        plt::legend();
-        plt::show();
-    }
-
-    plt::plot(line_original.x, line_original.y);
-    plt::plot(max_point_line_original_left.x, max_point_line_original_left.y, "x");
-    plt::title("Massimi (da sinistra) della funzione originale");
-    plt::show();
-
-    // Calcolo delle distanze tra la retta che congiunge due massimi adiacenti e il minimo corrispondente
-    GocatorCV::PolynomialFunction min_max_point_line_original;
-
-    for (int i = 1; i < max_point_line_original_right.i.size(); i++) {
-        double d = DistancePointLine(min_point_line_original.x[i - 1], min_point_line_original.y[i - 1], max_point_line_original_right.x[i - 1], max_point_line_original_right.y[i - 1], max_point_line_original_left.x[i - 1], max_point_line_original_left.y[i - 1]);
-
-        if (d > 0.3) {
-            min_max_point_line_original.x.push_back(max_point_line_original_right.x[i - 1]);
-            min_max_point_line_original.y.push_back(max_point_line_original_right.y[i - 1]);
-            min_max_point_line_original.i.push_back(max_point_line_original_right.i[i - 1]);
-            min_max_point_line_original.x.push_back(min_point_line_original.x[i - 1]);
-            min_max_point_line_original.y.push_back(min_point_line_original.y[i - 1]);
-            min_max_point_line_original.i.push_back(min_point_line_original.i[i - 1]);
-            min_max_point_line_original.x.push_back(max_point_line_original_left.x[i - 1]);
-            min_max_point_line_original.y.push_back(max_point_line_original_left.y[i - 1]);
-            min_max_point_line_original.i.push_back(max_point_line_original_left.i[i - 1]);
-
-            std::cout << "Distanza " << i << ": " << d << " mm" << std::endl;
-        }
-    }
-
-    plt::named_plot("line_original", line_original.x, line_original.y);
-    plt::plot(min_max_point_line_original.x, min_max_point_line_original.y, "x");
-    plt::named_plot("line_smooth", line_smooth.x, line_smooth.y, "r--");
-    plt::title("Calcolo delle distanze tra la retta che congiunge due massimi adiacenti e il minimo corrispondente");
-    plt::legend();
-    plt::show();
 }
 
 void GocatorCV::Analysis::CheckValidPoints(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_correct) {

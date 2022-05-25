@@ -112,6 +112,5 @@ namespace GocatorCV {
 		void LoadPointCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int id);
 		void Algorithm(int type, bool check_save_pcd, std::string folder_path_save_pcd, int id);
 		void CheckValidPoints(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_correct);
-		void DebugAlgorithm2();
 	};
 }

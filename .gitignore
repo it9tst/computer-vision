@@ -3,7 +3,6 @@ __pycache__
 .ipynb_checkpoints
 
 labs
-project/Report/*
 
 # Ignore library
 project/Library/GO_SDK/*

@@ -1,0 +1,130 @@
+\chapter{Gocator}
+\label{Cha:gocator}
+\thispagestyle{empty}
+
+Il Gocator è un sistema di visione 3D che cattura la forma e la posizione di un oggetto, indipendentemente dal colore della superficie e senza opportune calibrazioni.\\
+\newline
+Il design semplice e flessibile del Gocator consente alle fabbriche di ridurre i costi e massimizzare la redditività migliorando l'efficienza nella convalida dei prodotti. Esso riesce a supportare le richieste di misure 3D accurate, dalle aziende, in settori quali: fusione di alluminio, gomma e produzione di pneumatici, lavorazione del legno, assemblaggio di automobili, food \& packaging, medicale ecc..\\
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.30]{./pictures/gocator_1.jpg}
+	\caption{Funzionamento di un profilometro laser.}\label{fig:gocator_1}
+\end{figure}
+
+\noindent Il modello che è stato utilizzato per l'esecuzione del progetto è il Gocator 2350, facente parte della serie 2300, disponibile in cinque modelli standard, che hanno come caratteristiche comuni:
+
+\begin{itemize}
+	\item Risoluzione megapixel: 1280 punti per risoluzione del profilo;
+	\item Campo visivo fino a 1260 mm;
+	\item Campo di misura fino a 800 mm;
+\end{itemize}
+
+\ \\
+\noindent In particolare, il modello 2350 presenta le seguenti caratteristiche: 
+
+\begin{itemize}
+	\item Risoluzione dell'asse X: 0.150 mm;
+	\item Risoluzione dell'asse Z: 0.019 mm;
+	\item Campo visivo (FOV): 158 mm - 365 mm;
+	\item Distanza minima (CD): 300 mm;
+	\item Campo di misura (MR): 400 mm;
+\end{itemize}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.60]{./pictures/gocator_2.png}
+	\caption{Caratteristiche visive del Gocator.}\label{fig:gocator_2}
+\end{figure}
+
+\section{Settaggi}
+Il collegamento tra il sensore e il PC avviene tramite cavo Ethernet, quindi è importante conoscere l'indirizzo IP del Gocator. Una volta identificato l'indirizzo IP, basta inserirlo nel browser web per interagire con l'interfaccia web che LMI mette a disposizione dell'utente.\\
+\newline
+Per i nostri propositi sono stati modificati alcuni settaggi che rimarranno immutati anche durante le scansioni, mentre i settaggi che potrebbero essere modificati in \textit{runtime}, si troveranno anche nella nostra applicazione.
+
+\subsection{Area Attiva}
+L'area attiva si riferisce alla regione all'interno del massimo campo visivo del sensore, utilizzata per la profilatura laser. Riducendo l'area attiva, il sensore può funzionare a velocità più elevate.\\
+\newline
+Per i nostri scopi, è stata scelta una dimensione di area attiva in modo da coprire l'intero campo visivo del sensore \textit{(FOV)} (figura \ref{fig:active_area}).
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\columnwidth]{./pictures/active_area.png}
+	\caption{Il box di colore giallo è l'area attiva. La linea rossa indica l'inclinazione del laser sul conveyor.}\label{fig:active_area}
+\end{figure}
+
+\subsection{Trasformazioni}
+Le impostazioni di trasformazione determinano come i profili vengono convertiti dalle coordinate del sensore alle coordinate del sistema.\\
+\newline
+I parametri che sono stati presi in considerazione sono i seguenti:
+
+\begin{itemize}
+	\item \textbf{X Offset:} Specifica lo spostamento lungo l'asse X. Con l'orientamento Normale, un valore positivo sposta i profili verso destra. Con l'orientamento inverso, un valore positivo sposta i profili verso sinistra.
+	\item \textbf{Z Offset:} Specifica lo spostamento lungo l'asse Z. Un valore positivo sposta i profili verso il sensore.
+\end{itemize}
+
+\subsection{Esposizione}
+L'esposizione determina la durata del tempo della fotocamera e del laser. Esposizioni più lunghe possono essere utili per rilevare i segnali laser su superfici scure o distanti, ma aumentando il tempo di esposizione si riduce la velocità massima.\\
+\newline
+Il Gocator fornisce tre modalità di esposizione per scansionare diversi tipi di superfici: \textit{Single}, \textit{Dynamic}, \textit{Multiple}.\\
+Per i battistrada è stata utilizzata l'esposizione singola con un valore di 2000 $\mu$s, perchè la superficie è uniforme ed è la stessa per tutte le parti.\\
+\newline
+Inoltre, la corretta regolazione dell'esposizione dipende dalle proprietà riflettenti del materiale in esame, per questo è stato scelto di rendere questo parametro editabile direttamente nel nostro programma.
+
+\subsection{Filtri}
+Il software di LMI permette di utilizzare dei filtri per post-elaborare i dati di scansione, in modo da pulirli e rimuovere il rumore.\\
+La scelta è ricaduta nel disattivarli tutti per avere delle \textit{point cloud} quanto più "pulite" possibili.
+
+\newpage
+
+\section{Metodi di scansione}
+Il gocator supporta i seguenti metodi di scansione:
+
+\begin{itemize}
+	\item Modalità acquisizione superficie;
+	\item Modalità acquisizione intensità;
+\end{itemize}
+
+\subsection{Modalità acquisizione superficie}
+Con questa modalità, il sensore genera una superficie (\textit{point cloud}) combinando una serie di profili raccolti lungo il conveyor.\\
+\newline
+La generazione della \textit{point cloud} può avvenire in diversi metodi:
+
+\begin{itemize}
+	\item \textbf{Continuous:} il sensore genera superfici solo quando vengono rilevate;
+	\item \textbf{Fixed length:} il sensore genera superfici di lunghezza fissa (in mm) utilizzando un valore settato da noi;
+	\item \textbf{Variable length:} il sensore genera superfici di lunghezza variabile;
+	\item \textbf{Rotational:} il sensore genera superfici ROTATORIE;
+\end{itemize}
+
+\noindent Per i nostri scopi, è stato scelto il metodo \textbf{continuous}.\\
+\newline
+Per quanto riguarda la generazione dei dati delle \textit{point cloud}, il gocator permette di produrle in due formati:
+
+\begin{itemize}
+	\item Con dati \textbf{grezzi} (non elaborati);
+	\item Con \textbf{spaziatura uniforme} (ricampionati);
+\end{itemize}
+
+\subsubsection{Spaziatura uniforme}
+Con questo formato, gli intervalli vengono ricampionati con una spaziatura uniforme lungo l'asse \textit{X}, che quindi viene divisa in "contenitori" di dimensioni fisse.\\
+\newline
+I punti del profilo che cadono nello stesso contenitore vengono combinati in un unico valore di intervallo (\textit{Z}).\\
+\newline
+L'intervallo di spaziatura è lo spazio tra i punti dati nei dati ricampionati.\\
+\newline
+Un intervallo più ampio crea profili con una risoluzione \textit{X} inferiore, riduce l'utilizzo della CPU e potenzialmente aumenta la frequenza dei fotogrammi. Di contro, riduce la velocità di output dei dati.\\
+
+\begin{figure}[H]
+	\centering
+	\subfloat[][]{\includegraphics[height=0.3\columnwidth]{./pictures/uniform_spacing_1.png}}
+	\hspace{1em}
+	\subfloat[][]{\includegraphics[height=0.3\columnwidth]{./pictures/uniform_spacing_2.png}}
+	\caption{(a) Con dati grezzi. (b) Con spaziatura uniforme.}\label{fig:active_area}
+\end{figure}
+
+\subsection{Modalità acquisizione intensità}
+Con questa modalità, verrà prodotto un valore di intensità (0-255) per ciascun punto scansionato dal laser. In pratica viene misurata la quantità di luce riflessa dall'oggetto.
+
+
+% Modalità scelta.
