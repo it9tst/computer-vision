@@ -161,7 +161,7 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr GocatorCV::Gocator::Grab() {
 				}
 			}
 			break;
-			
+			/**/
 			case GO_DATA_MESSAGE_TYPE_UNIFORM_SURFACE:
 			{
 				// cast to GoSurfaceMsg
@@ -207,6 +207,7 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr GocatorCV::Gocator::Grab() {
 				}
 			}
 			break;
+			
 			/*
 			case GO_DATA_MESSAGE_TYPE_SURFACE:
 			{

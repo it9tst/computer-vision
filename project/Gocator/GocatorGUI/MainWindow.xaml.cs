@@ -131,7 +131,7 @@ namespace GocatorGUI {
             textBoxOutput.AppendText(sent);
             textBoxOutput.AppendText(Environment.NewLine);
 
-            //SaveCSV(sent, 3);
+            SaveCSV(sent, 3);
         }
 
         private void UpdateComboBox() {
@@ -435,21 +435,21 @@ namespace GocatorGUI {
             } else if (t == 2) {
 
             } else {
-                if (sent.Contains("Altezza massima delle scalanature")) {
+                if (sent.Contains("Profondita' massima delle scanalature")) {
                     string resultString = Regex.Match(sent, @"\d+\.*\d*").Value;
                     var csv = new StringBuilder();
                     var newLine = string.Format("{0},{1}", "max", resultString);
                     csv.AppendLine(newLine);
                     File.AppendAllText("1.csv", csv.ToString());
 
-                } else if (sent.Contains("Altezza minima delle scalanature")) {
+                } else if (sent.Contains("Profondita' minima delle scanalature")) {
                     string resultString = Regex.Match(sent, @"\d+\.*\d*").Value;
                     var csv = new StringBuilder();
                     var newLine = string.Format("{0},{1}", "min", resultString);
                     csv.AppendLine(newLine);
                     File.AppendAllText("1.csv", csv.ToString());
 
-                } else if (sent.Contains("Altezza media delle scalanature")) {
+                } else if (sent.Contains("Profondita' media delle scanalature")) {
                     string resultString = Regex.Match(sent, @"\d+\.*\d*").Value;
                     var csv = new StringBuilder();
                     var newLine = string.Format("{0},{1}", "mean", resultString);

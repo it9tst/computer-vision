@@ -372,23 +372,23 @@ void GocatorCV::Analysis::Algorithm(int object_type, bool check_save_pcd, std::s
         min << setprecision(2) << std::fixed << minElement;
         max << setprecision(2) << std::fixed << maxElement;
         mean << setprecision(2) << std::fixed << (minElement + maxElement) / 2;
-        _stats.row.push_back("Profondità minima delle scanalature: " + min.str() + " mm (Point Yellow)");
-        _stats.row.push_back("Profondità massima delle scanalature: " + max.str() + " mm (Point Red)");
-        _stats.row.push_back("Profondità media delle scanalature: " + mean.str() + " mm");
+        _stats.row.push_back("Profondita' minima delle scanalature: " + min.str() + " mm (Point Yellow)");
+        _stats.row.push_back("Profondita' massima delle scanalature: " + max.str() + " mm (Point Red)");
+        _stats.row.push_back("Profondita' media delle scanalature: " + mean.str() + " mm");
         std::cout << "Profondità minima delle scanalature: " << min.str() << " mm" << std::endl;
         std::cout << "Profondità massima delle scanalature: " << max.str() << " mm" << std::endl;
         std::cout << "Profondità media delle scanalature: " << mean.str() << " mm" << std::endl;
 
         pipe.SendStats(_stats, id);
 
-
+        
         pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_min_max(new pcl::PointCloud<pcl::PointXYZ>());
 
         cloud_min_max->points.emplace_back(pcl::PointXYZ(x_min, y_min, z_min));
         cloud_min_max->points.emplace_back(pcl::PointXYZ(x_max, y_max, z_max));
 
         pipe.SendPCL(cloud_min_max, id, 2);
-
+        
         /*
         min_min << setprecision(2) << std::fixed << *std::min_element(distance_min.begin(), distance_min.end());
         max_min << setprecision(2) << std::fixed << *std::max_element(distance_min.begin(), distance_min.end());
@@ -421,7 +421,7 @@ void GocatorCV::Analysis::Algorithm(int object_type, bool check_save_pcd, std::s
         }
 
         pipe.SendPCL(cloud_final, id, 1);
-
+        
         /*
         GetMinMaxCoordinates(cloud_final);
         
