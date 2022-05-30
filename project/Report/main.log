@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.2) (preloaded format=pdflatex 2021.3.15)  30 MAY 2022 02:10
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.2) (preloaded format=pdflatex 2021.3.15)  30 MAY 2022 02:41
 entering extended mode
 **./main.tex
 (main.tex
@@ -1223,27 +1223,32 @@ Underfull \hbox (badness 10000) in paragraph at lines 32--34
  (chapters/Introduzione.tex
 Capitolo 1.
 
-Underfull \hbox (badness 10000) in paragraph at lines 5--14
+Underfull \hbox (badness 10000) in paragraph at lines 5--16
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 5--14
+Underfull \hbox (badness 10000) in paragraph at lines 5--16
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 5--14
+Underfull \hbox (badness 10000) in paragraph at lines 5--16
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 5--14
+Underfull \hbox (badness 10000) in paragraph at lines 5--16
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 5--14
+Underfull \hbox (badness 10000) in paragraph at lines 5--16
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 5--16
 
  []
 
@@ -1251,8 +1256,8 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.15 \noindent
-               La relazione è articolata come segue: [1
+l.16 
+      [1
 
 
 
@@ -2027,7 +2032,7 @@ Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/Gabriele/Ap
 pData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti8.pfb><C:/Users/
 Gabriele/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pf
 b>
-Output written on main.pdf (46 pages, 18433264 bytes).
+Output written on main.pdf (46 pages, 18433501 bytes).
 PDF statistics:
  727 PDF objects out of 1000 (max. 8388607)
  143 named destinations out of 1000 (max. 500000)
