@@ -1,9 +1,9 @@
 # Computer Vision | Final Project
 
 ### Final Project for exam of Computer Vision and Image Processing M - Ing. Informatica Magistrale - UniBO 2022
+Development of a demo for PC including GUI that allows the processing of point clouds, carrying out measurements on the products examined, using the Gocator laser profilometer.
 
 ### Documentation
-Development of a demo for PC including GUI that allows the processing of point clouds, carrying out measurements on the products examined, using the Gocator laser profilometer.
 [``Final Report``](https://htmlpreview.github.io/?https://github.com/it9tst/computer-vision/project/Report/main.pdf)
 
 ### Use
