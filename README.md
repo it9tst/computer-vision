@@ -1,12 +1,13 @@
 # computer-vision
 
-### Final Project for exam of Computer Vision and Image Processing M - Ing. Informatica Magistrale - UniBO 2021
+### Final Project for exam of Computer Vision and Image Processing M - Ing. Informatica Magistrale - UniBO 2022
 
 ### Documentation
 [``Final Report``](https://htmlpreview.github.io/?https://github.com/it9tst/computer-vision/project/Report/main.pdf)
 
 ### Use
 
+Installation of library:
 ```
 vcpkg install gsl gsl:x64-windows
 vcpkg install nlohmann-json:x64-windows
