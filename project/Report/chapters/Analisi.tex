@@ -5,45 +5,42 @@
 Il capitolo seguente sarà incentrato sulla presentazione dei prodotti, seguita da una descrizione generale degli algoritmi utilizzati per effettuare le rispettive analisi.
 
 \section{Prodotti}
-Per gli esperimenti sono stati usati tre tipi di battistrada diversi. I primi due (figura \ref{fig:batt_1a} e figura \ref{fig:batt_1b})sono molto simili ma differenziano per complessità e numero di blocchi (\textit{blob}), mentre il terzo (figura \ref{fig:batt_2}) è molto differente perchè presenta delle concavità irregolari e delle parti consumate.\\
+Per gli esperimenti sono stati usati tre tipi di battistrada diversi. I primi due (figura \ref{fig:batt_1a} e figura \ref{fig:batt_1b}) sono molto simili ma differenziano per complessità e numero di blocchi (\textit{blob}), mentre il terzo (figura \ref{fig:batt_2}) è molto differente perchè presenta delle concavità irregolari e delle parti consumate.\\
 Da questo momento in poi, per facilitarne la comprensione, ogni battistrada avrà un suo nome specifico.\\
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.41\columnwidth]{./pictures/batt_1a_1.png}
 	\includegraphics[height=0.41\columnwidth]{./pictures/batt_1a_2.png}
-	\caption{Battistrada di tipo \textit{1A}}\label{fig:batt_1a}
+	\caption{Battistrada di tipo 1A}\label{fig:batt_1a}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.41\columnwidth]{./pictures/batt_1b_1.png}
 	\includegraphics[height=0.41\columnwidth]{./pictures/batt_1b_2.png}
-	\caption{Battistrada di tipo \textit{1B}}\label{fig:batt_1b}
+	\caption{Battistrada di tipo 1B}\label{fig:batt_1b}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.41\columnwidth]{./pictures/batt_2_1.png}
 	\includegraphics[height=0.41\columnwidth]{./pictures/batt_2_2.png}
-	\caption{Battistrada di tipo \textit{2}}\label{fig:batt_2}
+	\caption{Battistrada di tipo 2}\label{fig:batt_2}
 \end{figure}
 
 \newpage
 
 \section{Librerie di supporto}
-Il programma è stato creato in \textit{C++} e in \textit{C\#}, utilizzando \textit{Visual Studio} come ambiente di sviluppo.\\
+Gli algoritmi sono stati sviluppati in \textit{C++}, utilizzando \textit{Visual Studio}, un ambiente di sviluppo integrato sviluppato da \textit{Microsoft}.\\
 \newline
-Le librerie utilizzate per realizzare il progetto sono:
+Le librerie utilizzate sono le seguenti:
+
 \begin{itemize}
-	\item \textit{Gocator Software Development Kit (GoSDK), versione 6.1.32.12}, è una libreria open source che può essere utilizzata per accedere e controllare a livello di codice i sensori del Gocator;
+	\item \textit{Gocator Software Development Kit (GoSDK), versione 6.1.32.12}, è una libreria open source che può essere utilizzata per accedere e controllare a livello di codice il Gocator;
 	\item \textit{OpenCV, versione 4.5.4}, è una libreria software multipiattaforma nell'ambito della visione artificiale in tempo reale;
 	\item \textit{Point Cloud Library, versione 1.12.1}, è una libreria open source di algoritmi per le attività di elaborazione delle nuvole di punti e l'elaborazione della geometria 3D;
-	\item \textit{GNU Scientific Library, versione 2.7}, è una libreria di software per calcoli numerici in matematica e scienze applicate;
-	\item \textit{JSON for Modern C++, versione 3.10.5}, è una libreria per elaborare dati in formato \textit{JSON};
-	\item \textit{Helix Toolkit, versione 2.20.2}, è una raccolta di componenti 3D per \textit{.NET};
-	\item \textit{Json.NET - Newtonsoft, versione 13.0.1}, è un popolare framework JSON ad alte prestazioni per \textit{.NET};
-	\item \textit{Ookii.Dialogs.Wpf, versione 5.0.1}, è una libreria per applicazioni \textit{WPF}.
+	\item \textit{GNU Scientific Library, versione 2.7}, è una libreria software per calcoli numerici in matematica e scienze applicate;
 \end{itemize}
 
 \section{Algoritmi di analisi}
@@ -85,22 +82,22 @@ Nel caso del battistrada di tipo \textit{1B} (figura \ref{fig:batt_1b_analisi_mb
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\columnwidth]{./pictures/batt_1a_analisi_1.png}
-	\caption{Point cloud non elaborata del battistrada di tipo \textit{1A}.}\label{fig:batt_1a_analisi_1}
+	\caption{Point cloud non elaborata del battistrada di tipo 1A.}\label{fig:batt_1a_analisi_1}
 \end{figure}
 
 \noindent La prima operazione effettuata è stata quella di applicare un filtro per rimuovere eventuali misurazioni rumorose, come ad esempio valori anomali. Infatti, le scansioni laser, generando \textit{point cloud} con una densità di punti variabile, effettuano spesso errori di misurazione che riportano valori anomali.\\
 \newline
-Per evitare il più possibile questi errori, è stata applicata un'analisi statistica sull'intorno di ciascun punto, filtrando quelli che non soddisfano un determinato criterio. Assumendo che la distribuzione risultante sia gaussiana con una media e una deviazione standard, tutti i punti le cui distanze medie sono al di fuori di un intervallo definito dalla media delle distanze globali e dalla deviazione standard, possono essere considerati valori anomali e quindi rimossi.\\
+Per evitare il più possibile questi errori, è stata applicata un'analisi statistica sull'intorno di ciascun punto, filtrando quelli che non soddisfano un determinato criterio. Assumendo che la distribuzione della distanza tra un punto ed un altro (per tutti i punti della \textit{point cloud}) risulta approssimabile con una gaussiana, verifico che la distanza media tra un determinato punto e tutti i suoi vicini sia al di fuori dell'intervallo definito dalla media delle distanze globali e dalla deviazione standard. Questi ultimi possono essere considerati valori anomali e quindi rimossi.\\
 \newline
 La figura \ref{fig:batt_1a_analisi_2} mostra gli effetti dell'analisi e della rimozione dei valori anomali.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\columnwidth]{./pictures/batt_1a_analisi_2.png}
-	\caption{Point cloud del battistrada di tipo \textit{1A} dopo aver applicato il filtro statistico.}\label{fig:batt_1a_analisi_2}
+	\caption{Point cloud del battistrada di tipo 1A dopo aver applicato il filtro statistico.}\label{fig:batt_1a_analisi_2}
 \end{figure}
 
-\noindent Il nuovo obiettivo è quello di mascherare solo la parte dove si trovano i \textit{Blob} (punti di colore giallo della figura \ref{fig:batt_1a_analisi_2}). Per fare ciò, è stata eseguita una semplice segmentazione piana di un insieme di punti, ovvero sono stati trovati tutti i punti all'interno della nostra \textit{point cloud} che supportano un modello piano.\\
+\noindent Il nuovo obiettivo è quello di mascherare solo la parte dove si trovano i blocchi e i macro blocchi (punti di colore giallo della figura \ref{fig:batt_1a_analisi_2}). Per fare ciò, è stata eseguita una semplice segmentazione piana di un insieme di punti, ovvero sono stati trovati tutti i punti all'interno della nostra \textit{point cloud} che supportano un modello piano (figura \ref{fig:batt_1a_analisi_3}).\\
 \newline
 Dopo aver impostato il modello (\textit{pcl::SACMODEL\_PLANE}) e il tipo di metodo (\textit{pcl::SAC\_RANSAC}), è stata specificata una distanza di soglia che determina quanto un punto deve essere vicino al modello piano per essere considerato facente parte del modello stesso.\\
 \newline
@@ -109,30 +106,30 @@ In questo caso è stata effettuata una prima distinzione tra il battistrada di t
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\columnwidth]{./pictures/batt_1a_analisi_3.png}
-	\caption{Point cloud del battistrada di tipo \textit{1A} dopo aver applicato la segmentazione planare.}\label{fig:batt_1a_analisi_3}
+	\caption{Point cloud del battistrada di tipo 1A dopo aver applicato la segmentazione planare.}\label{fig:batt_1a_analisi_3}
 \end{figure}
 
-\noindent Le ultime due operazioni sulla \textit{point cloud} sono le più semplici. Prima, tutti i punti sono stati proiettati sul piano dato dalla sua equazione \textit{z = 0} (figura \ref{fig:batt_1a_analisi_4}), poi è stata effettuata un operazione di traslazione di tutti i punti portando l'origine degli assi nella posizione convenzionale di un immagine, in alto a sinistra (figura \ref{fig:batt_1a_analisi_5}).\\
+\noindent Le ultime due operazioni sulla \textit{point cloud} sono le più semplici. Prima, tutti i punti sono stati proiettati sul piano dato dalla sua equazione \textit{z = 0} (figura \ref{fig:batt_1a_analisi_4}), poi è stata effettuata un operazione di traslazione per tutti i punti, portando l'origine degli assi nella stessa della notazione matriciale, in alto a sinistra (figura \ref{fig:batt_1a_analisi_5}).\\
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\columnwidth]{./pictures/batt_1a_analisi_4.png}
-	\caption{Point cloud del battistrada di tipo \textit{1A} dopo aver applicato l'operazione di proiezione.}\label{fig:batt_1a_analisi_4}
+	\caption{Point cloud del battistrada di tipo 1A dopo aver applicato l'operazione di proiezione.}\label{fig:batt_1a_analisi_4}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\columnwidth]{./pictures/batt_1a_analisi_5.png}
-	\caption{Point cloud del battistrada di tipo \textit{1A} dopo aver applicato l'operazione di traslazione.}\label{fig:batt_1a_analisi_5}
+	\caption{Point cloud del battistrada di tipo 1A dopo aver applicato l'operazione di traslazione.}\label{fig:batt_1a_analisi_5}
 \end{figure}
 
-\noindent A questo punto, per trovare i contorni e le misure dei vari blocchi, si è deciso di utilizzare la libreria \textit{opencv} e quindi è stato necessario creare un immagine dove i punti della \textit{point cloud} sono stati colorati di bianco e tutto il resto di nero.\\
-Inoltre è stato applicato un moltiplicatore x10 cosicché 1 pixel dell'immagine corrispondesse, nel mondo reale, ad 1 µm.\\
+\noindent A questo punto, per trovare i contorni e le misure dei vari blocchi, è stata utilizzata la libreria \textit{opencv} e quindi è stato necessario creare un immagine dove i punti della \textit{point cloud} sono stati colorati di bianco e tutto il resto di nero.\\
+Inoltre è stato applicato un moltiplicatore x10 per fare in modo che 1 pixel dell'immagine corrispondesse, nel mondo reale, ad 1 µm.\\
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.9\columnwidth]{./pictures/batt_1a_analisi_6.png}
-	\caption{Immagine planare del battistrada di tipo \textit{1A}.}\label{fig:batt_1a_analisi_6}
+	\caption{Immagine planare del battistrada di tipo 1A.}\label{fig:batt_1a_analisi_6}
 \end{figure}
 
 \noindent Per chiudere i piccoli fori presenti nei \textit{Blob} della figura \ref{fig:batt_1a_analisi_6}, sono state usate delle trasformazioni morfologiche, in particolare di tipo \textit{closing}.\\
@@ -143,43 +140,43 @@ La figura \ref{fig:batt_1a_analisi_7} è il risultato della prima \textit{closin
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.9\columnwidth]{./pictures/batt_1a_analisi_7.png}
-	\caption{Immagine del battistrada di tipo \textit{1A} dopo aver applicato la prima trasformazione morfologica (Closing).}\label{fig:batt_1a_analisi_7}
+	\caption{Immagine del battistrada di tipo 1A dopo aver applicato la prima trasformazione morfologica (Closing).}\label{fig:batt_1a_analisi_7}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.9\columnwidth]{./pictures/batt_1a_analisi_8.png}
-	\caption{Immagine del battistrada di tipo \textit{1A} dopo aver applicato la seconda trasformazione morfologica (Closing).}\label{fig:batt_1a_analisi_8}
+	\caption{Immagine del battistrada di tipo 1A dopo aver applicato la seconda trasformazione morfologica (Closing).}\label{fig:batt_1a_analisi_8}
 \end{figure}
 
-\noindent Quindi per trovare i contorni è stata utilizzata la funzione \textit{findContours()} di \textit{opencv} che accetta come argomenti: l'immagine sorgente in scala di grigio, la modalità di recupero (\textit{cv::RETR\_EXTERNAL}) e il metodo di approssimazione (\textit{cv::CHAIN\_APPROX\_NONE}) del contorno.\\
+\noindent Quindi, per trovare i contorni, è stata utilizzata la funzione \textit{findContours()} di \textit{opencv} che accetta come argomenti: l'immagine sorgente in scala di grigio, la modalità di recupero (\textit{cv::RETR\_EXTERNAL}) e il metodo di approssimazione (\textit{cv::CHAIN\_APPROX\_NONE}) del contorno (figura \ref{fig:batt_1a_analisi_9} e figura \ref{fig:batt_1a_analisi_11}).\\
 \newline
-Una volta trovate tutte le coordinate dei punti dei contorni, è risultato immediato calcolare area (\textit{cv::contourArea()}) e perimetro (\textit{cv::arcLength()}). Per quanto riguarda le altre misure, si è preferito ricavarle dalle \textit{bounding box} di ogni blocco come si può vedere nelle figure \ref{fig:batt_1a_analisi_10} e \ref{fig:batt_1a_analisi_12}.\\
+Una volta trovate tutte le coordinate dei punti dei contorni, è risultato immediato calcolare area (\textit{cv::contourArea()}) e perimetro (\textit{cv::arcLength()}). Per quanto riguarda le altre misure, si è preferito ricavarle dalle \textit{bounding box} di ogni blocco (figura \ref{fig:batt_1a_analisi_10} e figura \ref{fig:batt_1a_analisi_12}).\\
 \newline
-Per distinguere il battistrada di tipo \textit{1A} da quello di tipo \textit{1B}, è stata inserita, nel codice, la condizione che se il numero di \textit{Blob} e \textit{MacroBlob} trovati fosse uguale allora non si prosegue nel trovare la distanza minima tra \textit{Blob} in quanto sarebbe uguale a quella tra \textit{MacroBlob}.
+Per distinguere il battistrada di tipo \textit{1A} da quello di tipo \textit{1B}, è stata inserita, nel codice, la condizione che se il numero di \textit{Blob} e \textit{MacroBlob} trovati è uguale, allora non si prosegue nel trovare la distanza minima tra \textit{Blob} in quanto sarebbe uguale a quella tra \textit{MacroBlob}.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.9\columnwidth]{./pictures/batt_1a_analisi_9.png}
-	\caption{Immagine del battistrada di tipo \textit{1A} con i contorni dei MacroBlob evidenziati.}\label{fig:batt_1a_analisi_9}
+	\caption{Immagine del battistrada di tipo 1A con i contorni dei MacroBlob evidenziati.}\label{fig:batt_1a_analisi_9}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.9\columnwidth]{./pictures/batt_1a_analisi_10.png}
-	\caption{Immagine del battistrada di tipo \textit{1A} con le bounding box dei MacroBlob evidenziate.}\label{fig:batt_1a_analisi_10}
+	\caption{Immagine del battistrada di tipo 1A con le bounding box dei MacroBlob evidenziate.}\label{fig:batt_1a_analisi_10}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.9\columnwidth]{./pictures/batt_1a_analisi_11.png}
-	\caption{Immagine del battistrada di tipo \textit{1A} con i contorni dei Blob evidenziati.}\label{fig:batt_1a_analisi_11}
+	\caption{Immagine del battistrada di tipo 1A con i contorni dei Blob evidenziati.}\label{fig:batt_1a_analisi_11}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.9\columnwidth]{./pictures/batt_1a_analisi_12.png}
-	\caption{Immagine del battistrada di tipo \textit{1A} con le bounding box dei Blob evidenziate.}\label{fig:batt_1a_analisi_12}
+	\caption{Immagine del battistrada di tipo 1A con le bounding box dei Blob evidenziate.}\label{fig:batt_1a_analisi_12}
 \end{figure}
 
 \noindent Per trovare la distanza minima tra \textit{Blob} adiacenti presenti in ogni \textit{MacroBlob} è stata creata una funzione specifica che confronta le varie distanze tra i centri dei \textit{Blob}.
@@ -192,56 +189,56 @@ Per distinguere il battistrada di tipo \textit{1A} da quello di tipo \textit{1B}
 	\centering
 	\includegraphics[width=0.45\columnwidth]{./pictures/batt_1b_analisi_1_1.png}
 	\includegraphics[width=0.45\columnwidth]{./pictures/batt_1b_analisi_2_1.png}
-	\caption{Point cloud non elaborata del battistrada di tipo \textit{1B}.}\label{fig:batt_1b_analisi_1}
+	\caption{Point cloud non elaborata del battistrada di tipo 1B.}\label{fig:batt_1b_analisi_1}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.45\columnwidth]{./pictures/batt_1b_analisi_1_2.png}
 	\includegraphics[width=0.45\columnwidth]{./pictures/batt_1b_analisi_2_2.png}
-	\caption{Point cloud del battistrada di tipo \textit{1B} dopo aver applicato il filtro statistico.}\label{fig:batt_1b_analisi_2}
+	\caption{Point cloud del battistrada di tipo 1B dopo aver applicato il filtro statistico.}\label{fig:batt_1b_analisi_2}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.45\columnwidth]{./pictures/batt_1b_analisi_1_3.png}
 	\includegraphics[width=0.45\columnwidth]{./pictures/batt_1b_analisi_2_3.png}
-	\caption{Point cloud del battistrada di tipo \textit{1B} dopo aver applicato la segmentazione planare.}\label{fig:batt_1b_analisi_3}
+	\caption{Point cloud del battistrada di tipo 1B dopo aver applicato la segmentazione planare.}\label{fig:batt_1b_analisi_3}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.45\columnwidth]{./pictures/batt_1b_analisi_1_4.png}
 	\includegraphics[width=0.45\columnwidth]{./pictures/batt_1b_analisi_2_4.png}
-	\caption{Point cloud del battistrada di tipo \textit{1B} dopo aver applicato l'operazione di proiezione.}\label{fig:batt_1b_analisi_4}
+	\caption{Point cloud del battistrada di tipo 1B dopo aver applicato l'operazione di proiezione.}\label{fig:batt_1b_analisi_4}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.45\columnwidth]{./pictures/batt_1b_analisi_1_5.png}
 	\includegraphics[width=0.45\columnwidth]{./pictures/batt_1b_analisi_2_5.png}
-	\caption{Point cloud del battistrada di tipo \textit{1B} dopo aver applicato l'operazione di traslazione.}\label{fig:batt_1b_analisi_5}
+	\caption{Point cloud del battistrada di tipo 1B dopo aver applicato l'operazione di traslazione.}\label{fig:batt_1b_analisi_5}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.32\columnwidth]{./pictures/batt_1b_analisi_1_6.png}
 	\includegraphics[height=0.32\columnwidth]{./pictures/batt_1b_analisi_2_6.png}
-	\caption{Immagine planare del battistrada di tipo \textit{1B}.}\label{fig:batt_1b_analisi_6}
+	\caption{Immagine planare del battistrada di tipo 1B.}\label{fig:batt_1b_analisi_6}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.32\columnwidth]{./pictures/batt_1b_analisi_1_7.png}
 	\includegraphics[height=0.32\columnwidth]{./pictures/batt_1b_analisi_2_7.png}
-	\caption{Immagine del battistrada di tipo \textit{1B} dopo aver applicato la trasformazione morfologica (Closing).}\label{fig:batt_1b_analisi_7}
+	\caption{Immagine del battistrada di tipo 1B dopo aver applicato la trasformazione morfologica (Closing).}\label{fig:batt_1b_analisi_7}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.32\columnwidth]{./pictures/batt_1b_analisi_1_8.png}
 	\includegraphics[height=0.32\columnwidth]{./pictures/batt_1b_analisi_2_8.png}
-	\caption{Immagine del battistrada di tipo \textit{1B} con le bounding box dei MacroBlob evidenziate.}\label{fig:batt_1b_analisi_8}
+	\caption{Immagine del battistrada di tipo 1B con le bounding box dei MacroBlob evidenziate.}\label{fig:batt_1b_analisi_8}
 \end{figure}
 
 
@@ -252,18 +249,18 @@ L'analisi di questo tipo di battistrada ha l'obiettivo di estrarre le seguenti f
 	\item Valore minimo, massimo e medio delle profondità.
 \end{itemize}
 
-\noindent Come per i battistrada precedenti, in seguito alla scansione dell'oggetto, anche in questo caso viene generata una \textit{point cloud} (figura \ref{fig:batt_2_analisi_1}).\\
+\noindent Come per i battistrada precedenti, in seguito alla scansione dell'oggetto, anche in questo caso, viene generata una \textit{point cloud} (figura \ref{fig:batt_2_analisi_1}).\\
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.45\columnwidth]{./pictures/batt_2_analisi_1.png}
 	\includegraphics[width=0.45\columnwidth]{./pictures/batt_2_analisi_2.png}
-	\caption{Point cloud non elaborata del battistrada di tipo \textit{2}.}\label{fig:batt_2_analisi_1}
+	\caption{Point cloud non elaborata del battistrada di tipo 2.}\label{fig:batt_2_analisi_1}
 \end{figure}
 
 \noindent Per determinare la profondità del battistrada del pneumatico in modo accurato e automatico, è stato sviluppato un metodo di misurazione che prima identifica la posizione delle scanalature e poi calcola, in successione, le profondità di ciascun solco.\\
 \newline
-L'approccio che si è seguito è quello di scansionare l'intera \textit{point cloud} lungo l'asse \textit{y}, linea per linea, in modo da avere \textit{n} funzioni polinomiali che concatenate ricreino l'intera \textit{point cloud}.\\
+L'approccio che è stato seguito è quello di sezionare l'intera \textit{point cloud} lungo l'asse \textit{y}. Ogni sezione è composta da una linea e l'analisi è stata effettuata linea per linea, in modo da avere \textit{n} funzioni che, concatenate, ricreino l'intera \textit{point cloud}.\\
 
 \begin{figure}[H]
 	\centering
@@ -279,11 +276,11 @@ L'approccio che si è seguito è quello di scansionare l'intera \textit{point cl
 
 \noindent Per spiegare l'algoritmo prendiamo come esempio una delle \textit{n} funzioni processate. Come si può notare dalla figura \ref{fig:batt_2_analisi_3}, oltre alle scanalature di grandi dimensioni presenti sulla superficie del pneumatico, sono presenti scanalature molto piccole (dovute alla rumorosità) che potrebbero trarre in inganno l'algoritmo di ricerca.\\
 \newline
-Le scanalature più piccole possono essere rimosse dalla curva del profilo applicando un filtro gaussiano, in modo da rendere la funzione  più smussata (figura \ref{fig:batt_2_analisi_4}). Dopo una serie di prove, come parametri del filtro, sono stati scelti una finestra \textit{$K$ = 51} (dimensione del kernel) e un \textit{$\alpha$ = 5} che specifica il numero di deviazioni standard $\sigma$ desiderate nel kernel.\\
+Le scanalature più piccole possono essere rimosse dalla curva del profilo applicando un filtro gaussiano, in modo da rendere la funzione  più smussata (figura \ref{fig:batt_2_analisi_4}). Dopo una serie di prove, come parametri del filtro, è stata scelta una finestra \textit{$K$ = 51} (dimensione del kernel) e un \textit{$\alpha$ = 5} che specifica il numero di deviazioni standard $\sigma$ desiderate nel kernel.\\
 \newline
 Ora che la funzione originale è stata smussata, per trovare la posizione e la misura della profondità delle scanalature, ci viene in soccorso lo studio della derivata e dei punti di flesso.\\
 \newline
-Infatti, tra due punti di massimo della funzione smussata (figura \ref{fig:batt_2_analisi_5}), si trova obbligatoriamente una scanalatura del battistrada, e la profondità di ciascuna scanalatura è data dalla massima distanza che va dal fondo concavo, alla linea che congiunge i due punti di massimo.\\
+Infatti, tra due punti di massimo della funzione smussata (figura \ref{fig:batt_2_analisi_5}), si trova obbligatoriamente una scanalatura del battistrada, e la profondità di ciascuna scanalatura è data dalla minima distanza che va dal fondo concavo, alla retta che congiunge i due punti di massimo.\\
 \newline
 Una volta trovati i punti critici nella funzione smussata, sono state salvate le rispettive coordinate \textit{x} di ogni punto e riportate nella funzione originale (figura \ref{fig:batt_2_analisi_6} e figura \ref{fig:batt_2_analisi_7}).\\
 
@@ -309,7 +306,7 @@ Una volta trovati i punti critici nella funzione smussata, sono state salvate le
 \newline
 Quindi, per migliorare la precisione della posizione delle scanalature, dobbiamo trovare la posizione del punto di chiusura di ogni scanalatura.
 \newpage
-\noindent Per trovare questi punti, che chiameremo impropriamente punti di massimo da sinistra, si è seguito il seguente algoritmo:
+\noindent Per trovare questi punti, che chiameremo impropriamente punti di massimo da sinistra, è stato seguito il seguente algoritmo:
 
 \begin{itemize}
 	\item Isolare la parte di funzione che si trova tra un minimo e il massimo successivo;
@@ -321,7 +318,7 @@ Quindi, per migliorare la precisione della posizione delle scanalature, dobbiamo
 \newline
 Nella figura \ref{fig:batt_2_analisi_8} è illustrato un esempio di questo calcolo, con evidenziate di verde, sia la funzione smussata sia quella ruotata, da cui si è individuato il nostro punto di massimo.\\
 \newline
-Una volta ripetuto l'algoritmo per ogni tratto della funzione smussata, la posizione di ogni punto di massimo trovata, è stata riportata nella funzione originale (figura \ref{fig:batt_2_analisi_9}).\\
+Una volta ripetuto l'algoritmo per ogni tratto della funzione smussata, la posizione di ogni punto di massimo trovata è stata riportata nella funzione originale (figura \ref{fig:batt_2_analisi_9}).\\
 
 \begin{figure}[H]
 	\centering
@@ -348,7 +345,7 @@ In fine è stato applicato un filtro, in modo tale da prendere solo le distanze 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.5\columnwidth]{./pictures/battistrada.png}
-	\caption{Point cloud del battistrada di tipo \textit{2}, con vista sul piano \textit{XY}.}\label{fig:battistrada}
+	\caption{Point cloud del battistrada di tipo 2, con vista sul piano \textit{XY}.}\label{fig:battistrada}
 \end{figure}
 
 \begin{figure}[H]
@@ -356,5 +353,52 @@ In fine è stato applicato un filtro, in modo tale da prendere solo le distanze 
 	\subfloat[][]{\includegraphics[height=0.6\columnwidth]{./pictures/battistrada_maxr_maxl_0.3.png}}
 	\hspace{1em}
 	\subfloat[][]{\includegraphics[height=0.6\columnwidth]{./pictures/battistrada_maxr_min_maxl_0.3.png}}
-	\caption{(a) Point cloud contenente i punti di massimo da sinistra e di massimo da destra. (b) Point cloud contenente i punti di minimo, massimo da sinistra e di massimo da destra.}\label{fig:battistrada_maxr_maxl_0.3}
+	\caption{(a) Point cloud contenente i punti di massimo da sinistra e di massimo da destra. (b) Point cloud contenente i punti di minimo, di massimo da sinistra e di massimo da destra.}\label{fig:battistrada_maxr_maxl_0.3}
 \end{figure}
+
+\subsection{Performance} \label{performance}
+Gli algoritmi sono stati testati su un PC con le seguenti caratteristiche:
+
+\begin{itemize}
+	\item \textbf{CPU:} Intel Core i7-10870H;
+	\item \textbf{GPU:} Nvidia RTX 3060 6GB GDDR6;
+	\item \textbf{RAM:} 16GB DDR4;
+\end{itemize}
+
+\noindent Il test è stato svolto scansionando ogni battistrada, consecutivamente, per 10 volte.\\
+\newline
+Come si nota dai tempi di esecuzione mostrati nella tabella  \ref{table:tempo_algoritmi}, gli algoritmi \textit{1A} e \textit{1B} sono abbastanza costosi, in termini di performance, perchè, tra una trasformazione e l'altra, si lavora molto sulle \textit{point cloud}.\\
+L'algoritmo \textit{2}, invece, mostra dei tempi di esecuzione molto buoni.\\
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{||c c c c||} 
+ \hline
+ N & Algoritmo 1A (ms) & Algoritmo 1B (ms) & Algoritmo 2 (ms) \\ [0.5ex]
+ \hline\hline
+ 1 & 2511 & 3640 & 181 \\
+ \hline
+ 2 & 2508 & 3638 & 170 \\
+ \hline
+ 3 & 2505 & 3650 & 172 \\
+ \hline
+ 4 & 2521 & 3632 & 165 \\
+ \hline
+ 5 & 2519 & 3642 & 171 \\
+ \hline
+ 6 & 2502 & 3651 & 172 \\
+ \hline
+ 7 & 2525 & 3655 & 176 \\
+ \hline
+ 8 & 2510 & 3637 & 180 \\
+ \hline
+ 9 & 2530 & 3653 & 165 \\
+ \hline
+ 10 & 2514 & 3640 & 175 \\ [0.5ex]
+ \hline\hline
+ MEDIA & 2514.5 & 3643.8 & 172.7 \\
+ \hline
+\end{tabular}
+\caption{Tempi di esecuzione degli algoritmi.}
+\label{table:tempo_algoritmi}
+\end{table}

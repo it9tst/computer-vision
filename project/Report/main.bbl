@@ -421,10 +421,10 @@
       \field{title}{Creare DLL C/C++ in Visual Studio}
       \true{nocite}
       \verb{urlraw}
-      \verb https://docs.microsoft.com/it-it/cpp/build/dlls-in-visual-cpp?view=msvc-170
+      \verb https://docs.microsoft.com/it-it/dotnet/standard/io/how-to-use-named-pipes-for-network-interprocess-communication
       \endverb
       \verb{url}
-      \verb https://docs.microsoft.com/it-it/cpp/build/dlls-in-visual-cpp?view=msvc-170
+      \verb https://docs.microsoft.com/it-it/dotnet/standard/io/how-to-use-named-pipes-for-network-interprocess-communication
       \endverb
     \endentry
     \entry{wpf_whatis}{online}{}
@@ -481,6 +481,34 @@
       \endverb
       \verb{url}
       \verb https://docs.microsoft.com/it-it/cpp/dotnet/how-to-wrap-native-class-for-use-by-csharp?view=msvc-170
+      \endverb
+    \endentry
+    \entry{named_pipe_whatis}{online}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=140864078aeca1c7c35b4beb33c53c34}{%
+           family={Microsoft},
+           familyi={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{fullhash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{bibnamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authorbibnamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authornamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authorfullhash}{140864078aeca1c7c35b4beb33c53c34}
+      \field{extraname}{4}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradate}{4}
+      \field{labeldatesource}{nodate}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Procedura: Usare le named pipe per la comunicazione interprocesso in rete}
+      \true{nocite}
+      \verb{urlraw}
+      \verb https://docs.microsoft.com/it-it/cpp/build/dlls-in-visual-cpp?view=msvc-170
+      \endverb
+      \verb{url}
+      \verb https://docs.microsoft.com/it-it/cpp/build/dlls-in-visual-cpp?view=msvc-170
       \endverb
     \endentry
     \entry{the_gsl_team}{online}{}

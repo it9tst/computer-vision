@@ -2,35 +2,58 @@
 \label{Cha:conclusioni}
 \thispagestyle{empty}
 
-L'ultimo capitolo fornisce una sintesi dei risultati ottenuti e alcuni suggerimenti su possibili problematiche che potrebbero essere risolto in futuro.
+L'ultimo capitolo fornisce una sintesi dei risultati ottenuti e alcuni suggerimenti su possibili problematiche che potrebbero essere risolte in futuro.
 
 \section{Risultati ottenuti}
+I risultati sperimentali hanno rilevato che il sistema è in grado di acquisire correttamente le \textit{point cloud} dei battistrada e che gli algoritmi possono effettuare misurazioni, identificare le scanalature e misurarne la profondità.\\
+\newline
+Riprendendo i test effettuati nel paragrafo \ref{performance}, riportiamo i risultati delle scansioni riguardante il battistrada di tipo \textit{2}:
 
+\begin{table}[H]
+\centering
+\begin{tabular}{||c c c c||} 
+ \hline
+ N & min (mm) & max (mm) & avg (mm) \\ [0.5ex]
+ \hline\hline
+ 1 & 0.50 & 4.85 & 2.68 \\ 
+ \hline
+ 2 & 0.50 & 4.73 & 2.62 \\
+ \hline
+ 3 & 0.51 & 4.76 & 2.64 \\
+ \hline
+ 4 & 0.51 & 4.80 & 2.66 \\
+ \hline
+ 5 & 0.50 & 4.85 & 2.68 \\
+ \hline
+ 6 & 0.50 & 4.77 & 2.64 \\
+ \hline
+ 7 & 0.51 & 4.82 & 2.67 \\
+ \hline
+ 8 & 0.50 & 4.82 & 2.66 \\
+ \hline
+ 9 & 0.50 & 4.79 & 2.65 \\
+ \hline
+ 10 & 0.51 & 4.80 & 2.66 \\
+ \hline
+\end{tabular}
+\caption{Valori calcolati su una serie di misurazioni del battistrada di tipo 2.}
+\label{table:1}
+\end{table}
 
+\noindent Ogni misura calcolata dal programma è stata verificata direttamente sugli pneumatici utilizzando un calibro. Nonostante il punto di profondità massima cambiasse leggermente posizione, le misurazioni sono risultate abbastanza accurate e i test hanno sancito il raggiungimento dell'obiettivo che ci si era posti per il progetto.\\
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.40\columnwidth]{./pictures/gocator_conveyor_1.jpg}
+	\hspace{1em}
+	\includegraphics[width=0.40\columnwidth]{./pictures/gocator_conveyor_2.jpg}
+	\caption{Il Gocator in azione durante una scansione.}\label{fig:gocator_conveyor}
+\end{figure}
 
-
-%Per verificare il metodo di misurazione, sono stati condotti esperimenti su due pneumatici.
-%In questa ricerca viene sviluppato un programma LabVIEW basato sul suo modulo di visione.
-%Gli algoritmi sviluppati sono implementati nel software.
-%Quando il pneumatico rotola sulla piastra di supporto, vengono trovati il ​​numero e la posizione della scanalatura del pneumatico e la profondità viene calcolata dal programma.
-%I risultati sperimentali hanno rilevato che il sistema è in grado di acquisire il profilo della striscia laser della sezione del battistrada del pneumatico e l'algoritmo può identificare la scanalatura del battistrada e misurarne la profondità.
-%L'immagine del misuratore di profondità è mostrata in Figura 20, e il metodo di misurazione che utilizza il misuratore di profondità è mostrato nella Figura 21.
-%La precisione del pneumatico che utilizza il misuratore di profondità è di 0,01 mm e può soddisfare l'accuratezza della misurazione.
-%Il metodo di misurazione basato sulla visione artificiale è mostrato nella Figura 22e l'interfaccia di misurazione basata sulla visione artificiale è mostrata nella Figura 23.
-%I risultati della misurazione della visione artificiale ei risultati del misuratore di profondità sono riportati nella Tabella 3 .
-%I risultati misurati del profondimetro sono il valore medio dei tre tempi di misura.
-%I risultati sperimentali hanno indicato che il sistema di misurazione poteva identificare la scanalatura del battistrada e misurarne automaticamente la profondità.
-%L'errore percentuale massimo è 2,47% e l'errore percentuale minimo è 0,41%.
-%Tutti gli errori sono inferiori a 0,2 mm e il test potrebbe soddisfare la richiesta di misurazione della profondità del battistrada.
-
-
-\section{Conclusioni}
-
-
-\section{Future work}
-Future research directions include:
-
+\section{Conclusione e lavori futuri}
+Grazie allo studio di questa materia e al rispettivo progetto d'esame, è stata esplorata una branca dell'intelligenza artificiale molto importante per la moltitudine di benefici che apporta in tutti i settori per migliorare l'esperienza del consumatore, ridurre i costi e aumentare la sicurezza.\\
+\newline
+Seppure i risultati ottenuti sono risultati molto buoni, il margine di miglioramento è ampio, ed una futura ottimizzazione degli algoritmi e di altri particolari del Gocator, potrebbe portare a risultati ancora migliori.
 
 \nocite{opencv_library}
 \nocite{helix_toolkit_documentation}
@@ -49,3 +72,4 @@ Future research directions include:
 \nocite{wang2019}
 \nocite{booksdaglib0034531}
 \nocite{gonzalez2008digital}
+\nocite{named_pipe_whatis}

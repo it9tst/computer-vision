@@ -153,7 +153,7 @@ void GocatorCV::Analysis::Algorithm(int object_type, bool check_save_pcd, std::s
                 }
             }
 
-            GocatorCV::PolynomialFunction line_original;
+            GocatorCV::LineFunction line_original;
 
             for (int i = 0; i < cloud_line->size(); i++) {
                 line_original.x.push_back(cloud_line->points[i].x);
@@ -168,7 +168,7 @@ void GocatorCV::Analysis::Algorithm(int object_type, bool check_save_pcd, std::s
             }
             */
             // Calcolo della funzione smussata
-            GocatorCV::PolynomialFunction line_smooth = GaussianFilter(line_original);
+            GocatorCV::LineFunction line_smooth = GaussianFilter(line_original);
             /*
             if (*k > (float)30 && *k < (float)31) {
                 plt::plot(line_smooth.x, line_smooth.y);
@@ -177,7 +177,7 @@ void GocatorCV::Analysis::Algorithm(int object_type, bool check_save_pcd, std::s
             }
             */
             // Calcolo tutti i minimi e i massimi della funziona smussata
-            GocatorCV::PolynomialFunction min_max_point_line_smooth = DifferenceQuotient(line_smooth);
+            GocatorCV::LineFunction min_max_point_line_smooth = DifferenceQuotient(line_smooth);
             /*
             if (*k > (float)30 && *k < (float)31) {
                 plt::plot(line_smooth.x, line_smooth.y);
@@ -187,7 +187,7 @@ void GocatorCV::Analysis::Algorithm(int object_type, bool check_save_pcd, std::s
             }
             */
             // Calcolo i massimi (da destra) della funzione originale
-            GocatorCV::PolynomialFunction max_point_line_original_right;
+            GocatorCV::LineFunction max_point_line_original_right;
 
             for (int i = 0; i < min_max_point_line_smooth.i.size(); i = i + 2) {
                 max_point_line_original_right.x.push_back(line_original.x[min_max_point_line_smooth.i[i]]);
@@ -203,10 +203,10 @@ void GocatorCV::Analysis::Algorithm(int object_type, bool check_save_pcd, std::s
             }
             */
             // Calcolo i minimi della funzione originale
-            GocatorCV::PolynomialFunction min_point_line_original;
+            GocatorCV::LineFunction min_point_line_original;
 
             for (int i = 1; i < max_point_line_original_right.i.size(); i++) {
-                GocatorCV::PolynomialFunction line;
+                GocatorCV::LineFunction line;
 
                 for (int j = 0; j < line_original.i.size(); j++) {
                     if (line_original.x[j] >= max_point_line_original_right.x[i] && line_original.x[j] <= max_point_line_original_right.x[i - 1]) {
@@ -232,10 +232,10 @@ void GocatorCV::Analysis::Algorithm(int object_type, bool check_save_pcd, std::s
             }
             */
             // Calcolo i massimi (da sinistra) della funzione originale
-            GocatorCV::PolynomialFunction max_point_line_original_left;
+            GocatorCV::LineFunction max_point_line_original_left;
 
             for (int i = 1; i < max_point_line_original_right.i.size(); i++) {
-                GocatorCV::PolynomialFunction line_rotated;
+                GocatorCV::LineFunction line_rotated;
                 double m = (max_point_line_original_right.y[i] - min_point_line_original.y[i - 1]) / (min_point_line_original.x[i - 1] - max_point_line_original_right.x[i]);
 
                 for (int j = 0; j < line_smooth.i.size(); j++) {
@@ -274,8 +274,8 @@ void GocatorCV::Analysis::Algorithm(int object_type, bool check_save_pcd, std::s
             }
             */
             // Calcolo delle distanze tra la retta che congiunge due massimi adiacenti e il minimo corrispondente
-            GocatorCV::PolynomialFunction min_max_point_line_original;
-            GocatorCV::PolynomialFunction max_point_line_original;
+            GocatorCV::LineFunction min_max_point_line_original;
+            GocatorCV::LineFunction max_point_line_original;
             GocatorCV::MinMaxDistance distance_inline;
 
             for (int i = 1; i < max_point_line_original_right.i.size(); i++) {
@@ -913,9 +913,9 @@ void GocatorCV::Analysis::DistanceBetweenBlob(std::vector<std::vector<cv::Point>
     pipe.SendStats(_stats, id);
 }
 
-GocatorCV::PolynomialFunction GocatorCV::Analysis::GaussianFilter(GocatorCV::PolynomialFunction line) {
+GocatorCV::LineFunction GocatorCV::Analysis::GaussianFilter(GocatorCV::LineFunction line) {
 
-    GocatorCV::PolynomialFunction line_smooth;
+    GocatorCV::LineFunction line_smooth;
 
     const size_t N = line.x.size();                 /* length of time series */
     const size_t K = 51;                            /* window size */
@@ -952,9 +952,9 @@ GocatorCV::PolynomialFunction GocatorCV::Analysis::GaussianFilter(GocatorCV::Pol
     return line_smooth;
 }
 
-GocatorCV::PolynomialFunction GocatorCV::Analysis::DifferenceQuotient(GocatorCV::PolynomialFunction line) {
+GocatorCV::LineFunction GocatorCV::Analysis::DifferenceQuotient(GocatorCV::LineFunction line) {
     
-    GocatorCV::PolynomialFunction point;
+    GocatorCV::LineFunction point;
     double segno_precedente = 0;
     double segno_attuale = 0;
 

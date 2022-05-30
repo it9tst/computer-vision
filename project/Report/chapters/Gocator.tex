@@ -12,23 +12,25 @@ Il design semplice e flessibile del Gocator consente alle fabbriche di ridurre i
 	\caption{Funzionamento di un profilometro laser.}\label{fig:gocator_1}
 \end{figure}
 
+\newpage
+
 \noindent Il modello che è stato utilizzato per l'esecuzione del progetto è il Gocator 2350, facente parte della serie 2300, disponibile in cinque modelli standard, che hanno come caratteristiche comuni:
 
 \begin{itemize}
-	\item Risoluzione megapixel: 1280 punti per risoluzione del profilo;
-	\item Campo visivo fino a 1260 mm;
-	\item Campo di misura fino a 800 mm;
+	\item \textbf{Risoluzione megapixel:} 1280 punti per risoluzione del profilo;
+	\item \textbf{Campo visivo:} fino a 1260 mm;
+	\item \textbf{Campo di misura:} fino a 800 mm;
 \end{itemize}
 
 \ \\
 \noindent In particolare, il modello 2350 presenta le seguenti caratteristiche: 
 
 \begin{itemize}
-	\item Risoluzione dell'asse X: 0.150 mm;
-	\item Risoluzione dell'asse Z: 0.019 mm;
-	\item Campo visivo (FOV): 158 mm - 365 mm;
-	\item Distanza minima (CD): 300 mm;
-	\item Campo di misura (MR): 400 mm;
+	\item \textbf{Risoluzione dell'asse X:} 0.150 mm;
+	\item \textbf{Risoluzione dell'asse Z:} 0.019 mm;
+	\item \textbf{Campo visivo (FOV):} 158 mm - 365 mm;
+	\item \textbf{Distanza minima (CD):} 300 mm;
+	\item \textbf{Campo di misura (MR):} 400 mm;
 \end{itemize}
 
 \begin{figure}[H]
@@ -40,12 +42,17 @@ Il design semplice e flessibile del Gocator consente alle fabbriche di ridurre i
 \section{Settaggi}
 Il collegamento tra il sensore e il PC avviene tramite cavo Ethernet, quindi è importante conoscere l'indirizzo IP del Gocator. Una volta identificato l'indirizzo IP, basta inserirlo nel browser web per interagire con l'interfaccia web che LMI mette a disposizione dell'utente.\\
 \newline
-Per i nostri propositi sono stati modificati alcuni settaggi che rimarranno immutati anche durante le scansioni, mentre i settaggi che potrebbero essere modificati in \textit{runtime}, si troveranno anche nella nostra applicazione.
+Per i nostri propositi sono stati modificati alcuni settaggi che rimarranno immutati anche durante le scansioni, mentre i settaggi che potrebbe essere utile modificare in \textit{runtime}, si troveranno anche nella nostra applicazione.
 
 \subsection{Area Attiva}
-L'area attiva si riferisce alla regione all'interno del massimo campo visivo del sensore, utilizzata per la profilatura laser. Riducendo l'area attiva, il sensore può funzionare a velocità più elevate.\\
+L'area attiva si riferisce alla regione all'interno del massimo campo visivo del sensore, utilizzata per la profilatura laser (figura \ref{fig:active_area}). Riducendo l'area attiva, il sensore può funzionare a velocità più elevate.\\
 \newline
-Per i nostri scopi, è stata scelta una dimensione di area attiva in modo da coprire l'intero campo visivo del sensore \textit{(FOV)} (figura \ref{fig:active_area}).
+Per i nostri scopi, è stata scelta una dimensione di area attiva di:
+
+\begin{itemize}
+	\item \textbf{X Field of View:} 300 mm;
+	\item \textbf{Measurement Range:} 250 mm;
+\end{itemize}
 
 \begin{figure}[H]
 	\centering
@@ -56,12 +63,30 @@ Per i nostri scopi, è stata scelta una dimensione di area attiva in modo da cop
 \subsection{Trasformazioni}
 Le impostazioni di trasformazione determinano come i profili vengono convertiti dalle coordinate del sensore alle coordinate del sistema.\\
 \newline
-I parametri che sono stati presi in considerazione sono i seguenti:
+In pratica, i seguenti settaggi servono per allineare il sensore:
 
 \begin{itemize}
-	\item \textbf{X Offset:} Specifica lo spostamento lungo l'asse X. Con l'orientamento Normale, un valore positivo sposta i profili verso destra. Con l'orientamento inverso, un valore positivo sposta i profili verso sinistra.
-	\item \textbf{Z Offset:} Specifica lo spostamento lungo l'asse Z. Un valore positivo sposta i profili verso il sensore.
+	\item \textbf{X Offset:} Specifica lo spostamento lungo l'asse X.
+	\item \textbf{Y Offset:} Specifica lo spostamento lungo l'asse Y.
+	\item \textbf{Z Offset:} Specifica lo spostamento lungo l'asse Z.
+	\item \textbf{Angle X:} Specifica l'inclinazione intorno l'asse X.
+	\item \textbf{Angle Y:} Specifica l'inclinazione intorno l'asse Y.
+	\item \textbf{Angle Z:} Specifica l'inclinazione intorno l'asse Z.
 \end{itemize}
+
+\subsection{Triggers}
+Il trigger è un evento che fa sì che il sensore acquisisca una singola immagine.\\
+
+Esso può essere attivato da una delle sorgenti seguenti:
+
+\begin{itemize}
+	\item \textbf{Time:} Il sensore ha un clock interno che può essere utilizzato per generare trigger di frequenza fissa.
+	\item \textbf{Encoder:} Il trigger viene fornito da un encoder in risposta al movimento.
+	\item \textbf{External Input:} Un ingresso digitale può fornire trigger di risposta a eventi esterni.
+	\item \textbf{Software} Il trigger è inviato da un comando di rete.
+\end{itemize}
+
+\noindent Non avendo a disposizione un encoder, è stata utilizzata la sorgente \textit{time} con il massimo \textit{frame rate} disponibile (183.413 Hz) che è stato sincronizzato con la velocità del conveyor.
 
 \subsection{Esposizione}
 L'esposizione determina la durata del tempo della fotocamera e del laser. Esposizioni più lunghe possono essere utili per rilevare i segnali laser su superfici scure o distanti, ma aumentando il tempo di esposizione si riduce la velocità massima.\\
@@ -78,28 +103,28 @@ La scelta è ricaduta nel disattivarli tutti per avere delle \textit{point cloud
 \newpage
 
 \section{Metodi di scansione}
-Il gocator supporta i seguenti metodi di scansione:
+Il Gocator supporta i seguenti metodi di scansione:
 
 \begin{itemize}
-	\item Modalità acquisizione superficie;
-	\item Modalità acquisizione intensità;
+	\item Acquisizione superficie;
+	\item Acquisizione intensità;
 \end{itemize}
 
-\subsection{Modalità acquisizione superficie}
-Con questa modalità, il sensore genera una superficie (\textit{point cloud}) combinando una serie di profili raccolti lungo il conveyor.\\
+\subsection{Acquisizione superficie}
+Con questo metodo, il sensore genera una superficie (\textit{point cloud}) combinando una serie di profili raccolti lungo il conveyor.\\
 \newline
-La generazione della \textit{point cloud} può avvenire in diversi metodi:
+La generazione delle \textit{point cloud} può avvenire applicando diverse modalità:
 
 \begin{itemize}
 	\item \textbf{Continuous:} il sensore genera superfici solo quando vengono rilevate;
 	\item \textbf{Fixed length:} il sensore genera superfici di lunghezza fissa (in mm) utilizzando un valore settato da noi;
 	\item \textbf{Variable length:} il sensore genera superfici di lunghezza variabile;
-	\item \textbf{Rotational:} il sensore genera superfici ROTATORIE;
+	\item \textbf{Rotational:} usata per eseguire scansioni di oggetti circolari;
 \end{itemize}
 
-\noindent Per i nostri scopi, è stato scelto il metodo \textbf{continuous}.\\
+\noindent Per i nostri scopi, è stata scelta la modalità \textbf{continuous}.\\
 \newline
-Per quanto riguarda la generazione dei dati delle \textit{point cloud}, il gocator permette di produrle in due formati:
+Per quanto riguarda la generazione dei dati delle \textit{point cloud}, il Gocator permette di produrle in due formati:
 
 \begin{itemize}
 	\item Con dati \textbf{grezzi} (non elaborati);
@@ -109,22 +134,29 @@ Per quanto riguarda la generazione dei dati delle \textit{point cloud}, il gocat
 \subsubsection{Spaziatura uniforme}
 Con questo formato, gli intervalli vengono ricampionati con una spaziatura uniforme lungo l'asse \textit{X}, che quindi viene divisa in "contenitori" di dimensioni fisse.\\
 \newline
-I punti del profilo che cadono nello stesso contenitore vengono combinati in un unico valore di intervallo (\textit{Z}).\\
-\newline
-L'intervallo di spaziatura è lo spazio tra i punti dati nei dati ricampionati.\\
+I punti del profilo che cadono nello stesso "contenitore", vengono combinati in un unico valore (\textit{Z}).\\
 \newline
 Un intervallo più ampio crea profili con una risoluzione \textit{X} inferiore, riduce l'utilizzo della CPU e potenzialmente aumenta la frequenza dei fotogrammi. Di contro, riduce la velocità di output dei dati.\\
 
 \begin{figure}[H]
 	\centering
-	\subfloat[][]{\includegraphics[height=0.3\columnwidth]{./pictures/uniform_spacing_1.png}}
-	\hspace{1em}
-	\subfloat[][]{\includegraphics[height=0.3\columnwidth]{./pictures/uniform_spacing_2.png}}
-	\caption{(a) Con dati grezzi. (b) Con spaziatura uniforme.}\label{fig:active_area}
+	\begin{subfigure}{.3\linewidth}
+		\centering
+		\includegraphics[width = \linewidth]{./pictures/uniform_spacing_1.png}
+    	\caption{Con dati grezzi}
+    \end{subfigure}
+    \hspace{1em}
+    \begin{subfigure}{.3\linewidth}
+		\centering
+		\includegraphics[width = \linewidth]{./pictures/uniform_spacing_2.png}
+    	\caption{Con spaziatura uniforme}
+    \end{subfigure}
+    \caption{Confronto con e senza spaziatura uniforme.}
+    \label{fig:uniform_spacing}
 \end{figure}
 
-\subsection{Modalità acquisizione intensità}
-Con questa modalità, verrà prodotto un valore di intensità (0-255) per ciascun punto scansionato dal laser. In pratica viene misurata la quantità di luce riflessa dall'oggetto.
+\subsection{Acquisizione intensità}
+Con questo metodo, verrà prodotto un valore di intensità (0-255) per ciascun punto scansionato dal laser. In pratica viene misurata la quantità di luce riflessa dall'oggetto.
 
-
-% Modalità scelta.
+\subsection{Metodo scelto}
+Per i nostri scopi, ovviamente, è stato scelto il metodo dell'acquisizione della superficie con una spaziatura uniforme di 0.15 mm.

@@ -53,7 +53,7 @@ namespace GocatorCV {
 		}
 	};
 
-	struct PolynomialFunction {
+	struct LineFunction {
 		std::vector<double> x;
 		std::vector<double> y;
 		std::vector<int> i;
@@ -100,8 +100,8 @@ namespace GocatorCV {
 		void DistanceBetweenBlob(std::vector<std::vector<cv::Point>> contours_MacroBlob, std::vector<std::vector<cv::Point>> contours_Blob);
 
 		// analisi profilo battistrada3
-		GocatorCV::PolynomialFunction GaussianFilter(GocatorCV::PolynomialFunction line);
-		GocatorCV::PolynomialFunction DifferenceQuotient(GocatorCV::PolynomialFunction line);
+		GocatorCV::LineFunction GaussianFilter(GocatorCV::LineFunction line);
+		GocatorCV::LineFunction DifferenceQuotient(GocatorCV::LineFunction line);
 		void GetLine(double x1, double y1, double x2, double y2, double& a, double& b, double& c);
 		double DistancePointLine(double pct1X, double pct1Y, double pct2X, double pct2Y, double pct3X, double pct3Y);
 		cv::Point2d RotatePoint(double cx, double cy, double angle, cv::Point2d p);

@@ -1,17 +1,17 @@
 [0] Config.pm:311> INFO - This is Biber 2.16
 [0] Config.pm:314> INFO - Logfile is 'main.blg'
-[148] biber-MSWIN64:340> INFO - === 
-[199] Biber.pm:415> INFO - Reading 'main.bcf'
-[361] Biber.pm:952> INFO - Found 17 citekeys in bib section 0
-[379] Biber.pm:4340> INFO - Processing section 0
-[393] Biber.pm:4531> INFO - Looking for bibtex format file 'Bibl.bib' for section 0
-[463] bibtex.pm:1689> INFO - LaTeX decoding ...
-[488] bibtex.pm:1494> INFO - Found BibTeX data source 'Bibl.bib'
-[585] Utils.pm:395> WARN - ISBN '9780131687288 013168728X 9780135052679 013505267X' in entry 'gonzalez2008digital' is invalid - run biber with '--validate_datamodel' for details.
-[617] UCollate.pm:68> INFO - Overriding locale 'it-IT' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[617] UCollate.pm:68> INFO - Overriding locale 'it-IT' defaults 'variable = shifted' with 'variable = non-ignorable'
-[617] Biber.pm:4168> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'it-IT'
-[617] Biber.pm:4174> INFO - No sort tailoring available for locale 'it-IT'
-[638] bbl.pm:654> INFO - Writing 'main.bbl' with encoding 'UTF-8'
-[648] bbl.pm:757> INFO - Output to main.bbl
-[650] Biber.pm:128> INFO - WARNINGS: 1
+[127] biber-MSWIN64:340> INFO - === 
+[177] Biber.pm:415> INFO - Reading 'main.bcf'
+[310] Biber.pm:952> INFO - Found 18 citekeys in bib section 0
+[328] Biber.pm:4340> INFO - Processing section 0
+[341] Biber.pm:4531> INFO - Looking for bibtex format file 'Bibl.bib' for section 0
+[408] bibtex.pm:1689> INFO - LaTeX decoding ...
+[431] bibtex.pm:1494> INFO - Found BibTeX data source 'Bibl.bib'
+[526] Utils.pm:395> WARN - ISBN '9780131687288 013168728X 9780135052679 013505267X' in entry 'gonzalez2008digital' is invalid - run biber with '--validate_datamodel' for details.
+[561] UCollate.pm:68> INFO - Overriding locale 'it-IT' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[561] UCollate.pm:68> INFO - Overriding locale 'it-IT' defaults 'variable = shifted' with 'variable = non-ignorable'
+[561] Biber.pm:4168> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'it-IT'
+[561] Biber.pm:4174> INFO - No sort tailoring available for locale 'it-IT'
+[583] bbl.pm:654> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[593] bbl.pm:757> INFO - Output to main.bbl
+[595] Biber.pm:128> INFO - WARNINGS: 1
