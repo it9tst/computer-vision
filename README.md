@@ -14,6 +14,8 @@ vcpkg install gsl gsl:x64-windows
 vcpkg install nlohmann-json:x64-windows
 ```
 
+![Gui](/project/Report/pictures/gui_3.png)
+
 ### Author
 [Gabriele Tornatore](https://github.com/it9tst)
 
