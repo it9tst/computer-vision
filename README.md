@@ -14,6 +14,11 @@ vcpkg install nlohmann-json:x64-windows
 ```
 
 ### Use
+1. Download the latest *gocator_release.rar* at the [release](https://github.com/it9tst/computer-vision/releases) link
+2. Extract the release folder
+3. In the release folder there are the executable (GocatorGUI.exe) and some demo .pcd files
+4. Enjoy
+
 ![Gui](/project/Report/pictures/gui_3.png)
 
 ### Author
