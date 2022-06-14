@@ -6,14 +6,14 @@ Development of a demo for PC including GUI that allows the processing of point c
 ### Documentation
 [``Final Report``](https://github.com/it9tst/computer-vision/blob/main/project/Report/main.pdf)
 
-### Use
-
+### Requirements
 Installation of library:
 ```
 vcpkg install gsl gsl:x64-windows
 vcpkg install nlohmann-json:x64-windows
 ```
 
+### Use
 ![Gui](/project/Report/pictures/gui_3.png)
 
 ### Author
