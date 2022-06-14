@@ -6,7 +6,7 @@ Development of a demo for PC including GUI that allows the processing of point c
 ### Documentation
 [``Final Report``](https://github.com/it9tst/computer-vision/blob/main/project/Report/main.pdf)
 
-### Requirements
+### Requirements (Visual Studio)
 Installation of library:
 ```
 vcpkg install gsl gsl:x64-windows
