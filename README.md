@@ -4,7 +4,7 @@
 Development of a demo for PC including GUI that allows the processing of point clouds, carrying out measurements on the products examined, using the Gocator laser profilometer.
 
 ### Documentation
-[``Final Report``](https://github.com/it9tst/computer-vision/blob/main/report/relazione.pdf)
+[``Final Report``](https://github.com/it9tst/computer-vision/blob/main/project/Report/main.pdf)
 
 ### Requirements (Visual Studio)
 Installation of library:
